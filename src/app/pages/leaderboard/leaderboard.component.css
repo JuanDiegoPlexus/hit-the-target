@@ -1,20 +1,20 @@
 
-@keyframes bajarSubir {
+@keyframes ropePull {
     0% { transform: translateY(0); }
     50% { transform: translateY(20px); }
     100% { transform: translateY(0); }
 }
 
-.rebote {
-    animation: bajarSubir 0.2s ease;
+.bounce {
+    animation: ropePull 0.2s ease;
 }
 
 .welcome {
     position: fixed;
     top: -30px;
     right: 0;
-    width: 150px; /* ajusta según necesites */
-    z-index: 2; /* mayor que la del banner para que se vea */
+    width: 150px; 
+    z-index: 2; 
 }
 
 .leaderboard{
@@ -28,7 +28,7 @@
     z-index: 2;
 }
 
-@keyframes caer {
+@keyframes fall {
     0% {
       transform: translateY(0);
       opacity: 1;
@@ -43,7 +43,7 @@
     }
   }
   
-  .caida {
-    animation: caer 0.4s ease-in forwards;
+  .leaderboardFall {
+    animation: fall 0.4s ease-in forwards;
   }
   

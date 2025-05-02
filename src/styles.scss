@@ -1,4 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+.leaderboardRope img{
+  position: fixed;
+  top: -30px;
+  left: 0;
+  width: 150px; 
+  z-index: 2; 
+  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
+
+}
+
+.statsRope img {
+  position: fixed;
+  top: -30px;
+  right: 0;
+  width: 150px; 
+  z-index: 2; 
+  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
+
+}
+
+
 .banner {
     position: fixed;
     top: 0;
@@ -19,16 +39,16 @@
     margin: 0 auto;
     width: 28%;
     z-index: 2;
-    animation: respirar 3s infinite ease-in-out;
+    animation: breathe 3s infinite ease-in-out;
   }
   
   
-  .logo-sin-animacion {
+  .logo-without-animation {
     animation: none !important;
   }
   
 
-@keyframes respirar {
+@keyframes breathe {
     0%, 100%{
         transform: scale(1);
     }
@@ -38,37 +58,7 @@
 
 }
 
-.contenido {
+.content {
     position: relative;
     z-index: 1;
-  }
-
-  @keyframes subirLogo {
-    0% {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1) translateY(-100px);
-      opacity: 0;
-    }
-  }
-  
-  @keyframes bajarLogo {
-    0% {
-      transform: scale(1) translateY(-100px);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  .logo-subir {
-    animation: subirLogo 0.4s ease forwards;
-  }
-  
-  .logo-bajar {
-    animation: bajarLogo 0.4s ease backwards;
   }

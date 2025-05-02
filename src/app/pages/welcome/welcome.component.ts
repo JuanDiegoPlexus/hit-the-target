@@ -1,0 +1,68 @@
+import { AfterViewInit, Component, inject, PLATFORM_ID, ViewChild, ViewChildren, QueryList, ViewEncapsulation } from '@angular/core';
+import { FormsModule } from '@angular/forms'; 
+import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { BannerComponent } from '../../components/interactive/banner/banner.component';
+import { RopeComponent } from "../../components/interactive/rope/rope.component";
+
+@Component({
+  selector: 'app-welcome',
+  standalone: true,
+  imports: [FormsModule, BannerComponent, RopeComponent],
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class WelcomeComponent implements AfterViewInit {
+
+  private platformId = inject(PLATFORM_ID);
+
+  @ViewChild(BannerComponent) bannerComponent!: BannerComponent;
+  @ViewChild('leaderboardRope', { static: true }) ropeComponentLeaderboard!: RopeComponent;
+  @ViewChild('statsRope', { static: true }) ropeComponentStats!: RopeComponent;
+
+  constructor(private router: Router) {}
+
+  ngAfterViewInit(): void {
+
+    if (this.bannerComponent) {
+        this.bannerComponent.animateLogoDown(); // Llama a la animación hacia abajo al regresar
+    } else {
+        console.error('BannerComponent is not initialized');
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+        const video = document.querySelector('video');
+        if (video) {
+            video.muted = true;
+            video.play().catch(err => {
+                console.warn('Autoplay blocked:', err);
+            });
+        }
+    }
+  }
+  
+  animationAndRedirection(ropeClass: string, route: string): void {
+    if (ropeClass === 'leaderboardRope' && this.ropeComponentLeaderboard) {
+        this.ropeComponentLeaderboard.ropePull();
+    } else if (ropeClass === 'statsRope' && this.ropeComponentStats) {
+        this.ropeComponentStats.ropePull();
+    } else {
+        console.error(`RopeComponent with class '${ropeClass}' is not initialized`);
+    }
+
+    if (this.bannerComponent) {
+        this.bannerComponent.animateLogoUp();
+    } else {
+        console.error('BannerComponent is not initialized');
+    }
+
+    setTimeout(() => {
+        this.router.navigate([route]).then(() => {
+            if (this.bannerComponent) {
+                this.bannerComponent.animateLogoDown();
+            }
+        });
+    }, 400);
+  }
+}

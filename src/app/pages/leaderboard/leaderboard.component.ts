@@ -15,29 +15,29 @@ export class LeaderboardComponent {
     this.router.navigate(['/']);
   }
 
-  animarYRedirigir(cuerdaClase: string, ruta: string) {
-    const cuerda = document.querySelector('.' + cuerdaClase);
+  animationAndRedirection(ropeClass: string, route: string) {
+    const rope = document.querySelector('.' + ropeClass);
     const logo = document.querySelector('.logo');
-    const leaderboard = document.querySelector('.leaderboard'); // aquí va fija
+    const leaderboard = document.querySelector('.leaderboard');
   
     if (leaderboard) {
-      leaderboard.classList.remove('caida');
+      leaderboard.classList.remove('leaderboardFall');
       void (leaderboard as HTMLElement).offsetWidth;
-      leaderboard.classList.add('caida');
+      leaderboard.classList.add('leaderboardFall');
     }
   
-    if (cuerda) {
-      cuerda.classList.remove('rebote');
-      void (cuerda as HTMLElement).offsetWidth;
-      cuerda.classList.add('rebote');
+    if (rope) {
+      rope.classList.remove('bounce');
+      void (rope as HTMLElement).offsetWidth;
+      rope.classList.add('bounce');
     }
   
     if (logo) {
-      logo.classList.add('logo-bajar');
+      logo.classList.add('logo-down');
     }
   
     setTimeout(() => {
-      this.router.navigate([ruta]);
+      this.router.navigate([route]);
     }, 400);
   }
   

@@ -1,0 +1,8 @@
+<main class="content">
+
+  <app-banner></app-banner>
+
+  <app-rope #leaderboardRope [customClass]="'leaderboardRope'" (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"></app-rope>
+  <app-rope #statsRope [customClass]="'statsRope'" (click)="animationAndRedirection('statsRope', '/stats')"></app-rope>
+
+</main>
