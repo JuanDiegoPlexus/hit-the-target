@@ -1,0 +1,49 @@
+
+@keyframes bajarSubir {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(20px); }
+    100% { transform: translateY(0); }
+}
+
+.rebote {
+    animation: bajarSubir 0.2s ease;
+}
+
+.welcome {
+    position: fixed;
+    top: -30px;
+    right: 0;
+    width: 150px; /* ajusta según necesites */
+    z-index: 2; /* mayor que la del banner para que se vea */
+}
+
+.leaderboard{
+    display: block;
+    position: fixed;
+    top: -40px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 33%;
+    z-index: 2;
+}
+
+@keyframes caer {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    60% {
+        transform: translateY(300px);
+        opacity: 1;
+    }
+    100% {
+      transform: translateY(600px);
+      opacity: 0;
+    }
+  }
+  
+  .caida {
+    animation: caer 0.4s ease-in forwards;
+  }
+  

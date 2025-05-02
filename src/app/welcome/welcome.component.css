@@ -1,0 +1,27 @@
+.leaderboard {
+    position: fixed;
+    top: -30px;
+    left: 0;
+    width: 150px; 
+    z-index: 2; 
+}
+
+.stats {
+    position: fixed;
+    top: -30px;
+    right: 0;
+    width: 150px; 
+    z-index: 2; 
+}
+
+
+@keyframes bajarSubir {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(20px); }
+    100% { transform: translateY(0); }
+}
+
+.rebote {
+    animation: bajarSubir 0.2s ease;
+}
+  
