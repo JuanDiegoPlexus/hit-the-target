@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaderboardPageComponent } from './leaderboard-page.component';
+import { Bird1Component } from './bird1.component';
 
-describe('LeaderboardComponent', () => {
-  let component: LeaderboardPageComponent;
-  let fixture: ComponentFixture<LeaderboardPageComponent>;
+describe('Bird1Component', () => {
+  let component: Bird1Component;
+  let fixture: ComponentFixture<Bird1Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LeaderboardPageComponent]
+      imports: [Bird1Component]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LeaderboardPageComponent);
+    fixture = TestBed.createComponent(Bird1Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

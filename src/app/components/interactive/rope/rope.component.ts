@@ -7,15 +7,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './rope.component.html',
   styleUrls: ['./rope.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
-export class RopeComponent implements OnInit {
-  @Input() customClass!: string;
+export class RopeComponent {
   @ViewChild('ropeElement') ropeElement!: ElementRef<HTMLImageElement>;
-
-  ngOnInit(): void {
-    
-  }
 
   ropePull(): void {
     if (this.ropeElement) {
@@ -23,8 +17,6 @@ export class RopeComponent implements OnInit {
       rope.classList.remove('bounce'); 
       void rope.offsetWidth;
       rope.classList.add('bounce');
-    } else {
-      console.error('Rope element not found for:', this.customClass); // Depuración
-    }
+    } 
   }
 }

@@ -4,11 +4,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { BannerComponent } from '../../components/interactive/banner/banner.component';
 import { RopeComponent } from "../../components/interactive/rope/rope.component";
+import { PlaybuttonComponent } from "../../components/interactive/playbutton/playbutton.component";
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [FormsModule, BannerComponent, RopeComponent],
+  imports: [FormsModule, BannerComponent, RopeComponent, PlaybuttonComponent],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -20,6 +21,7 @@ export class WelcomeComponent implements AfterViewInit {
   @ViewChild(BannerComponent) bannerComponent!: BannerComponent;
   @ViewChild('leaderboardRope', { static: true }) ropeComponentLeaderboard!: RopeComponent;
   @ViewChild('statsRope', { static: true }) ropeComponentStats!: RopeComponent;
+  @ViewChild(PlaybuttonComponent) playbuttonComponent!: PlaybuttonComponent;
 
   constructor(private router: Router) {}
 
@@ -55,6 +57,12 @@ export class WelcomeComponent implements AfterViewInit {
         this.bannerComponent.animateLogoUp();
     } else {
         console.error('BannerComponent is not initialized');
+    }
+
+    if (this.playbuttonComponent) {
+        this.playbuttonComponent.dissapear();
+    } else {
+        console.error('playbuttonComponent is not initialized');
     }
 
     setTimeout(() => {

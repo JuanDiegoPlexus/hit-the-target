@@ -1,10 +1,25 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+
+}
+
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+
+// Las cuatro cuerdas.
 .leaderboardRope img{
   position: fixed;
   top: -30px;
   left: 0;
   width: 150px; 
   z-index: 2; 
-  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
+  object-fit: contain;
 
 }
 
@@ -14,11 +29,42 @@
   right: 0;
   width: 150px; 
   z-index: 2; 
-  object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
+  object-fit: contain;
 
 }
 
+.welcomeRopeRight img {
+  position: fixed;
+  top: -30px;
+  right: 0;
+  width: 150px; 
+  z-index: 2; 
+  object-fit: contain;
+}
 
+.welcomeRopeLeft img {
+  position: fixed;
+  top: -30px;
+  left: 0;
+  width: 150px; 
+  z-index: 2; 
+  object-fit: contain;
+}
+
+
+//La leaderboard
+.leaderboard {
+  display: block;
+  position: fixed;
+  top: -40px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 33%;
+  z-index: 2;
+}
+
+//El banner de fondo
 .banner {
     position: fixed;
     top: 0;
@@ -30,21 +76,36 @@
     pointer-events: none;
 }
 
+
+//El logo
 .logo {
     display: block;
     position: fixed;
-    top: 20px;
+    top: 5%;
     left: 0;
     right: 0;
     margin: 0 auto;
     width: 28%;
     z-index: 2;
-    animation: breathe 3s infinite ease-in-out;
+  }
+
+    
+.logo-without-animation {
+    animation: none !important;
   }
   
-  
-  .logo-without-animation {
-    animation: none !important;
+
+.playButton img {
+    display: block;
+    position: fixed;
+    top: 35%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    width: 13%;
+    z-index: 2;
+    animation: breathe 3s infinite ease-in-out;
   }
   
 
@@ -55,10 +116,26 @@
     50% {
         transform: scale(1.1);
     }
-
 }
 
-.content {
-    position: relative;
-    z-index: 1;
+//prueba de pajaros
+.yellowBirdElement img {
+    display: flex;
+    position: absolute;
+    transition: transform 5s linear;
+    width: 5%;
+    z-index: 2;
+    user-select: none;
+    pointer-events: auto;
+  }
+
+  .heart img{
+    display: grid; /* Usa un diseño de cuadrícula */
+    grid-auto-flow: column; /* Alinea los corazones en una fila */
+    gap: 10px; /* Espaciado entre los corazones */
+    position: absolute;
+    top: 10px; /* Ajusta la posición vertical */
+    right: 10px; /* Ajusta la posición horizontal */
+    z-index: 2;
+    width: 5%;
   }

@@ -7,6 +7,6 @@ import { BannerComponent } from "./components/interactive/banner/banner.componen
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [RouterOutlet, BannerComponent]
+  imports: [RouterOutlet]
 })
 export class AppComponent {}

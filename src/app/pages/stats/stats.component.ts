@@ -1,12 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { RopeComponent } from "../../components/interactive/rope/rope.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [],
+  imports: [RopeComponent],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css'
 })
 export class StatsComponent {
+  constructor(private router: Router) {}
+  @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
+  
+  animationAndRedirection(ropeClass: string, route: string) {
+    
+    if (this.ropeComponent) {
+      this.ropeComponent.ropePull();
+    } else {
+        console.error('ropeComponent is not initialized');
+    }
+  
+    setTimeout(() => {
+      this.router.navigate([route]);
+    }, 400);
+  }
 
 }

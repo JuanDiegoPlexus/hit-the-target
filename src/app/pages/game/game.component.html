@@ -1,0 +1,15 @@
+<div class="game-container">
+  <div *ngFor="let bird of birds" class="bird-container">
+    <app-bird1
+      [id]="bird.id"
+      class="yellowBirdElement"
+      (birdDestroyed)="onBirdDestroyed(bird.id)"
+      (click)="onBirdDestroyedByClick(bird.id)">
+    </app-bird1>
+  </div>
+
+  <app-health class="heart"></app-health>
+
+
+
+</div>

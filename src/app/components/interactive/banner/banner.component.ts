@@ -26,9 +26,9 @@ export class BannerComponent implements AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       const logo = document.querySelector('.logo');
       if (logo) {
-        logo.classList.remove('logo-up'); // Elimina la clase para reiniciar la animación
-        void (logo as HTMLElement).offsetWidth; // Fuerza el reflujo para reiniciar la animación
-        logo.classList.add('logo-up'); // Vuelve a agregar la clase para activar la animación
+        logo.classList.remove('logo-up'); 
+        void (logo as HTMLElement).offsetWidth; 
+        logo.classList.add('logo-up'); 
       }
     }
   }
@@ -37,13 +37,10 @@ export class BannerComponent implements AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
         const logo = document.querySelector('.logo');
         if (logo) {
-            console.log('Applying logo-down animation'); // Depuración
-            logo.classList.remove('logo-up'); // Elimina la clase previa
-            void (logo as HTMLElement).offsetWidth; // Fuerza el reflujo para reiniciar la animación
-            logo.classList.add('logo-down'); // Agrega la clase para activar la animación
-        } else {
-            console.warn('Logo element not found, skipping animation'); // Depuración
-        }
+            logo.classList.remove('logo-up'); 
+            void (logo as HTMLElement).offsetWidth; 
+            logo.classList.add('logo-down'); 
+        } 
     }
   }
 }

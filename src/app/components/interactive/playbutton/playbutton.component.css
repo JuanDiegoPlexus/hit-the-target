@@ -1,0 +1,8 @@
+@keyframes dissapear {
+    0% { scale: 1; }
+    100% { scale: 0; }
+}
+
+.dissapear {
+    animation: dissapear 0.4s ease;
+}
