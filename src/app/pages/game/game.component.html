@@ -1,10 +1,11 @@
-<div class="game-container">
-  <div *ngFor="let bird of birds" class="bird-container">
+<div class="game-container" draggable="false">
+  <div *ngFor="let bird of birds" class="bird-container" draggable="false">
     <app-bird1
       [id]="bird.id"
       class="yellowBirdElement"
       (birdDestroyed)="onBirdDestroyed(bird.id)"
-      (click)="onBirdDestroyedByClick(bird.id)">
+      (click)="onBirdDestroyedByClick(bird.id)"
+      draggable="false">
     </app-bird1>
     
   </div>

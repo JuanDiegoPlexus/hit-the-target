@@ -22,14 +22,10 @@ export class LeaderboardPageComponent {
   
     if (this.leaderboardComponent) {
       this.leaderboardComponent.leaderboardFall();
-    }else {
-      console.error('leaderboardComponent is not initialized');
     }
     
     if (this.ropeComponent) {
       this.ropeComponent.ropePull();
-    } else {
-        console.error('ropeComponent is not initialized');
     }
   
     setTimeout(() => {

@@ -12,21 +12,14 @@ export class BannerComponent implements AfterViewInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const logo = document.querySelector('.logo');
-      if (logo) {
-        logo.addEventListener('animationend', () => {
-          logo.classList.remove('logo-up', 'logo-down');
-        });
-      }
-    }
+    this.animateLogoDown();
   }
 
   animateLogoUp(): void {
     if (isPlatformBrowser(this.platformId)) {
       const logo = document.querySelector('.logo');
       if (logo) {
-        logo.classList.remove('logo-up'); 
+        logo.classList.remove('logo-down'); 
         void (logo as HTMLElement).offsetWidth; 
         logo.classList.add('logo-up'); 
       }

@@ -13,17 +13,19 @@ import { HealthComponent } from "../../components/interactive/health/health.comp
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnDestroy {
-  @ViewChild(HealthComponent) healthComponent!: HealthComponent; // Referencia al componente de salud
-  @ViewChildren(Bird1Component) birdComponents!: QueryList<Bird1Component>; // Referencia a los componentes Bird1
+  @ViewChild(HealthComponent) healthComponent!: HealthComponent;
 
-  birds: { id: number }[] = []; // Array de objetos con identificadores únicos
+  @ViewChildren(Bird1Component) birdComponents!: QueryList<Bird1Component>;
+  birds: { id: number }[] = [];
+
   private birdInterval: any;
-  private nextId = 0; // Contador para generar identificadores únicos
+  private nextId = 0; 
+
   private birdsLost = 0;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router // Inyecta el Router aquí
+    private router: Router 
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
@@ -32,7 +34,7 @@ export class GameComponent implements OnDestroy {
 
   private startBirdGeneration(): void {
     this.birdInterval = setInterval(() => {
-      this.birds.push({ id: this.nextId++ }); // Agrega un nuevo pájaro con un identificador único
+      this.birds.push({ id: this.nextId++ });
     }, 1000);
   }
 

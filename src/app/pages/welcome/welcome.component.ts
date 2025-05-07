@@ -49,28 +49,18 @@ export class WelcomeComponent implements AfterViewInit {
         this.ropeComponentLeaderboard.ropePull();
     } else if (ropeClass === 'statsRope' && this.ropeComponentStats) {
         this.ropeComponentStats.ropePull();
-    } else {
-        console.error(`RopeComponent with class '${ropeClass}' is not initialized`);
     }
 
     if (this.bannerComponent) {
         this.bannerComponent.animateLogoUp();
-    } else {
-        console.error('BannerComponent is not initialized');
     }
 
     if (this.playbuttonComponent) {
         this.playbuttonComponent.dissapear();
-    } else {
-        console.error('playbuttonComponent is not initialized');
     }
 
     setTimeout(() => {
-        this.router.navigate([route]).then(() => {
-            if (this.bannerComponent) {
-                this.bannerComponent.animateLogoDown();
-            }
-        });
+        this.router.navigate([route])
     }, 400);
   }
 }

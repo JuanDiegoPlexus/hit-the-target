@@ -17,8 +17,6 @@ export class StatsComponent {
     
     if (this.ropeComponent) {
       this.ropeComponent.ropePull();
-    } else {
-        console.error('ropeComponent is not initialized');
     }
   
     setTimeout(() => {

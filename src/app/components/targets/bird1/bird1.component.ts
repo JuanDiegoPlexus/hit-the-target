@@ -10,13 +10,13 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class Bird1Component implements OnInit, OnDestroy {
   @ViewChild('yellowBirdElement', { static: true }) yellowbirdElement!: ElementRef<HTMLImageElement>;
-  @Input() id!: number; // Recibe el identificador único del pájaro
-  @Output() birdDestroyed = new EventEmitter<number>(); // Emite el identificador al destruir el pájaro
+  @Input() id!: number; 
+  @Output() birdDestroyed = new EventEmitter<number>();
 
-  private animationFrameId: number | null = null; // ID del frame de animación
-  private wingSpeed = 100; // Velocidad en milisegundos (1s por defecto)
+  private animationFrameId: number | null = null; 
+  private wingSpeed = 100; 
   private speed = 1.3; //VELOCIDAD CON LA QUE LLEGAN AL FINAL DE LA PANTALLA
-  private destroyed = false; // Bandera para verificar si el pájaro ha sido destruido
+  private destroyed = false; 
   private images = [
     'assets/birds/yellow_flying_1.png',
     'assets/birds/yellow_flying_2.png'
@@ -34,24 +34,23 @@ export class Bird1Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.moveRandomly(this.speed, this.wingSpeed);
-      this.startFrameCheck(); // Inicia la comprobación en cada frame
+      this.startFrameCheck(); 
     }
   }
 
   ngOnDestroy(): void {
     if (this.animationFrameId !== null) {
-      cancelAnimationFrame(this.animationFrameId); // Cancela el frame de animación al destruir el componente
+      cancelAnimationFrame(this.animationFrameId);
     }
   }
 
   private startFrameCheck(): void {
     if (!isPlatformBrowser(this.platformId)) {
-      return; // No ejecutar en el servidor
+      return; 
     }
 
     const checkBounds = () => {
       if (this.checkIfBirdIsOutOfBounds()) {
-        console.log('The bird is out of bounds!');
         this.destroyComponent();
         return;
       }
@@ -63,37 +62,32 @@ export class Bird1Component implements OnInit, OnDestroy {
   }
 
   private destroyComponent(): void {
-    console.log('Destroying bird component...');
-    this.birdDestroyed.emit(this.id); // Emite el identificador único al padre
+    this.birdDestroyed.emit(this.id);
     const bird = this.yellowbirdElement.nativeElement;
     bird.remove(); 
   }
 
   private checkIfBirdIsOutOfBounds(): boolean {
-    const bird = this.yellowbirdElement.nativeElement;
 
-    // Obtén la transformación actual del pájaro
+    const bird = this.yellowbirdElement.nativeElement;
     const transform = window.getComputedStyle(bird).transform;
 
     if (transform === 'none') {
-      return false; // Si no hay transformación, el pájaro no se ha movido
+      return false;
     }
 
-    // Extrae las coordenadas de la transformación (matriz de transformación)
     const matrix = transform.match(/matrix\((.+)\)/);
     if (!matrix || matrix.length < 2) {
-      return false; // Si no hay matriz válida, no se puede calcular
+      return false;
     }
 
     const values = matrix[1].split(', ');
-    const translateX = parseFloat(values[4]); // Coordenada X
-    const translateY = parseFloat(values[5]); // Coordenada Y
+    const translateX = parseFloat(values[4]);
+    const translateY = parseFloat(values[5]);
 
-    // Calcula los bordes del pájaro
     const birdRightEdge = translateX + bird.offsetWidth;
     const birdBottomEdge = translateY + bird.offsetHeight;
 
-    // Verifica si el pájaro se ha salido de los límites de la pantalla
     const isOutOfBounds =
       birdRightEdge > window.innerWidth || translateX < 0 || birdBottomEdge > window.innerHeight || translateY < 0;
 
@@ -106,19 +100,15 @@ export class Bird1Component implements OnInit, OnDestroy {
 
     const move = () => {
       if (currentTurn === 0) {
-        // Solo para la posición inicial
-        const initialY = (Math.random() * (window.innerHeight/1.5)); // Número aleatorio en el rango del eje Y
+        const initialY = (Math.random() * (window.innerHeight/1.5));
         bird.style.transform = `translate(0px, ${initialY}px)`;
       }
 
-      // Calcula nuevas posiciones aleatorias
       const randomX = Math.random() * (window.innerWidth - bird.offsetWidth) * 0.7 + window.innerWidth * speed;
       const randomY = Math.random() * (window.innerHeight - bird.offsetHeight);
 
-      // Aplica la nueva posición
       bird.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
-      // Cambia la imagen
       this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
       bird.src = this.images[this.currentImageIndex];
 
