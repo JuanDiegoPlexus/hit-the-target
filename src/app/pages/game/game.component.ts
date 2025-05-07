@@ -10,7 +10,7 @@ import { HealthComponent } from "../../components/interactive/health/health.comp
   standalone: true,
   imports: [Bird1Component, CommonModule, HealthComponent],
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
+  styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnDestroy {
   @ViewChild(HealthComponent) healthComponent!: HealthComponent;

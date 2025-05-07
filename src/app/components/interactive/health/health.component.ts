@@ -5,7 +5,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './health.component.html',
-  styleUrls: ['./health.component.css']
+  styleUrls: ['./health.component.scss']
 })
 export class HealthComponent {
   @ViewChild('firstHeartElement') firstHeartElement!: ElementRef<HTMLImageElement>;

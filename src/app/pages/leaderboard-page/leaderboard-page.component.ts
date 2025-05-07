@@ -7,7 +7,7 @@ import { LeaderboardComponent } from '../../components/interactive/leaderboard/l
   selector: 'app-leaderboard-page',
   standalone: true,
   templateUrl: './leaderboard-page.component.html',
-  styleUrls: ['./leaderboard-page.component.css'],
+  styleUrls: ['./leaderboard-page.component.scss'],
   imports: [RopeComponent, LeaderboardComponent]
 })
 

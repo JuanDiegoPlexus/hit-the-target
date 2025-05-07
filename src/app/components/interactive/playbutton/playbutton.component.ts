@@ -5,7 +5,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './playbutton.component.html',
-  styleUrl: './playbutton.component.css'
+  styleUrl: './playbutton.component.scss'
 })
 export class PlaybuttonComponent {
   @ViewChild('playButtonElement') playButtonElement!: ElementRef<HTMLImageElement>;

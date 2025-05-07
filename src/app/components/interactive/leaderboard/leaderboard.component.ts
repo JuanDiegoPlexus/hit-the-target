@@ -5,7 +5,7 @@ import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/co
   standalone: true,
   imports: [],
   templateUrl: './leaderboard.component.html',
-  styleUrl: './leaderboard.component.css'
+  styleUrl: './leaderboard.component.scss'
 
 })
 export class LeaderboardComponent {

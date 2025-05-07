@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [],
   templateUrl: './bird1.component.html',
-  styleUrls: ['./bird1.component.css']
+  styleUrls: ['./bird1.component.scss']
 })
 export class Bird1Component implements OnInit, OnDestroy {
   @ViewChild('yellowBirdElement', { static: true }) yellowbirdElement!: ElementRef<HTMLImageElement>;

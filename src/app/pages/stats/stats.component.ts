@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [RopeComponent],
   templateUrl: './stats.component.html',
-  styleUrl: './stats.component.css'
+  styleUrl: './stats.component.scss'
 })
 export class StatsComponent {
   constructor(private router: Router) {}

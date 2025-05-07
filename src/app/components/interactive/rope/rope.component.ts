@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './rope.component.html',
-  styleUrls: ['./rope.component.css'],
+  styleUrls: ['./rope.component.scss'],
 })
 export class RopeComponent {
   @ViewChild('ropeElement') ropeElement!: ElementRef<HTMLImageElement>;

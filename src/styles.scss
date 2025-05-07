@@ -5,34 +5,6 @@ body, html {
 
 }
 
-
-.content {
-  position: relative;
-  z-index: 1;
-}
-
-
-// Las cuatro cuerdas.
-.leaderboardRope img{
-  position: fixed;
-  top: -30px;
-  left: 0;
-  width: 150px; 
-  z-index: 2; 
-  object-fit: contain;
-
-}
-
-.statsRope img {
-  position: fixed;
-  top: -30px;
-  right: 0;
-  width: 150px; 
-  z-index: 2; 
-  object-fit: contain;
-
-}
-
 .welcomeRopeRight img {
   position: fixed;
   top: -30px;
