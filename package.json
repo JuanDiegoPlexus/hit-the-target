@@ -7,7 +7,7 @@
     "build": "ng build",
     "prepare": "husky",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "serve:ssr:hit-the-target": "node dist/hit-the-target/server/server.mjs"
   },
   "private": true,
