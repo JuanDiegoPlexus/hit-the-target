@@ -15,19 +15,25 @@ export class Bird1Component implements OnInit, OnDestroy {
 
   private animationFrameId: number | null = null; // ID del frame de animación
   private wingSpeed = 100; // Velocidad en milisegundos (1s por defecto)
-  private speed = 1;
-  private maxTurns = 100; // Número máximo de giros antes de detenerse
+  private speed = 1.3; //VELOCIDAD CON LA QUE LLEGAN AL FINAL DE LA PANTALLA
+  private destroyed = false; // Bandera para verificar si el pájaro ha sido destruido
   private images = [
     'assets/birds/yellow_flying_1.png',
     'assets/birds/yellow_flying_2.png'
   ];
+
+  private images_explosion = [
+    'assets/explosion/small_explosion.png',
+    'assets/explosion/big_explosion.png'
+  ];
+
   private currentImageIndex = 0;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.moveRandomly(this.maxTurns, this.speed, this.wingSpeed);
+      this.moveRandomly(this.speed, this.wingSpeed);
       this.startFrameCheck(); // Inicia la comprobación en cada frame
     }
   }
@@ -94,14 +100,14 @@ export class Bird1Component implements OnInit, OnDestroy {
     return isOutOfBounds;
   }
 
-  moveRandomly(turns: number, speed: number, wingSpeed: number): void {
+  moveRandomly(speed: number, wingSpeed: number): void {
     const bird = this.yellowbirdElement.nativeElement;
     let currentTurn = 0;
 
     const move = () => {
       if (currentTurn === 0) {
         // Solo para la posición inicial
-        const initialY = Math.random() * window.innerHeight; // Número aleatorio en el rango del eje Y
+        const initialY = (Math.random() * (window.innerHeight/1.5)); // Número aleatorio en el rango del eje Y
         bird.style.transform = `translate(0px, ${initialY}px)`;
       }
 
@@ -121,5 +127,25 @@ export class Bird1Component implements OnInit, OnDestroy {
     };
 
     move();
+  }
+
+  triggerExplosion(): void {
+    // Cancela cualquier animación en curso
+    /*if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId); // Cancela el frame de animación
+      this.animationFrameId = null;
+    }
+
+    // Detiene el movimiento del pájaro
+    const bird = this.yellowbirdElement.nativeElement;
+    //bird.style.transition = 'none'; // Detiene cualquier transición o animación CSS
+
+    // Cambia la imagen a la de explosión
+    bird.src = this.images_explosion[0];
+    
+    console.log(`Bird ${this.id} exploded!`);
+    setTimeout(() => {
+    this.destroyComponent();
+    }, 500); // Espera 0.5 segundos antes de eliminar el componente*/
   }
 }

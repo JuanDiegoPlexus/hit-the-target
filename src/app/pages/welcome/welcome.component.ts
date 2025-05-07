@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, PLATFORM_ID, ViewChild, ViewChildren,
 import { FormsModule } from '@angular/forms'; 
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { BannerComponent } from '../../components/interactive/banner/banner.component';
+import { BannerComponent } from '../../components/background/banner/banner.component';
 import { RopeComponent } from "../../components/interactive/rope/rope.component";
 import { PlaybuttonComponent } from "../../components/interactive/playbutton/playbutton.component";
 

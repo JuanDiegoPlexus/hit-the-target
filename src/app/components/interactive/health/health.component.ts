@@ -20,8 +20,9 @@ export class HealthComponent {
     ];
 
     for (const heart of hearts) {
-      if (heart.src.includes('assets/hearts/hear.png')) {
+      if (heart.src.includes('assets/hearts/heart.png')) {
         heart.src = 'assets/hearts/half_heart.png'; // Cambia a medio corazón
+        console.log('Heart changed to half heart:', heart.src);
         return;
       } else if (heart.src.includes('assets/hearts/half_heart.png')) {
         heart.src = 'assets/hearts/broken_heart.png'; // Cambia a corazón roto

@@ -1,0 +1,28 @@
+::ng-deep .hearts {
+  position: static; /* Contenedor relativo para posicionar los corazones */
+  width: 150px; /* Ancho total del contenedor */
+  height: 70px; /* Altura del contenedor */
+}
+
+::ng-deep .hearts div {
+  position: absolute; /* Posiciona manualmente cada corazón */
+}
+
+::ng-deep .hearts div:nth-child(1) {
+  right: 0; /* Primer corazón a la izquierda */
+}
+
+::ng-deep .hearts div:nth-child(2) {
+  right: 62px; /* Segundo corazón separado 70px del primero */
+}
+
+::ng-deep .hearts div:nth-child(3) {
+  right: 124px; /* Tercer corazón separado 70px del segundo */
+}
+
+::ng-deep .hearts img {
+  width: 75px; /* Ajusta el tamaño de los corazones */
+  height: auto; /* Mantiene la proporción de la imagen */
+  user-select: none; /* Evita que se seleccionen */
+  pointer-events: auto; /* Permite clics en los corazones */
+}
