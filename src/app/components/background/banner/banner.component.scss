@@ -1,30 +1,29 @@
-
 @keyframes logoUp {
-    0% {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1) translateY(-100px);
-      opacity: 0;
-    }
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
   }
-  
-  @keyframes logoDown {
-    0% {
-      transform: scale(1) translateY(-100px);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
+  100% {
+    transform: scale(1) translateY(-100px);
+    opacity: 0;
   }
-  
-  .logo-up {
-    animation: logoUp 0.4s ease forwards;
+}
+
+@keyframes logoDown {
+  0% {
+    transform: scale(1) translateY(-100px);
+    opacity: 0;
   }
-  
-  .logo-down {
-    animation: logoDown 0.4s ease backwards;
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
   }
+}
+
+.logo-up {
+  animation: logoUp 0.4s ease forwards;
+}
+
+.logo-down {
+  animation: logoDown 0.4s ease backwards;
+}

@@ -5,18 +5,21 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './health.component.html',
-  styleUrls: ['./health.component.scss']
+  styleUrls: ['./health.component.scss'],
 })
 export class HealthComponent {
-  @ViewChild('firstHeartElement') firstHeartElement!: ElementRef<HTMLImageElement>;
-  @ViewChild('secondHeartElement') secondHeartElement!: ElementRef<HTMLImageElement>;
-  @ViewChild('thirdHeartElement') thirdHeartElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('firstHeartElement')
+  firstHeartElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('secondHeartElement')
+  secondHeartElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('thirdHeartElement')
+  thirdHeartElement!: ElementRef<HTMLImageElement>;
 
   damage(): void {
     const hearts = [
       this.firstHeartElement.nativeElement,
       this.secondHeartElement.nativeElement,
-      this.thirdHeartElement.nativeElement
+      this.thirdHeartElement.nativeElement,
     ];
 
     for (const heart of hearts) {
@@ -33,5 +36,3 @@ export class HealthComponent {
     console.log('All hearts are already broken.');
   }
 }
-
-

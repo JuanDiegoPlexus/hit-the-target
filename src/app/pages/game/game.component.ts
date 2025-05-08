@@ -1,9 +1,17 @@
-import { Component, OnDestroy, Inject, PLATFORM_ID, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  Inject,
+  PLATFORM_ID,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Bird1Component } from "../../components/targets/bird1/bird1.component";
+import { Bird1Component } from '../../components/targets/bird1/bird1.component';
 import { Router } from '@angular/router';
-import { HealthComponent } from "../../components/interactive/health/health.component";
+import { HealthComponent } from '../../components/interactive/health/health.component';
 
 @Component({
   selector: 'app-game',
@@ -19,13 +27,13 @@ export class GameComponent implements OnDestroy {
   birds: { id: number }[] = [];
 
   private birdInterval: any;
-  private nextId = 0; 
+  private nextId = 0;
 
   private birdsLost = 0;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router 
+    private router: Router,
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
@@ -39,7 +47,7 @@ export class GameComponent implements OnDestroy {
   }
 
   onBirdDestroyed(id: number): void {
-    this.birds = this.birds.filter(bird => bird.id !== id); // Elimina el pájaro por su identificador
+    this.birds = this.birds.filter((bird) => bird.id !== id); // Elimina el pájaro por su identificador
     this.birdsLost++; // Incrementa el contador de pájaros perdidos
     this.healthComponent.damage();
     if (this.birdsLost >= 6) {
@@ -50,14 +58,14 @@ export class GameComponent implements OnDestroy {
 
   onBirdDestroyedByClick(id: number): void {
     // Encuentra el componente Bird1 correspondiente
-    const birdComponent = this.birdComponents.find(bird => bird.id === id);
+    const birdComponent = this.birdComponents.find((bird) => bird.id === id);
     if (birdComponent) {
       birdComponent.triggerExplosion(); // Llama al método del componente hijo
     }
 
     // Elimina el pájaro del array después de un retraso
     //setTimeout(() => {
-      this.birds = this.birds.filter(bird => bird.id !== id);
+    this.birds = this.birds.filter((bird) => bird.id !== id);
     //}, 500); // Retraso para mostrar la explosión
   }
 

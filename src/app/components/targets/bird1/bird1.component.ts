@@ -27,7 +27,7 @@ export class Bird1Component implements OnInit, OnDestroy {
 
   private animationFrameId: number | null = null;
   private wingSpeed = 100;
-  private speed = 1.3; //VELOCIDAD CON LA QUE LLEGAN AL FINAL DE LA PANTALLA
+  private speed = 1.3; //speed of the bird
   private destroyed = false;
   private images = [
     'assets/birds/yellow_flying_1.png',

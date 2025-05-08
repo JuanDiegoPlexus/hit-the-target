@@ -8,9 +8,8 @@ describe('PlaybuttonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlaybuttonComponent]
-    })
-    .compileComponents();
+      imports: [PlaybuttonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PlaybuttonComponent);
     component = fixture.componentInstance;

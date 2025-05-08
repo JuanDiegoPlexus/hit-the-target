@@ -1,9 +1,15 @@
 @keyframes ropePull {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(20px); }
-    100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .bounce {
-    animation: ropePull 0.2s ease;
+  animation: ropePull 0.2s ease;
 }

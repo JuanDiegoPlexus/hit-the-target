@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [],
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+  styleUrls: ['./banner.component.scss'],
 })
 export class BannerComponent implements AfterViewInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -19,21 +19,21 @@ export class BannerComponent implements AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       const logo = document.querySelector('.logo');
       if (logo) {
-        logo.classList.remove('logo-down'); 
-        void (logo as HTMLElement).offsetWidth; 
-        logo.classList.add('logo-up'); 
+        logo.classList.remove('logo-down');
+        void (logo as HTMLElement).offsetWidth;
+        logo.classList.add('logo-up');
       }
     }
   }
 
   animateLogoDown(): void {
     if (isPlatformBrowser(this.platformId)) {
-        const logo = document.querySelector('.logo');
-        if (logo) {
-            logo.classList.remove('logo-up'); 
-            void (logo as HTMLElement).offsetWidth; 
-            logo.classList.add('logo-down'); 
-        } 
+      const logo = document.querySelector('.logo');
+      if (logo) {
+        logo.classList.remove('logo-up');
+        void (logo as HTMLElement).offsetWidth;
+        logo.classList.add('logo-down');
+      }
     }
   }
 }

@@ -1,9 +1,19 @@
 <main>
-
   <app-banner></app-banner>
 
-  <app-rope #leaderboardRope class="leaderboardRope" (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"></app-rope>
-  <app-rope #statsRope  class="statsRope" (click)="animationAndRedirection('statsRope', '/stats')"></app-rope>
+  <app-rope
+    #leaderboardRope
+    class="leaderboardRope"
+    (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
+  ></app-rope>
+  <app-rope
+    #statsRope
+    class="statsRope"
+    (click)="animationAndRedirection('statsRope', '/stats')"
+  ></app-rope>
 
-  <app-playbutton class="playButton" (click)="animationAndRedirection('playButton', '/game')"></app-playbutton>
+  <app-playbutton
+    class="playButton"
+    (click)="animationAndRedirection('playButton', '/game')"
+  ></app-playbutton>
 </main>
