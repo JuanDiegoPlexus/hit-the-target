@@ -1,4 +1,15 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -6,35 +17,36 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [],
   templateUrl: './bird1.component.html',
-  styleUrls: ['./bird1.component.scss']
+  styleUrls: ['./bird1.component.scss'],
 })
 export class Bird1Component implements OnInit, OnDestroy {
-  @ViewChild('yellowBirdElement', { static: true }) yellowbirdElement!: ElementRef<HTMLImageElement>;
-  @Input() id!: number; 
+  @ViewChild('yellowBirdElement', { static: true })
+  yellowbirdElement!: ElementRef<HTMLImageElement>;
+  @Input() id!: number;
   @Output() birdDestroyed = new EventEmitter<number>();
 
-  private animationFrameId: number | null = null; 
-  private wingSpeed = 100; 
+  private animationFrameId: number | null = null;
+  private wingSpeed = 100;
   private speed = 1.3; //VELOCIDAD CON LA QUE LLEGAN AL FINAL DE LA PANTALLA
-  private destroyed = false; 
+  private destroyed = false;
   private images = [
     'assets/birds/yellow_flying_1.png',
-    'assets/birds/yellow_flying_2.png'
+    'assets/birds/yellow_flying_2.png',
   ];
 
   private images_explosion = [
     'assets/explosion/small_explosion.png',
-    'assets/explosion/big_explosion.png'
+    'assets/explosion/big_explosion.png',
   ];
 
   private currentImageIndex = 0;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.moveRandomly(this.speed, this.wingSpeed);
-      this.startFrameCheck(); 
+      this.startFrameCheck();
     }
   }
 
@@ -46,7 +58,7 @@ export class Bird1Component implements OnInit, OnDestroy {
 
   private startFrameCheck(): void {
     if (!isPlatformBrowser(this.platformId)) {
-      return; 
+      return;
     }
 
     const checkBounds = () => {
@@ -64,11 +76,10 @@ export class Bird1Component implements OnInit, OnDestroy {
   private destroyComponent(): void {
     this.birdDestroyed.emit(this.id);
     const bird = this.yellowbirdElement.nativeElement;
-    bird.remove(); 
+    bird.remove();
   }
 
   private checkIfBirdIsOutOfBounds(): boolean {
-
     const bird = this.yellowbirdElement.nativeElement;
     const transform = window.getComputedStyle(bird).transform;
 
@@ -89,7 +100,10 @@ export class Bird1Component implements OnInit, OnDestroy {
     const birdBottomEdge = translateY + bird.offsetHeight;
 
     const isOutOfBounds =
-      birdRightEdge > window.innerWidth || translateX < 0 || birdBottomEdge > window.innerHeight || translateY < 0;
+      birdRightEdge > window.innerWidth ||
+      translateX < 0 ||
+      birdBottomEdge > window.innerHeight ||
+      translateY < 0;
 
     return isOutOfBounds;
   }
@@ -100,16 +114,19 @@ export class Bird1Component implements OnInit, OnDestroy {
 
     const move = () => {
       if (currentTurn === 0) {
-        const initialY = (Math.random() * (window.innerHeight/1.5));
+        const initialY = Math.random() * (window.innerHeight / 1.5);
         bird.style.transform = `translate(0px, ${initialY}px)`;
       }
 
-      const randomX = Math.random() * (window.innerWidth - bird.offsetWidth) * 0.7 + window.innerWidth * speed;
+      const randomX =
+        Math.random() * (window.innerWidth - bird.offsetWidth) * 0.7 +
+        window.innerWidth * speed;
       const randomY = Math.random() * (window.innerHeight - bird.offsetHeight);
 
       bird.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+      this.currentImageIndex =
+        (this.currentImageIndex + 1) % this.images.length;
       bird.src = this.images[this.currentImageIndex];
 
       currentTurn++;

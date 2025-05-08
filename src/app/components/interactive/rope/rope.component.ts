@@ -1,6 +1,14 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+//test
 @Component({
   selector: 'app-rope',
   standalone: true,
@@ -14,9 +22,9 @@ export class RopeComponent {
   ropePull(): void {
     if (this.ropeElement) {
       const rope = this.ropeElement.nativeElement;
-      rope.classList.remove('bounce'); 
+      rope.classList.remove('bounce');
       void rope.offsetWidth;
       rope.classList.add('bounce');
-    } 
+    }
   }
 }
