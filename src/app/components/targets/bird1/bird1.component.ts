@@ -133,7 +133,9 @@ export class Bird1Component implements OnInit, OnDestroy {
       setTimeout(move, wingSpeed);
     };
 
-    move();
+    if (!this.destroyed) {
+      move();
+    }
   }
 
   triggerExplosion(): void {

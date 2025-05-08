@@ -32,7 +32,5 @@ export class HealthComponent {
         return;
       }
     }
-
-    console.log('All hearts are already broken.');
   }
 }

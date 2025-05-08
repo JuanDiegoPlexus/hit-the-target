@@ -1,4 +1,4 @@
-<div class="game-container" draggable="false">
+<div class="game-container" draggable="false" style="user-select: none">
   <div *ngFor="let bird of birds" class="bird-container" draggable="false">
     <app-bird1
       [id]="bird.id"
@@ -8,6 +8,17 @@
       draggable="false"
     >
     </app-bird1>
+  </div>
+  <div draggable="false">
+    <img
+      #timerElement
+      src="assets/letters/time.png"
+      class="timerLetters"
+      draggable="false"
+    />
+  </div>
+  <div class="timer" draggable="false">
+    <span>{{ timeElapsed }}</span>
   </div>
 
   <app-health class="heart"></app-health>

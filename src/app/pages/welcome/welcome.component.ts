@@ -4,8 +4,6 @@ import {
   inject,
   PLATFORM_ID,
   ViewChild,
-  ViewChildren,
-  QueryList,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -27,8 +25,10 @@ export class WelcomeComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
 
   @ViewChild(BannerComponent) bannerComponent!: BannerComponent;
+
   @ViewChild('leaderboardRope', { static: true })
   ropeComponentLeaderboard!: RopeComponent;
+
   @ViewChild('statsRope', { static: true }) ropeComponentStats!: RopeComponent;
   @ViewChild(PlaybuttonComponent) playbuttonComponent!: PlaybuttonComponent;
 

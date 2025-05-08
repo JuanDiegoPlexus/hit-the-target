@@ -6,5 +6,30 @@
   top: 10px; /* Ajusta la posición vertical */
   right: 10px; /* Ajusta la posición horizontal */
   z-index: 2;
+  user-select: none;
   width: 5%;
+}
+
+::ng-deep .timer {
+  position: absolute;
+  font-family: 'Stardew', sans-serif;
+  font-size: 75px;
+  z-index: 2;
+  margin: 9px;
+  left: 200px;
+  user-select: none;
+  color: #f3b94a;
+  text-shadow:
+    -2.5px -2.5px 0 #7a5a1a,
+    2.5px -2.5px 0 #7a5a1a,
+    -2.5px 2.5px 0 #7a5a1a,
+    2.5px 2.5px 0 #7a5a1a;
+}
+
+::ng-deep .timerLetters {
+  position: absolute;
+  width: 10%;
+  user-select: none;
+  z-index: 2;
+  margin: 20px;
 }
