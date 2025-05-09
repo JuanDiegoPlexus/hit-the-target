@@ -5,42 +5,25 @@
   font-style: normal;
 }
 
-body,
-html {
+body {
   margin: 0;
   padding: 0;
   overflow: hidden;
   font-family: 'Stardew', sans-serif;
+  cursor:
+    url('/assets/mouse/mouse_cursor2.cur') 0 0,
+    auto;
+  z-index: 4;
 }
 
-.welcomeRopeRight img {
+main {
   position: fixed;
-  top: -30px;
-  right: 0;
-  width: 150px;
-  z-index: 2;
-  object-fit: contain;
-}
-
-.welcomeRopeLeft img {
-  position: fixed;
-  top: -30px;
+  top: 0;
   left: 0;
-  width: 150px;
-  z-index: 2;
-  object-fit: contain;
-}
-
-//La leaderboard
-.leaderboard {
-  display: block;
-  position: fixed;
-  top: -40px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 33%;
-  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 //El banner de fondo

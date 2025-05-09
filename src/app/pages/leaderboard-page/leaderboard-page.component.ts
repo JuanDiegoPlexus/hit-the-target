@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RopeComponent } from '../../components/interactive/rope/rope.component';
 import { LeaderboardComponent } from '../../components/interactive/leaderboard/leaderboard.component';
@@ -11,7 +11,7 @@ import { LeaderboardComponent } from '../../components/interactive/leaderboard/l
   imports: [RopeComponent, LeaderboardComponent],
 })
 export class LeaderboardPageComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
   @ViewChild(LeaderboardComponent) leaderboardComponent!: LeaderboardComponent;

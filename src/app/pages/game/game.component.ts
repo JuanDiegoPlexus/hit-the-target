@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewChildren,
   QueryList,
+  inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -32,10 +33,8 @@ export class GameComponent implements OnDestroy {
   timeElapsed = 0; // Contador para el tiempo transcurrido
   private timeInterval: any; // Intervalo para actualizar el tiempo
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private router: Router,
-  ) {
+  private router = inject(Router);
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
       this.startTimer(); // Inicia el temporizador

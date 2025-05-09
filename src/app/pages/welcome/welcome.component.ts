@@ -23,6 +23,7 @@ import { PlaybuttonComponent } from '../../components/interactive/playbutton/pla
 })
 export class WelcomeComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
+  private router = inject(Router);
 
   @ViewChild(BannerComponent) bannerComponent!: BannerComponent;
 
@@ -31,8 +32,6 @@ export class WelcomeComponent implements AfterViewInit {
 
   @ViewChild('statsRope', { static: true }) ropeComponentStats!: RopeComponent;
   @ViewChild(PlaybuttonComponent) playbuttonComponent!: PlaybuttonComponent;
-
-  constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
     if (this.bannerComponent) {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { RopeComponent } from '../../components/interactive/rope/rope.component';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './stats.component.scss',
 })
 export class StatsComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
   @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
 
   animationAndRedirection(ropeClass: string, route: string) {
