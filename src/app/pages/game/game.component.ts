@@ -37,7 +37,7 @@ export class GameComponent implements OnDestroy {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
-      this.startTimer(); // Inicia el temporizador
+      this.startTimer();
     }
   }
 

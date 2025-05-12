@@ -13,10 +13,10 @@ export class PlaybuttonComponent {
 
   dissapear(): void {
     if (this.playButtonElement) {
-      const rope = this.playButtonElement.nativeElement;
-      rope.classList.remove('dissapear');
-      void rope.offsetWidth;
-      rope.classList.add('dissapear');
+      const playButton = this.playButtonElement.nativeElement;
+      playButton.classList.remove('dissapear');
+      void playButton.offsetWidth;
+      playButton.classList.add('dissapear');
     }
   }
 }

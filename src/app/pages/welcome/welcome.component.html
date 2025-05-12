@@ -4,11 +4,13 @@
   <app-rope
     #leaderboardRope
     class="leaderboardRope"
+    [rotation]="-90"
     (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
   ></app-rope>
   <app-rope
     #statsRope
     class="statsRope"
+    [rotation]="90"
     (click)="animationAndRedirection('statsRope', '/stats')"
   ></app-rope>
 

@@ -27,11 +27,11 @@ export class Bird1Component implements OnInit, OnDestroy {
 
   private animationFrameId: number | null = null;
   private wingSpeed = 100;
-  private speed = 1.3; //speed of the bird
+  private speed = 1.2; //speed of the bird
   private destroyed = false;
   private images = [
-    'assets/birds/yellow_flying_1.png',
-    'assets/birds/yellow_flying_2.png',
+    'assets/birds/yellow_flying_1.avif',
+    'assets/birds/yellow_flying_2.avif',
   ];
 
   private images_explosion = [
@@ -121,7 +121,8 @@ export class Bird1Component implements OnInit, OnDestroy {
       const randomX =
         Math.random() * (window.innerWidth - bird.offsetWidth) * 0.7 +
         window.innerWidth * speed;
-      const randomY = Math.random() * (window.innerHeight - bird.offsetHeight);
+      const randomY =
+        Math.random() * (window.innerHeight - bird.offsetHeight) * 0.7;
 
       bird.style.transform = `translate(${randomX}px, ${randomY}px)`;
 

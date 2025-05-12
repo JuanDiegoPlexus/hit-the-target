@@ -1,0 +1,9 @@
+::ng-deep .yellowBirdElement img {
+  display: flex;
+  position: absolute;
+  transition: transform 5s linear;
+  width: 5%;
+  z-index: 2;
+  user-select: none;
+  pointer-events: auto;
+}
