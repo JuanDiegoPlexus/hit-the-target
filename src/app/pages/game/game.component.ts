@@ -13,11 +13,19 @@ import { CommonModule } from '@angular/common';
 import { Bird1Component } from '../../components/targets/bird1/bird1.component';
 import { Router } from '@angular/router';
 import { HealthComponent } from '../../components/interactive/health/health.component';
+import { PlayerService } from '../../services/player.service';
+import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [Bird1Component, CommonModule, HealthComponent],
+  imports: [
+    Bird1Component,
+    CommonModule,
+    HealthComponent,
+    BigLeaderboardComponent,
+  ],
+  providers: [PlayerService],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
@@ -29,12 +37,13 @@ export class GameComponent implements OnDestroy {
   private birdTimeout: any;
   private nextId = 0;
   private birdsLost = 0;
-
-  timeElapsed = 0; // Contador para el tiempo transcurrido
-  private timeInterval: any; // Intervalo para actualizar el tiempo
+  public showLeaderboard = false;
 
   private router = inject(Router);
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    public playerService: PlayerService,
+  ) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
       this.startTimer();
@@ -50,15 +59,16 @@ export class GameComponent implements OnDestroy {
 
     const minDelay = 250;
     const maxDelay = 1000;
-    const speedUp = Math.max(minDelay, maxDelay - this.timeElapsed * 30);
+    const speedUp = Math.max(
+      minDelay,
+      maxDelay - this.playerService.getTimeElapsed() * 30,
+    );
 
     this.birdTimeout = setTimeout(() => this.spawnBird(), speedUp);
   }
 
   private startTimer(): void {
-    this.timeInterval = setInterval(() => {
-      this.timeElapsed++; // Incrementa el contador cada segundo
-    }, 1000);
+    this.playerService.startTimer();
   }
 
   onBirdDestroyed(id: number): void {
@@ -66,9 +76,8 @@ export class GameComponent implements OnDestroy {
     this.birdsLost++;
     this.healthComponent.damage();
     if (this.birdsLost >= 6) {
-      alert('¡Has perdido!');
-      alert('¡Has sobrevivido ' + this.timeElapsed + ' segundos!');
-      this.router.navigate(['/']);
+      this.stopGame();
+      this.showLeaderboard = true;
     }
   }
 
@@ -76,6 +85,7 @@ export class GameComponent implements OnDestroy {
     const birdComponent = this.birdComponents.find((bird) => bird.id === id);
     if (birdComponent) {
       birdComponent.triggerExplosion();
+      this.playerService.incrementBirdsDestroyed();
     }
     this.birds = this.birds.filter((bird) => bird.id !== id);
   }
@@ -84,8 +94,19 @@ export class GameComponent implements OnDestroy {
     if (this.birdTimeout) {
       clearTimeout(this.birdTimeout);
     }
-    if (this.timeInterval) {
-      clearInterval(this.timeInterval); // Limpia el intervalo del temporizador
+    if (this.playerService.getTimer()) {
+      this.playerService.stopTimer();
     }
+  }
+
+  stopGame(): void {
+    //Stop birds generation
+    if (this.birdTimeout) {
+      clearTimeout(this.birdTimeout);
+      this.birdTimeout = null;
+    }
+    // Optional
+    this.birds = [];
+    this.playerService.stopTimer();
   }
 }

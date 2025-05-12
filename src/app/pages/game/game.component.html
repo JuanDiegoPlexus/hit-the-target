@@ -4,7 +4,7 @@
       [id]="bird.id"
       class="yellowBirdElement"
       (birdDestroyed)="onBirdDestroyed(bird.id)"
-      (click)="onBirdDestroyedByClick(bird.id)"
+      (mousedown)="onBirdDestroyedByClick(bird.id)"
       draggable="false"
     >
     </app-bird1>
@@ -18,8 +18,16 @@
     />
   </div>
   <div class="timer" draggable="false">
-    <span>{{ timeElapsed }}</span>
+    <span>{{ playerService.getTimeElapsed() }}</span>
   </div>
 
   <app-health class="heart"></app-health>
+
+  <div *ngIf="showLeaderboard">
+    <app-big-leaderboard
+      [playerName]="playerService.getPlayerName()"
+      [birdsDestroyed]="playerService.getBirdsDestroyed()"
+      [timeSurvived]="playerService.getTimeElapsed()"
+    ></app-big-leaderboard>
+  </div>
 </div>
