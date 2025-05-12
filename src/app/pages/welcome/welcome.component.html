@@ -1,18 +1,20 @@
 <main>
   <app-banner></app-banner>
 
-  <app-rope
-    #leaderboardRope
-    class="leaderboardRope"
-    [rotation]="-90"
-    (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
-  ></app-rope>
-  <app-rope
-    #statsRope
-    class="statsRope"
-    [rotation]="90"
-    (click)="animationAndRedirection('statsRope', '/stats')"
-  ></app-rope>
+  <div class="ropes-wrapper">
+    <app-rope
+      #leaderboardRope
+      class="leaderboardRope"
+      [rotation]="-90"
+      (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
+    ></app-rope>
+    <app-rope
+      #statsRope
+      class="statsRope"
+      [rotation]="90"
+      (click)="animationAndRedirection('statsRope', '/stats')"
+    ></app-rope>
+  </div>
 
   <app-playbutton
     class="playButton"

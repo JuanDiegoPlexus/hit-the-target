@@ -1,8 +1,10 @@
-::ng-deep .welcomeRopeLeft img {
+.welcomeRopeLeft {
   position: fixed;
   top: -30px;
   left: 0;
   width: 150px;
   z-index: 2;
-  object-fit: contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -99,12 +99,3 @@
   z-index: 1;
   pointer-events: none;
 }
-
-::ng-deep .welcomeRopeRight img {
-  position: fixed;
-  top: -30px;
-  right: 0;
-  width: 150px;
-  z-index: 2;
-  object-fit: contain;
-}
