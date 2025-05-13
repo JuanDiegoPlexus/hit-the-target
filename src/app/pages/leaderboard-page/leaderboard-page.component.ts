@@ -12,7 +12,6 @@ import { LeaderboardComponent } from '../../components/interactive/leaderboard/l
 })
 export class LeaderboardPageComponent {
   private router = inject(Router);
-
   @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
   @ViewChild(LeaderboardComponent) leaderboardComponent!: LeaderboardComponent;
 

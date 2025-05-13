@@ -16,6 +16,7 @@
 
 .rope-container {
   display: flex;
+  user-select: none;
   flex-direction: column;
   align-items: center;
   position: relative;
@@ -29,6 +30,7 @@
   padding: 0;
   width: 120%;
   height: auto;
+  user-select: none;
   max-height: 220px;
   min-height: 80px;
   display: block;
@@ -40,6 +42,7 @@ app-rope-arrow-direction.arrow {
   width: 70%; // Ajusta el tamaño de la flecha respecto a la cuerda
   margin-left: 15%;
   padding: 0;
+  user-select: none;
   z-index: 2;
   pointer-events: none; // Opcional: para que los clics pasen a la cuerda si quieres
 }

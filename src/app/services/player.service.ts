@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PlayerService {
-  playerName: string = '';
-  birdsDestroyed: number = 0;
-  timeElapsed = 0; // Contador para el tiempo transcurrido
-  private timeInterval: any; // Intervalo para actualizar el tiempo
+  private playerName: string = 'JuanDi';
+  private birdsDestroyed: number = 0;
+
+  private timeElapsed = 0;
+  private timeInterval: any;
 
   setPlayerName(name: string) {
     this.playerName = name;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Component,
   OnDestroy,
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 import { HealthComponent } from '../../components/interactive/health/health.component';
 import { PlayerService } from '../../services/player.service';
 import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component';
+import { GameStatsService } from '../../services/game-stats.service';
 
 @Component({
   selector: 'app-game',
@@ -43,6 +45,7 @@ export class GameComponent implements OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     public playerService: PlayerService,
+    public statsService: GameStatsService,
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.startBirdGeneration();
@@ -108,5 +111,9 @@ export class GameComponent implements OnDestroy {
     // Optional
     this.birds = [];
     this.playerService.stopTimer();
+    this.statsService.setNewGameStats(
+      this.playerService.getBirdsDestroyed(),
+      this.playerService.getTimeElapsed(),
+    );
   }
 }

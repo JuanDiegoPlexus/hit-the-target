@@ -1,0 +1,17 @@
+<div class="statsboardDiv" #statsboardElement>
+  <img
+    src="assets/leaderboard/leaderboard.avif"
+    alt="statsboard_table"
+    class="statsboardImg"
+    draggable="false"
+  />
+  <div class="statsboard">
+    <span class="statsboardTitle">Stats</span>
+    <span class="statsboardBody">Best Score - {{ bestScore }}</span>
+    <ng-container *ngFor="let game of gameHistory">
+      <span class="statsboardBody"
+        >{{ game.timeElapsed }}s, {{ game.birdsDestroyed }} birds
+      </span>
+    </ng-container>
+  </div>
+</div>

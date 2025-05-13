@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { GameStatsService } from '../../../services/game-stats.service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -8,8 +9,13 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrl: './leaderboard.component.scss',
 })
 export class LeaderboardComponent {
+  constructor(public statsService: GameStatsService) {}
   @ViewChild('leaderboardElement')
   leaderboardElement!: ElementRef<HTMLImageElement>;
+
+  get bestTime() {
+    return this.statsService.bestTime;
+  }
 
   leaderboardFall(): void {
     const leaderboard = this.leaderboardElement.nativeElement;
