@@ -1,28 +1,28 @@
 .hearts {
-  position: static; /* Contenedor relativo para posicionar los corazones */
-  width: 150px; /* Ancho total del contenedor */
-  height: 70px; /* Altura del contenedor */
+  position: static;
+  width: 150px;
+  height: 70px;
 }
 
 .hearts div {
-  position: absolute; /* Posiciona manualmente cada corazón */
+  position: absolute;
 }
 
 .hearts div:nth-child(1) {
-  right: 0; /* Primer corazón a la izquierda */
+  right: 0;
 }
 
 .hearts div:nth-child(2) {
-  right: 62px; /* Segundo corazón separado 70px del primero */
+  right: 62px;
 }
 
 .hearts div:nth-child(3) {
-  right: 124px; /* Tercer corazón separado 70px del segundo */
+  right: 124px;
 }
 
 .hearts img {
-  width: 75px; /* Ajusta el tamaño de los corazones */
-  height: auto; /* Mantiene la proporción de la imagen */
-  user-select: none; /* Evita que se seleccionen */
-  pointer-events: auto; /* Permite clics en los corazones */
+  width: 75px;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
 }

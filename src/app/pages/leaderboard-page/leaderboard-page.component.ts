@@ -12,10 +12,11 @@ import { LeaderboardComponent } from '../../components/interactive/leaderboard/l
 })
 export class LeaderboardPageComponent {
   private router = inject(Router);
-  @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
-  @ViewChild(LeaderboardComponent) leaderboardComponent!: LeaderboardComponent;
+  @ViewChild(RopeComponent) private ropeComponent!: RopeComponent;
+  @ViewChild(LeaderboardComponent)
+  private leaderboardComponent!: LeaderboardComponent;
 
-  animationAndRedirection(ropeClass: string, route: string) {
+  public animationAndRedirection(route: string): void {
     if (this.leaderboardComponent) {
       this.leaderboardComponent.leaderboardFall();
     }

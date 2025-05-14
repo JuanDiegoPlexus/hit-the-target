@@ -12,10 +12,11 @@ import { StatsboardComponent } from '../../components/interactive/statsboard/sta
 })
 export class StatsComponent {
   private router = inject(Router);
-  @ViewChild(RopeComponent) ropeComponent!: RopeComponent;
-  @ViewChild(StatsboardComponent) statsboardComponent!: StatsboardComponent;
+  @ViewChild(RopeComponent) private ropeComponent!: RopeComponent;
+  @ViewChild(StatsboardComponent)
+  private statsboardComponent!: StatsboardComponent;
 
-  animationAndRedirection(ropeClass: string, route: string) {
+  public animationAndRedirection(route: string): void {
     if (this.ropeComponent) {
       this.ropeComponent.ropePull();
     }

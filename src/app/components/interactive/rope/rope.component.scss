@@ -38,11 +38,11 @@
 
 app-rope-arrow-direction.arrow {
   position: absolute;
-  top: 25%; // Ajusta según lo que necesites (puedes usar 50% y transform si quieres centrar)
-  width: 70%; // Ajusta el tamaño de la flecha respecto a la cuerda
+  top: 25%;
+  width: 70%;
   margin-left: 15%;
   padding: 0;
   user-select: none;
   z-index: 2;
-  pointer-events: none; // Opcional: para que los clics pasen a la cuerda si quieres
+  pointer-events: none;
 }

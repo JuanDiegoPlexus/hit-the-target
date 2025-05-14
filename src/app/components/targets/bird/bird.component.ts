@@ -13,21 +13,21 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-bird1',
+  selector: 'app-bird',
   standalone: true,
   imports: [],
-  templateUrl: './bird1.component.html',
-  styleUrls: ['./bird1.component.scss'],
+  templateUrl: './bird.component.html',
+  styleUrls: ['./bird.component.scss'],
 })
-export class Bird1Component implements OnInit, OnDestroy {
+export class BirdComponent implements OnInit, OnDestroy {
   @ViewChild('yellowBirdElement', { static: true })
-  yellowbirdElement!: ElementRef<HTMLImageElement>;
-  @Input() id!: number;
-  @Output() birdDestroyed = new EventEmitter<number>();
+  private yellowbirdElement!: ElementRef<HTMLImageElement>;
+  @Input() public id!: number;
+  @Output() private birdDestroyed = new EventEmitter<number>();
 
   private animationFrameId: number | null = null;
   private wingSpeed = 100;
-  private speed = 1.2; //speed of the bird
+  private speed = 1.2;
   private destroyed = false;
   private images = [
     'assets/birds/yellow_flying_1.avif',
@@ -54,6 +54,10 @@ export class Bird1Component implements OnInit, OnDestroy {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
     }
+  }
+
+  public get getId(): number {
+    return this.id;
   }
 
   private startFrameCheck(): void {
@@ -108,7 +112,7 @@ export class Bird1Component implements OnInit, OnDestroy {
     return isOutOfBounds;
   }
 
-  moveRandomly(speed: number, wingSpeed: number): void {
+  private moveRandomly(speed: number, wingSpeed: number): void {
     const bird = this.yellowbirdElement.nativeElement;
     let currentTurn = 0;
 
@@ -139,7 +143,7 @@ export class Bird1Component implements OnInit, OnDestroy {
     }
   }
 
-  triggerExplosion(): void {
+  private triggerExplosion(): void {
     // Cancela cualquier animación en curso
     /*if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId); // Cancela el frame de animación

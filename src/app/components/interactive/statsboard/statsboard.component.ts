@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <-- Importa esto
+import { CommonModule } from '@angular/common';
 import { GameStatsService } from '../../../services/game-stats.service';
 
 @Component({
@@ -11,19 +11,19 @@ import { GameStatsService } from '../../../services/game-stats.service';
 })
 export class StatsboardComponent {
   @ViewChild('statsboardElement')
-  statsboardElement!: ElementRef<HTMLDivElement>;
+  private statsboardElement!: ElementRef<HTMLDivElement>;
 
   constructor(public statsService: GameStatsService) {}
 
-  get gameHistory() {
+  public get gameHistory(): { birdsDestroyed: number; timeElapsed: number }[] {
     return this.statsService.gameHistory;
   }
 
-  get bestScore() {
+  public get bestScore(): number {
     return this.statsService.bestScore;
   }
 
-  statsboardFall(): void {
+  public statsboardFall(): void {
     const statsboard = this.statsboardElement.nativeElement;
     statsboard.classList.remove('statsboardFall');
     void (statsboard as HTMLElement).offsetWidth;

@@ -9,13 +9,13 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class HealthComponent {
   @ViewChild('firstHeartElement')
-  firstHeartElement!: ElementRef<HTMLImageElement>;
+  private firstHeartElement!: ElementRef<HTMLImageElement>;
   @ViewChild('secondHeartElement')
-  secondHeartElement!: ElementRef<HTMLImageElement>;
+  private secondHeartElement!: ElementRef<HTMLImageElement>;
   @ViewChild('thirdHeartElement')
-  thirdHeartElement!: ElementRef<HTMLImageElement>;
+  private thirdHeartElement!: ElementRef<HTMLImageElement>;
 
-  damage(): void {
+  public damage(): void {
     const hearts = [
       this.firstHeartElement.nativeElement,
       this.secondHeartElement.nativeElement,
@@ -24,11 +24,11 @@ export class HealthComponent {
 
     for (const heart of hearts) {
       if (heart.src.includes('assets/hearts/heart.avif')) {
-        heart.src = 'assets/hearts/half_heart.avif'; // Cambia a medio corazón
+        heart.src = 'assets/hearts/half_heart.avif';
         console.log('Heart changed to half heart:', heart.src);
         return;
       } else if (heart.src.includes('assets/hearts/half_heart.avif')) {
-        heart.src = 'assets/hearts/broken_heart.avif'; // Cambia a corazón roto
+        heart.src = 'assets/hearts/broken_heart.avif';
         return;
       }
     }

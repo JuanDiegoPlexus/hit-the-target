@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 })
 export class BigLeaderboardComponent {
   private router = inject(Router);
-  @Input() playerName = '';
-  @Input() birdsDestroyed = 0;
-  @Input() timeSurvived = 0;
+  @Input() public playerName = '';
+  @Input() public birdsDestroyed = 0;
+  @Input() public timeSurvived = 0;
 
-  goHome() {
+  public goHome(): void {
     this.router.navigate(['/']);
   }
 }

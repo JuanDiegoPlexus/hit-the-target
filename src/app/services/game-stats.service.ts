@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class GameStatsService {
   constructor() {}
 
+  private _playerName = 'JuanDi';
   private _gameHistory: { birdsDestroyed: number; timeElapsed: number }[] = [];
   private totalTimePLayed = 0;
   private gamesPlayed = 0;
@@ -13,7 +14,7 @@ export class GameStatsService {
   private _bestScore = 0;
   private _bestTime = 0;
 
-  setNewGameStats(birdsDestroyed: number, timeElapsed: number) {
+  public setNewGameStats(birdsDestroyed: number, timeElapsed: number): void {
     this.gamesPlayed++;
     this.totalTimePLayed += timeElapsed;
     this.totalBirdsDestroyed += birdsDestroyed;
@@ -27,13 +28,17 @@ export class GameStatsService {
     this._bestTime = Math.max(this._bestTime, timeElapsed);
   }
 
-  get bestScore() {
+  public get playerName(): string {
+    return this._playerName;
+  }
+
+  public get bestScore(): number {
     return this._bestScore;
   }
-  get bestTime() {
+  public get bestTime(): number {
     return this._bestTime;
   }
-  get gameHistory() {
+  public get gameHistory(): { birdsDestroyed: number; timeElapsed: number }[] {
     return this._gameHistory;
   }
 }

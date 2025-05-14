@@ -25,33 +25,30 @@ export class WelcomeComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
 
-  @ViewChild(BannerComponent) bannerComponent!: BannerComponent;
+  @ViewChild(BannerComponent) private bannerComponent!: BannerComponent;
 
   @ViewChild('leaderboardRope', { static: true })
-  ropeComponentLeaderboard!: RopeComponent;
+  private ropeComponentLeaderboard!: RopeComponent;
 
-  @ViewChild('statsRope', { static: true }) ropeComponentStats!: RopeComponent;
-  @ViewChild(PlaybuttonComponent) playbuttonComponent!: PlaybuttonComponent;
+  @ViewChild('statsRope', { static: true })
+  private ropeComponentStats!: RopeComponent;
+  @ViewChild(PlaybuttonComponent)
+  private playbuttonComponent!: PlaybuttonComponent;
 
   ngAfterViewInit(): void {
     if (this.bannerComponent) {
-      this.bannerComponent.animateLogoDown(); // Llama a la animación hacia abajo al regresar
-    } else {
-      console.error('BannerComponent is not initialized');
+      this.bannerComponent.animateLogoDown();
     }
-
     if (isPlatformBrowser(this.platformId)) {
       const video = document.querySelector('video');
       if (video) {
         video.muted = true;
-        video.play().catch((err) => {
-          console.warn('Autoplay blocked:', err);
-        });
+        video.play();
       }
     }
   }
 
-  animationAndRedirection(ropeClass: string, route: string): void {
+  public animationAndRedirection(ropeClass: string, route: string): void {
     if (ropeClass === 'leaderboardRope' && this.ropeComponentLeaderboard) {
       this.ropeComponentLeaderboard.ropePull();
     } else if (ropeClass === 'statsRope' && this.ropeComponentStats) {

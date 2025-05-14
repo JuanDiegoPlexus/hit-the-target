@@ -42,7 +42,7 @@
   }
 }
 
-::ng-deep .bigleaderboardTitle {
+.bigleaderboardTitle {
   font-family: 'Stardew', sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
@@ -63,7 +63,7 @@
     2px 2px 0 #f3b94a;
 }
 
-::ng-deep .bigleaderboardBody {
+.bigleaderboardBody {
   font-family: 'Stardew', sans-serif;
   font-size: 1.5rem;
   margin-top: 0;
@@ -83,7 +83,7 @@
     2px 2px 0 #f3b94a;
 }
 
-::ng-deep .bigleaderboardDiv {
+.bigleaderboardDiv {
   height: 150%;
   width: auto;
   max-height: 90vh;
@@ -98,7 +98,7 @@
   transform-origin: 50% -15%;
 }
 
-::ng-deep .bigleaderboard {
+.bigleaderboard {
   position: absolute;
   top: 0;
   left: 0;
@@ -115,7 +115,7 @@
   box-sizing: border-box;
 }
 
-::ng-deep .bigleaderboardImg {
+.bigleaderboardImg {
   display: block;
   position: absolute;
   top: 0;
@@ -127,7 +127,7 @@
   pointer-events: none;
 }
 
-::ng-deep .go_home_button {
+.go_home_button {
   width: 20%;
   height: 10%;
   bottom: 0;
@@ -137,7 +137,7 @@
   align-items: center;
 }
 
-::ng-deep .go_home_button img {
+.go_home_button img {
   width: 100%;
   height: auto;
   cursor: pointer;

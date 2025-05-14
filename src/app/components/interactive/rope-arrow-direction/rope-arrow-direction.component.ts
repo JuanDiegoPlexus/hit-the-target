@@ -16,11 +16,19 @@ import {
 })
 export class RopeArrowDirectionComponent {
   @ViewChild('arrowDirectionElement')
-  arrowDirectionElement!: ElementRef<HTMLImageElement>;
-  isShaking = false;
-  @Input() rotation: number = 0;
+  private arrowDirectionElement!: ElementRef<HTMLImageElement>;
+  private isShaking = false;
+  @Input() public rotation: number = 0;
 
-  tremble(): void {
+  public get getRotation() {
+    return this.rotation;
+  }
+
+  public get getIsShaking() {
+    return this.isShaking;
+  }
+
+  public tremble(): void {
     if (this.arrowDirectionElement) {
       const playButton = this.arrowDirectionElement.nativeElement;
       playButton.classList.remove('tremble');

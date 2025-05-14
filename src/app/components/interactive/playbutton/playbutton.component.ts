@@ -9,9 +9,9 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class PlaybuttonComponent {
   @ViewChild('playButtonElement')
-  playButtonElement!: ElementRef<HTMLImageElement>;
+  private playButtonElement!: ElementRef<HTMLImageElement>;
 
-  dissapear(): void {
+  public dissapear(): void {
     if (this.playButtonElement) {
       const playButton = this.playButtonElement.nativeElement;
       playButton.classList.remove('dissapear');

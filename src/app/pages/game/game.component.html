@@ -1,24 +1,27 @@
 <div class="game-container" draggable="false" style="user-select: none">
   <div *ngFor="let bird of birds" class="bird-container" draggable="false">
-    <app-bird1
+    <app-bird
       [id]="bird.id"
       class="yellowBirdElement"
       (birdDestroyed)="onBirdDestroyed(bird.id)"
       (mousedown)="onBirdDestroyedByClick(bird.id)"
       draggable="false"
     >
-    </app-bird1>
+    </app-bird>
   </div>
-  <div draggable="false">
-    <img
-      #timerElement
-      src="assets/letters/time.avif"
-      class="timerLetters"
-      draggable="false"
-    />
-  </div>
-  <div class="timer" draggable="false">
-    <span>{{ playerService.getTimeElapsed() }}</span>
+
+  <div class="timer-container" draggable="false">
+    <div draggable="false">
+      <img
+        #timerElement
+        src="assets/letters/time.avif"
+        class="timerLetters"
+        draggable="false"
+      />
+    </div>
+    <div class="timer" draggable="false">
+      <span>{{ playerService.getTimeElapsed() }}</span>
+    </div>
   </div>
 
   <app-health class="heart"></app-health>

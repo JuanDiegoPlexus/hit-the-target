@@ -10,11 +10,11 @@ import { RopeArrowDirectionComponent } from '../rope-arrow-direction/rope-arrow-
   styleUrls: ['./rope.component.scss'],
 })
 export class RopeComponent {
-  @ViewChild('ropeElement') ropeElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('ropeElement') private ropeElement!: ElementRef<HTMLImageElement>;
 
-  @Input() rotation: number = 0;
+  @Input() public rotation: number = 0;
 
-  ropePull(): void {
+  public ropePull(): void {
     if (this.ropeElement) {
       const rope = this.ropeElement.nativeElement;
       rope.classList.remove('bounce');

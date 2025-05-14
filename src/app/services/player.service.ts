@@ -9,44 +9,44 @@ export class PlayerService {
   private timeElapsed = 0;
   private timeInterval: any;
 
-  setPlayerName(name: string) {
+  public setPlayerName(name: string): void {
     this.playerName = name;
   }
 
-  getPlayerName(): string {
+  public getPlayerName(): string {
     return this.playerName;
   }
 
-  incrementBirdsDestroyed() {
+  public incrementBirdsDestroyed(): void {
     this.birdsDestroyed++;
   }
 
-  getBirdsDestroyed(): number {
+  public getBirdsDestroyed(): number {
     return this.birdsDestroyed;
   }
 
-  resetStats() {
+  public resetStats(): void {
     this.birdsDestroyed = 0;
   }
 
-  startTimer() {
+  public startTimer(): void {
     this.timeInterval = setInterval(() => {
       this.timeElapsed++;
     }, 1000);
   }
-  stopTimer() {
+  public stopTimer(): void {
     clearInterval(this.timeInterval);
   }
 
-  getTimer() {
+  public getTimer(): any {
     return this.timeInterval;
   }
 
-  getTimeElapsed(): number {
+  public getTimeElapsed(): number {
     return this.timeElapsed;
   }
 
-  resetTimeElapsed() {
+  public resetTimeElapsed(): void {
     this.timeElapsed = 0;
   }
 }

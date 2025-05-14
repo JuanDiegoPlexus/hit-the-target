@@ -9,13 +9,13 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./banner.component.scss'],
 })
 export class BannerComponent implements AfterViewInit {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngAfterViewInit(): void {
     this.animateLogoDown();
   }
 
-  animateLogoUp(): void {
+  public animateLogoUp(): void {
     if (isPlatformBrowser(this.platformId)) {
       const logo = document.querySelector('.logo');
       if (logo) {
@@ -26,7 +26,7 @@ export class BannerComponent implements AfterViewInit {
     }
   }
 
-  animateLogoDown(): void {
+  public animateLogoDown(): void {
     if (isPlatformBrowser(this.platformId)) {
       const logo = document.querySelector('.logo');
       if (logo) {

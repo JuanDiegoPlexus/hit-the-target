@@ -11,13 +11,17 @@ import { GameStatsService } from '../../../services/game-stats.service';
 export class LeaderboardComponent {
   constructor(public statsService: GameStatsService) {}
   @ViewChild('leaderboardElement')
-  leaderboardElement!: ElementRef<HTMLImageElement>;
+  private leaderboardElement!: ElementRef<HTMLImageElement>;
 
-  get bestTime() {
+  public get bestTime(): number {
     return this.statsService.bestTime;
   }
 
-  leaderboardFall(): void {
+  public get playerName(): string {
+    return this.statsService.playerName;
+  }
+
+  public leaderboardFall(): void {
     const leaderboard = this.leaderboardElement.nativeElement;
     leaderboard.classList.remove('leaderboardFall');
     void (leaderboard as HTMLElement).offsetWidth;
