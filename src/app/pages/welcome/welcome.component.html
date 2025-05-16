@@ -6,12 +6,14 @@
       #leaderboardRope
       class="leaderboardRope"
       [rotation]="-90"
+      [srcBackImage]="'assets/leaderboard/direction_leaderboard_up.png'"
       (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
     ></app-rope>
     <app-rope
       #statsRope
       class="statsRope"
       [rotation]="90"
+      [srcBackImage]="'assets/leaderboard/direction_stats_up.png'"
       (click)="animationAndRedirection('statsRope', '/stats')"
     ></app-rope>
   </div>

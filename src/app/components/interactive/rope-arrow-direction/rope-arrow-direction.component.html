@@ -1,8 +1,20 @@
-<img
-  src="assets/leaderboard/direction.avif"
-  [class.tremble]="getIsShaking"
-  alt="playbutton"
-  draggable="false"
-  class="arrow"
-  [style.transform]="'rotate(' + getRotation + 'deg)'"
-/>
+<div
+  class="flip-container"
+  (mouseenter)="flip(true)"
+  (mouseleave)="flip(false)"
+>
+  <img
+    #frontImg
+    [src]="images[0]"
+    class="arrow front"
+    alt="front"
+    draggable="false"
+  />
+  <img
+    #backImg
+    [src]="images[1]"
+    class="arrow back"
+    alt="back"
+    draggable="false"
+  />
+</div>

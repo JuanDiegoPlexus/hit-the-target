@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import { BannerComponent } from '../../components/background/banner/banner.component';
 import { RopeComponent } from '../../components/interactive/rope/rope.component';
 import { PlaybuttonComponent } from '../../components/interactive/playbutton/playbutton.component';
-
 @Component({
   selector: 'app-welcome',
   standalone: true,

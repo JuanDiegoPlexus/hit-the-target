@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { GameStatsService } from '../../../services/game-stats.service';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-leaderboard',
@@ -23,8 +24,12 @@ export class LeaderboardComponent {
 
   public leaderboardFall(): void {
     const leaderboard = this.leaderboardElement.nativeElement;
-    leaderboard.classList.remove('leaderboardFall');
-    void (leaderboard as HTMLElement).offsetWidth;
-    leaderboard.classList.add('leaderboardFall');
+    gsap.to(leaderboard, {
+      y: window.innerHeight,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'ease.in',
+      clearProps: 'all',
+    });
   }
 }

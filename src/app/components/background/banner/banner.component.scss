@@ -1,33 +1,3 @@
-@keyframes logoUp {
-  0% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1) translateY(-100px);
-    opacity: 0;
-  }
-}
-
-@keyframes logoDown {
-  0% {
-    transform: scale(1) translateY(-100px);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
-
-.logo-up {
-  animation: logoUp 0.4s ease forwards;
-}
-
-.logo-down {
-  animation: logoDown 0.4s ease backwards;
-}
-
 .logo {
   display: block;
   user-select: none;
@@ -38,8 +8,4 @@
   margin: 0 auto;
   width: 28%;
   z-index: 2;
-}
-
-.logo-without-animation {
-  animation: none !important;
 }

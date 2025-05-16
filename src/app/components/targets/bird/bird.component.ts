@@ -11,6 +11,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-bird',
@@ -116,9 +117,10 @@ export class BirdComponent implements OnInit, OnDestroy {
     const bird = this.yellowbirdElement.nativeElement;
     let currentTurn = 0;
 
-    const move = () => {
+    const animate = () => {
       if (currentTurn === 0) {
         const initialY = Math.random() * (window.innerHeight / 1.5);
+        //gsap.set(bird, { x: 0, y: initialY });
         bird.style.transform = `translate(0px, ${initialY}px)`;
       }
 
@@ -128,18 +130,27 @@ export class BirdComponent implements OnInit, OnDestroy {
       const randomY =
         Math.random() * (window.innerHeight - bird.offsetHeight) * 0.7;
 
-      bird.style.transform = `translate(${randomX}px, ${randomY}px)`;
-
       this.currentImageIndex =
         (this.currentImageIndex + 1) % this.images.length;
       bird.src = this.images[this.currentImageIndex];
 
+      gsap.to(bird, {
+        x: randomX,
+        y: randomY,
+        duration: wingSpeed / 1000,
+        ease: 'linear',
+        onComplete: () => {
+          if (!this.destroyed) {
+            animate();
+          }
+        },
+      });
+
       currentTurn++;
-      setTimeout(move, wingSpeed);
     };
 
     if (!this.destroyed) {
-      move();
+      animate();
     }
   }
 

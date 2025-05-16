@@ -7,12 +7,10 @@ import {
   ViewChild,
   ViewChildren,
   QueryList,
-  inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { BirdComponent } from '../../components/targets/bird/bird.component';
-import { Router } from '@angular/router';
 import { HealthComponent } from '../../components/interactive/health/health.component';
 import { PlayerService } from '../../services/player.service';
 import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component';
