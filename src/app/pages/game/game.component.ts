@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Component,
   OnDestroy,
@@ -37,7 +36,7 @@ export class GameComponent implements OnDestroy {
   public birds: { id: number }[] = [];
   public showLeaderboard = false;
 
-  private birdTimeout: any;
+  private birdTimeout: ReturnType<typeof setTimeout> | null = null;
   private nextId = 0;
   private birdsLost = 0;
 

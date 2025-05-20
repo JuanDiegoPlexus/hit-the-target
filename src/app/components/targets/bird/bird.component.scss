@@ -7,3 +7,15 @@
   user-select: none;
   pointer-events: auto;
 }
+
+@media (max-width: 1024px) and (min-width: 601px) {
+  ::ng-deep .yellowBirdElement img {
+    width: 10%;
+  }
+}
+
+@media (max-width: 600px) {
+  ::ng-deep .yellowBirdElement img {
+    width: 15%;
+  }
+}

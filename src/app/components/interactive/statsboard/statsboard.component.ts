@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStatsService } from '../../../services/game-stats.service';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-statsboard',
@@ -25,8 +26,12 @@ export class StatsboardComponent {
 
   public statsboardFall(): void {
     const statsboard = this.statsboardElement.nativeElement;
-    statsboard.classList.remove('statsboardFall');
-    void (statsboard as HTMLElement).offsetWidth;
-    statsboard.classList.add('statsboardFall');
+    gsap.to(statsboard, {
+      y: window.innerHeight,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'ease.in',
+      clearProps: 'all',
+    });
   }
 }

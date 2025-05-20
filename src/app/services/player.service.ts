@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -7,7 +6,7 @@ export class PlayerService {
   private birdsDestroyed: number = 0;
 
   private timeElapsed = 0;
-  private timeInterval: any;
+  private timeInterval: number | NodeJS.Timeout | null = null;
 
   public setPlayerName(name: string): void {
     this.playerName = name;
@@ -34,11 +33,14 @@ export class PlayerService {
       this.timeElapsed++;
     }, 1000);
   }
+
   public stopTimer(): void {
-    clearInterval(this.timeInterval);
+    if (this.timeInterval !== null) {
+      clearInterval(this.timeInterval as number);
+    }
   }
 
-  public getTimer(): any {
+  public getTimer(): number | NodeJS.Timeout | null {
     return this.timeInterval;
   }
 

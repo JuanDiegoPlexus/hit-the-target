@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 8vw;
+  width: 80%;
   padding: 0;
   margin: 0;
 }
@@ -12,11 +12,9 @@
 .rope {
   margin: 0;
   padding: 0;
-  width: 120%;
+  width: 40%;
   height: auto;
   user-select: none;
-  max-height: 220px;
-  min-height: 80px;
   display: block;
 }
 

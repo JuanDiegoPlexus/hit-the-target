@@ -13,10 +13,10 @@
   transform: none;
   color: #1a1200;
   text-shadow:
-    -2px -2px 0 #f3b94a,
-    2px -2px 0 #f3b94a,
-    -2px 2px 0 #f3b94a,
-    2px 2px 0 #f3b94a;
+    -2px -2px 0 #efcd8d,
+    2px -2px 0 #efcd8d,
+    -2px 2px 0 #efcd8d,
+    2px 2px 0 #efcd8d;
 }
 
 .leaderboardBody {
@@ -32,13 +32,7 @@
   right: auto;
   transform: none;
   color: #1a1200;
-  text-shadow:
-    -2px -2px 0 #f3b94a,
-    2px -2px 0 #f3b94a,
-    -2px 2px 0 #f3b94a,
-    2px 2px 0 #f3b94a;
 }
-
 .leaderboardDiv {
   height: 100%;
   width: auto;
@@ -79,4 +73,45 @@
   object-fit: contain;
   z-index: 1;
   pointer-events: none;
+}
+
+/* Tablets (por ejemplo, entre 600px y 1024px) */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .leaderboardDiv {
+    left: 10%;
+    top: -2%;
+    max-height: 80vh;
+    aspect-ratio: 2/3;
+    width: 80vw;
+    margin: 0 auto;
+  }
+  .leaderboardTitle {
+    font-size: 2rem;
+    max-width: 95%;
+  }
+  .leaderboardBody {
+    font-size: 1.2rem;
+    max-width: 95%;
+  }
+}
+
+/* Móviles (600px o menos) */
+@media (max-width: 600px) {
+  .leaderboardDiv {
+    left: 0;
+    top: 0;
+    width: 98vw;
+    max-height: 90vh;
+    aspect-ratio: 2/3;
+    margin: 0 auto;
+    z-index: 1;
+  }
+  .leaderboardTitle {
+    font-size: 1.2rem;
+    max-width: 98%;
+  }
+  .leaderboardBody {
+    font-size: 1rem;
+    max-width: 98%;
+  }
 }

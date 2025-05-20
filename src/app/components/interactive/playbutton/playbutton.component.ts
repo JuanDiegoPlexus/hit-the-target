@@ -7,7 +7,7 @@ import {
   Inject,
   PLATFORM_ID,
 } from '@angular/core';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-playbutton',
@@ -18,30 +18,56 @@ import { gsap } from 'gsap';
 })
 export class PlaybuttonComponent implements AfterViewInit {
   @ViewChild('playButtonElement')
-  private playButtonElement!: ElementRef<HTMLImageElement>;
+  private playButtonElement!: ElementRef<HTMLDivElement>;
+  private breatheTween?: gsap.core.Tween;
+
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.playButtonElement) {
-        gsap.to(this.playButtonElement.nativeElement, {
-          scale: 1.08,
-          duration: 1.2,
-          yoyo: true,
-          repeat: -1,
-          ease: 'power1.inOut',
-        });
-      }
+    if (isPlatformBrowser(this.platformId) && this.playButtonElement) {
+      this.startBreathe();
     }
+  }
+
+  private startBreathe(): void {
+    this.breatheTween = gsap.to(this.playButtonElement.nativeElement, {
+      scale: 1.08,
+      duration: 1.2,
+      yoyo: true,
+      repeat: -1,
+      ease: 'power1.inOut',
+    });
   }
 
   public dissapear(): void {
     if (this.playButtonElement) {
-      const playButton = this.playButtonElement.nativeElement;
-      gsap.to(playButton, {
+      gsap.to(this.playButtonElement.nativeElement, {
         scale: 0,
         duration: 0.4,
         ease: 'power1.in',
+      });
+    }
+  }
+
+  public hoverPlayButton(): void {
+    if (this.playButtonElement) {
+      gsap.to(this.playButtonElement.nativeElement, {
+        scale: 1.2,
+        duration: 0.4,
+        ease: 'power1.in',
+      });
+    }
+  }
+
+  public hoverLeaveButton(): void {
+    if (this.playButtonElement) {
+      gsap.to(this.playButtonElement.nativeElement, {
+        scale: 1.08,
+        duration: 0.4,
+        ease: 'power1.out',
+        onComplete: () => {
+          //this.breatheTween.
+        },
       });
     }
   }

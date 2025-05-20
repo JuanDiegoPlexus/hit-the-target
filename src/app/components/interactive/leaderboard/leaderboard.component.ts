@@ -27,7 +27,7 @@ export class LeaderboardComponent {
     gsap.to(leaderboard, {
       y: window.innerHeight,
       opacity: 0,
-      duration: 0.5,
+      duration: 0.8,
       ease: 'ease.in',
       clearProps: 'all',
     });
