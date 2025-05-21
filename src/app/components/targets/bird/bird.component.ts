@@ -28,8 +28,12 @@ export class BirdComponent implements OnInit, OnDestroy {
 
   private animationFrameId: number | null = null;
   private wingSpeed = 100;
-  private speed = 1.2;
-  private destroyed = false;
+  private speed = 1;
+
+  private probXAxis = 0.9;
+
+  private isDestroyed = false;
+  private isPaused = false;
   private images = [
     'assets/birds/yellow_flying_1.avif',
     'assets/birds/yellow_flying_2.avif',
@@ -46,8 +50,9 @@ export class BirdComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.moveRandomly(this.speed, this.wingSpeed);
+      this.moveRandomly(this.speed);
       this.startFrameCheck();
+      this.startWingAnimation();
     }
   }
 
@@ -57,8 +62,22 @@ export class BirdComponent implements OnInit, OnDestroy {
     }
   }
 
-  public get getId(): number {
-    return this.id;
+  private lastWingAnimationTime = 0;
+
+  private startWingAnimation(): void {
+    const animate = (timestamp: number) => {
+      const elapsed = timestamp - this.lastWingAnimationTime;
+
+      if (elapsed >= this.wingSpeed) {
+        this.animateWings();
+        this.lastWingAnimationTime = timestamp;
+      }
+
+      if (!this.isDestroyed && !this.isPaused) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
   }
 
   private startFrameCheck(): void {
@@ -113,7 +132,7 @@ export class BirdComponent implements OnInit, OnDestroy {
     return isOutOfBounds;
   }
 
-  private moveRandomly(speed: number, wingSpeed: number): void {
+  private moveRandomly(speed: number): void {
     const bird = this.yellowbirdElement.nativeElement;
     let currentTurn = 0;
 
@@ -124,23 +143,16 @@ export class BirdComponent implements OnInit, OnDestroy {
         bird.style.transform = `translate(0px, ${initialY}px)`;
       }
 
-      const randomX =
-        Math.random() * (window.innerWidth - bird.offsetWidth) * 0.7 +
-        window.innerWidth * speed;
-      const randomY =
-        Math.random() * (window.innerHeight - bird.offsetHeight) * 0.7;
-
-      this.currentImageIndex =
-        (this.currentImageIndex + 1) % this.images.length;
-      bird.src = this.images[this.currentImageIndex];
+      const randomX = this.getNextMovementX();
+      const randomY = this.getNextMovementY();
 
       gsap.to(bird, {
         x: randomX,
         y: randomY,
-        duration: wingSpeed / 1000,
+        duration: speed,
         ease: 'linear',
         onComplete: () => {
-          if (!this.destroyed) {
+          if (!this.isDestroyed && !this.isPaused) {
             animate();
           }
         },
@@ -149,9 +161,67 @@ export class BirdComponent implements OnInit, OnDestroy {
       currentTurn++;
     };
 
-    if (!this.destroyed) {
+    if (!this.isDestroyed && !this.isPaused) {
       animate();
     }
+  }
+
+  private getNextMovementX(): number {
+    const bird = this.yellowbirdElement.nativeElement;
+
+    const currentX = (gsap.getProperty(bird, 'x') as number) || 0;
+
+    const randomValue = Math.random();
+
+    if (randomValue < this.probXAxis) {
+      return currentX + window.innerWidth / 10;
+    }
+
+    return currentX;
+  }
+
+  private getNextMovementY(): number {
+    const bird = this.yellowbirdElement.nativeElement;
+
+    const currentY = (gsap.getProperty(bird, 'y') as number) || 0;
+
+    const centerY = window.innerHeight / 2;
+
+    const range = 100;
+
+    const distanceFromCenter = Math.abs(currentY - centerY);
+    const distanceFromEdge = Math.min(currentY, window.innerHeight - currentY);
+
+    const probYAxis =
+      (distanceFromEdge / (window.innerHeight / 2)) ** 2 *
+      (1 - distanceFromCenter / (window.innerHeight / 2));
+
+    const direction = Math.random() < 0.5 ? -1 : 1;
+    const movement = direction * (Math.random() * range * probYAxis);
+
+    const newY = currentY + movement;
+    return Math.max(0, Math.min(newY, window.innerHeight - bird.offsetHeight));
+  }
+
+  private animateWings(): void {
+    const bird = this.yellowbirdElement.nativeElement;
+
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+    bird.src = this.images[this.currentImageIndex];
+  }
+
+  public stopMovement(): void {
+    const bird = this.yellowbirdElement.nativeElement;
+
+    gsap.killTweensOf(bird);
+    this.isPaused = true;
+  }
+
+  public resumeMovement(): void {
+    this.isPaused = false;
+
+    this.moveRandomly(this.speed);
+    this.startWingAnimation();
   }
 
   private triggerExplosion(): void {
@@ -172,5 +242,9 @@ export class BirdComponent implements OnInit, OnDestroy {
     setTimeout(() => {
     this.destroyComponent();
     }, 500); // Espera 0.5 segundos antes de eliminar el componente*/
+  }
+
+  public get getId(): number {
+    return this.id;
   }
 }

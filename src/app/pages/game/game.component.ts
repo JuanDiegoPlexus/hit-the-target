@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewChildren,
   QueryList,
+  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,7 @@ import { HealthComponent } from '../../components/interactive/health/health.comp
 import { PlayerService } from '../../services/player.service';
 import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component';
 import { GameStatsService } from '../../services/game-stats.service';
+import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-tab.component';
 
 @Component({
   selector: 'app-game',
@@ -23,6 +25,7 @@ import { GameStatsService } from '../../services/game-stats.service';
     CommonModule,
     HealthComponent,
     BigLeaderboardComponent,
+    PauseTabComponent,
   ],
   providers: [PlayerService],
   templateUrl: './game.component.html',
@@ -35,6 +38,8 @@ export class GameComponent implements OnDestroy {
 
   public birds: { id: number }[] = [];
   public showLeaderboard = false;
+  public showPauseTab = false;
+  public stopClicks = false;
 
   private birdTimeout: ReturnType<typeof setTimeout> | null = null;
   private nextId = 0;
@@ -65,14 +70,16 @@ export class GameComponent implements OnDestroy {
   }
 
   private spawnBird(): void {
-    this.birds.push({ id: this.nextId++ });
-
     const minDelay = 150;
     const maxDelay = 1000;
     const speedUp = Math.max(
       minDelay,
       maxDelay - this.playerService.getTimeElapsed() * 30,
     );
+
+    if (!this.showPauseTab) {
+      this.birds.push({ id: this.nextId++ });
+    }
 
     this.birdTimeout = setTimeout(() => this.spawnBird(), speedUp);
   }
@@ -112,5 +119,35 @@ export class GameComponent implements OnDestroy {
       this.playerService.incrementBirdsDestroyed();
       this.birds = this.birds.filter((bird) => bird.id !== id);
     }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.togglePauseTab();
+    }
+  }
+
+  private togglePauseTab(): void {
+    this.showPauseTab = !this.showPauseTab;
+
+    this.birdComponents.forEach((birdComponent) => {
+      if (this.showPauseTab) {
+        birdComponent.stopMovement();
+        this.playerService.pauseTimer();
+        this.preventClicks();
+      } else {
+        birdComponent.resumeMovement();
+        this.playerService.resumeTimer();
+        this.resumeClicks();
+      }
+    });
+  }
+
+  private preventClicks(): void {
+    this.stopClicks = true;
+  }
+  private resumeClicks(): void {
+    this.stopClicks = false;
   }
 }

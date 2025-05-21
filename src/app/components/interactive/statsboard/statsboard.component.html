@@ -8,10 +8,8 @@
   <div class="statsboard">
     <span class="statsboardTitle">Stats</span>
     <span class="statsboardBody">Best Score - {{ bestScore }}</span>
-    <ng-container *ngFor="let game of gameHistory">
-      <span class="statsboardBody"
-        >{{ game.timeElapsed }}s, {{ game.birdsDestroyed }} birds
-      </span>
-    </ng-container>
+    <span *ngFor="let game of gameHistory" class="statsboardBody">
+      {{ game.timeElapsed }}s, {{ game.birdsDestroyed }} birds
+    </span>
   </div>
 </div>

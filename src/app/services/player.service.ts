@@ -34,9 +34,24 @@ export class PlayerService {
     }, 1000);
   }
 
+  public resumeTimer(): void {
+    if (this.timeInterval === null) {
+      this.timeInterval = setInterval(() => {
+        this.timeElapsed++;
+      }, 1000);
+    }
+  }
+
   public stopTimer(): void {
     if (this.timeInterval !== null) {
       clearInterval(this.timeInterval as number);
+    }
+  }
+
+  public pauseTimer(): void {
+    if (this.timeInterval !== null) {
+      clearInterval(this.timeInterval as number);
+      this.timeInterval = null;
     }
   }
 

@@ -19,24 +19,13 @@ import gsap from 'gsap';
 export class PlaybuttonComponent implements AfterViewInit {
   @ViewChild('playButtonElement')
   private playButtonElement!: ElementRef<HTMLDivElement>;
-  private breatheTween?: gsap.core.Tween;
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId) && this.playButtonElement) {
-      this.startBreathe();
+      this.hoverPlayButton(false);
     }
-  }
-
-  private startBreathe(): void {
-    this.breatheTween = gsap.to(this.playButtonElement.nativeElement, {
-      scale: 1.08,
-      duration: 1.2,
-      yoyo: true,
-      repeat: -1,
-      ease: 'power1.inOut',
-    });
   }
 
   public dissapear(): void {
@@ -49,25 +38,31 @@ export class PlaybuttonComponent implements AfterViewInit {
     }
   }
 
-  public hoverPlayButton(): void {
-    if (this.playButtonElement) {
+  public hoverPlayButton(isHover: boolean): void {
+    if (!this.playButtonElement) return;
+
+    if (isHover) {
       gsap.to(this.playButtonElement.nativeElement, {
         scale: 1.2,
-        duration: 0.4,
+        duration: 0.6,
         ease: 'power1.in',
+        repeat: -1,
+        yoyo: true,
       });
-    }
-  }
+    } else {
+      gsap.killTweensOf(this.playButtonElement.nativeElement);
 
-  public hoverLeaveButton(): void {
-    if (this.playButtonElement) {
-      gsap.to(this.playButtonElement.nativeElement, {
-        scale: 1.08,
+      const tl = gsap.timeline();
+      tl.to(this.playButtonElement.nativeElement, {
+        scale: 1,
         duration: 0.4,
         ease: 'power1.out',
-        onComplete: () => {
-          //this.breatheTween.
-        },
+      }).to(this.playButtonElement.nativeElement, {
+        scale: 1.05,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.out',
       });
     }
   }
