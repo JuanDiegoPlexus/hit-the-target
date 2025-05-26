@@ -1,15 +1,11 @@
 <div class="game-container" draggable="false" style="user-select: none">
-  <div *ngFor="let bird of birds" class="bird-container" draggable="false">
-    <app-bird
-      [id]="bird.id"
-      class="yellowBirdElement"
-      (birdDestroyed)="onBirdDestroyed(bird.id)"
-      if
-      (mousedown)="!stopClicks && onBirdDestroyedByClick(bird.id)"
-      draggable="false"
-    >
-    </app-bird>
-  </div>
+  <app-bird
+    *ngFor="let bird of birds"
+    [id]="bird.id"
+    class="yellowBirdElement"
+    (birdDestroyed)="onBirdDestroyed($event)"
+    draggable="false"
+  ></app-bird>
 
   <div class="timer-container" draggable="false">
     <div draggable="false">

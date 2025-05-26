@@ -8,16 +8,14 @@
   z-index: 2;
   user-select: none;
   width: 5%;
+  pointer-events: none;
 }
 
 .timer {
-  position: absolute;
   font-family: 'Stardew', sans-serif;
   font-size: 480%;
+
   z-index: 2;
-  margin-top: -1.5vh;
-  height: auto;
-  left: 190px;
   user-select: none;
   color: #f3b94a;
   text-shadow:
@@ -25,36 +23,56 @@
     0.3vh -0.3vh 0 #7a5a1a,
     -0.3vh 0.3vh 0 #7a5a1a,
     0.3vh 0.3vh 0 #7a5a1a;
+  pointer-events: none;
+  text-align: left;
+
+  margin-left: 10px;
 }
 
 .timerLetters {
-  position: absolute;
   width: 150px;
+
   height: max-content;
   user-select: none;
   z-index: 2;
+  pointer-events: none;
 }
 
 .timer-container {
   position: absolute;
   top: 4vh;
   left: 4vw;
-  width: 22vw;
-  aspect-ratio: 4/1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
   z-index: 2;
+  pointer-events: none;
 }
 
-/* Tablets (entre 600px y 1024px) */
+@media (min-width: 1025px) {
+  .timer-container {
+    top: 3vh;
+    left: 3vw;
+  }
+
+  .timerLetters {
+    width: 200px;
+  }
+
+  .timer {
+    font-size: 700%;
+    margin-left: 40px;
+  }
+}
+
 @media (max-width: 1024px) and (min-width: 601px) {
   .heart img {
     width: 10%;
     top: 12px;
     right: 12px;
     gap: 6px;
+    pointer-events: none;
   }
   .timer {
     font-size: 300%;
@@ -66,44 +84,49 @@
       1.5px -1.5px 0 #7a5a1a,
       -1.5px 1.5px 0 #7a5a1a,
       1.5px 1.5px 0 #7a5a1a;
+    pointer-events: none;
   }
   .timerLetters {
     width: 100px;
+    pointer-events: none;
   }
   .timer-container {
     top: 2.5vh;
     left: 2vw;
     width: 40vw;
     aspect-ratio: 4/1;
+    pointer-events: none;
   }
 }
 
-/* Móviles (600px o menos) */
 @media (max-width: 600px) {
   .heart img {
     width: 18vw;
     top: 8px;
     right: 8px;
     gap: 4px;
+    pointer-events: none;
   }
   .timer {
     font-size: 300%;
     left: 119px;
-    margin-top: -1vh;
     color: #f3b94a;
     text-shadow:
       -1.5px -1.5px 0 #7a5a1a,
       1.5px -1.5px 0 #7a5a1a,
       -1.5px 1.5px 0 #7a5a1a,
       1.5px 1.5px 0 #7a5a1a;
+    pointer-events: none;
   }
   .timerLetters {
     width: 100px;
+    pointer-events: none;
   }
   .timer-container {
     top: 2.5vh;
     left: 2vw;
     width: 40vw;
     aspect-ratio: 4/1;
+    pointer-events: none;
   }
 }

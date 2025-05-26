@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
   ViewChild,
   OnDestroy,
+  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
@@ -24,7 +25,11 @@ export class BirdComponent implements OnInit, OnDestroy {
   @ViewChild('yellowBirdElement', { static: true })
   private yellowbirdElement!: ElementRef<HTMLImageElement>;
   @Input() public id!: number;
-  @Output() private birdDestroyed = new EventEmitter<number>();
+
+  @Output() birdDestroyed = new EventEmitter<{
+    id: number;
+    byClick: boolean;
+  }>();
 
   private animationFrameId: number | null = null;
   private wingSpeed = 100;
@@ -47,6 +52,37 @@ export class BirdComponent implements OnInit, OnDestroy {
   private currentImageIndex = 0;
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    event.preventDefault();
+    this.handleBirdClick(event);
+  }
+
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {
+    this.handleBirdClick(event);
+  }
+
+  private handleBirdClick(event: Event): void {
+    if (!this.isDestroyed) {
+      this.isDestroyed = true;
+
+      this.birdDestroyed.emit({ id: this.id, byClick: true });
+      console.log(`Bird clicked! ID: ${this.id}`);
+    }
+  }
+
+  private destroyByOutOfBounds(): void {
+    if (!this.isDestroyed) {
+      this.isDestroyed = true;
+
+      this.birdDestroyed.emit({ id: this.id, byClick: false });
+      const bird = this.yellowbirdElement.nativeElement;
+      bird.remove();
+      console.log(`Bird destroyed by out of bounds! ID: ${this.id}`);
+    }
+  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -87,7 +123,7 @@ export class BirdComponent implements OnInit, OnDestroy {
 
     const checkBounds = () => {
       if (this.checkIfBirdIsOutOfBounds()) {
-        this.destroyComponent();
+        this.destroyByOutOfBounds();
         return;
       }
 
@@ -95,12 +131,6 @@ export class BirdComponent implements OnInit, OnDestroy {
     };
 
     this.animationFrameId = requestAnimationFrame(checkBounds);
-  }
-
-  private destroyComponent(): void {
-    this.birdDestroyed.emit(this.id);
-    const bird = this.yellowbirdElement.nativeElement;
-    bird.remove();
   }
 
   private checkIfBirdIsOutOfBounds(): boolean {

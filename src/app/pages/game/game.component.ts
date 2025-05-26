@@ -42,7 +42,7 @@ export class GameComponent implements OnDestroy {
   public stopClicks = false;
 
   private birdTimeout: ReturnType<typeof setTimeout> | null = null;
-  private nextId = 0;
+  private nextId = 1;
   private birdsLost = 0;
 
   constructor(
@@ -102,10 +102,18 @@ export class GameComponent implements OnDestroy {
     );
   }
 
-  public onBirdDestroyed(id: number): void {
+  public onBirdDestroyed(event: { id: number; byClick: boolean }): void {
+    const { id, byClick } = event;
+
+    if (byClick) {
+      this.playerService.incrementBirdsDestroyed();
+    } else {
+      this.birdsLost++;
+      this.healthComponent.damage();
+    }
+
     this.birds = this.birds.filter((bird) => bird.id !== id);
-    this.birdsLost++;
-    this.healthComponent.damage();
+
     if (this.birdsLost >= 6) {
       this.stopGame();
       this.showLeaderboard = true;
