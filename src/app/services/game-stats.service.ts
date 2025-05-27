@@ -13,6 +13,10 @@ export class GameStatsService {
   private totalBirdsDestroyed = 0;
   private _bestScore = 0;
   private _bestTime = 0;
+  private _totalCoins = 0;
+
+  private _damageLevel = 1;
+  private _damage = 1;
 
   public setNewGameStats(birdsDestroyed: number, timeElapsed: number): void {
     this.gamesPlayed++;

@@ -25,7 +25,6 @@ export class HealthComponent {
     for (const heart of hearts) {
       if (heart.src.includes('assets/hearts/heart.avif')) {
         heart.src = 'assets/hearts/half_heart.avif';
-        console.log('Heart changed to half heart:', heart.src);
         return;
       } else if (heart.src.includes('assets/hearts/half_heart.avif')) {
         heart.src = 'assets/hearts/broken_heart.avif';

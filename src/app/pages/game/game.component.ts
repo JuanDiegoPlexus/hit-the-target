@@ -42,8 +42,9 @@ export class GameComponent implements OnDestroy {
   public stopClicks = false;
 
   private birdTimeout: ReturnType<typeof setTimeout> | null = null;
-  private nextId = 1;
+  private nextId = 0;
   private birdsLost = 0;
+  private difficulty = 1;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -54,6 +55,15 @@ export class GameComponent implements OnDestroy {
       this.startBirdGeneration();
       this.startTimer();
     }
+  }
+
+  ngOnInit(): void {
+    this.playerService.resetStats();
+    this.birdsLost = 0;
+    this.showLeaderboard = false;
+    this.showPauseTab = false;
+    this.nextId = 1;
+    this.difficulty = this.playerService.getDifficulty();
   }
 
   ngOnDestroy(): void {
@@ -70,15 +80,27 @@ export class GameComponent implements OnDestroy {
   }
 
   private spawnBird(): void {
-    const minDelay = 150;
+    const minDelay = 600;
     const maxDelay = 1000;
     const speedUp = Math.max(
       minDelay,
-      maxDelay - this.playerService.getTimeElapsed() * 30,
+      maxDelay - this.playerService.getTimeElapsed() * 10,
     );
 
     if (!this.showPauseTab) {
-      this.birds.push({ id: this.nextId++ });
+      const newBird = { id: this.nextId++ };
+      this.birds.push(newBird);
+
+      // Llama a setDifficulty en el nuevo pájaro
+      setTimeout(() => {
+        const birdComponent = this.birdComponents.find(
+          (bird) => bird.getId === newBird.id,
+        );
+        if (birdComponent) {
+          this.difficulty = this.playerService.getDifficulty();
+          birdComponent.setMaxHealth(this.difficulty);
+        }
+      });
     }
 
     this.birdTimeout = setTimeout(() => this.spawnBird(), speedUp);

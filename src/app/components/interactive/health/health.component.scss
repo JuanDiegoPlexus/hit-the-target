@@ -30,19 +30,19 @@
 /* Ajustes para pantallas grandes */
 @media (min-width: 1025px) {
   .hearts {
-    width: 300px; /* Aumenta el ancho del contenedor */
-    height: 200px; /* Aumenta la altura del contenedor */
+    width: 95; /* Aumenta el ancho del contenedor */
+    height: 95px; /* Aumenta la altura del contenedor */
   }
 
   .hearts div:nth-child(2) {
-    right: 100px; /* Ajusta la posición del segundo corazón */
+    right: 80px; /* Ajusta la posición del segundo corazón */
   }
 
   .hearts div:nth-child(3) {
-    right: 200px; /* Ajusta la posición del tercer corazón */
+    right: 160px; /* Ajusta la posición del tercer corazón */
   }
 
   .hearts img {
-    width: 125px; /* Aumenta el tamaño de los corazones */
+    width: 90px; /* Aumenta el tamaño de los corazones */
   }
 }

@@ -25,6 +25,9 @@ export class BirdComponent implements OnInit, OnDestroy {
   @ViewChild('yellowBirdElement', { static: true })
   private yellowbirdElement!: ElementRef<HTMLImageElement>;
   @Input() public id!: number;
+  public maxHealth: number = 1;
+
+  @Input() public health: number = this.maxHealth;
 
   @Output() birdDestroyed = new EventEmitter<{
     id: number;
@@ -65,11 +68,12 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   private handleBirdClick(event: Event): void {
-    if (!this.isDestroyed) {
-      this.isDestroyed = true;
-
-      this.birdDestroyed.emit({ id: this.id, byClick: true });
-      console.log(`Bird clicked! ID: ${this.id}`);
+    if (!this.isDestroyed && !this.isPaused) {
+      this.takeDamage(1);
+      if (this.health <= 0) {
+        this.isDestroyed = true;
+        this.birdDestroyed.emit({ id: this.id, byClick: true });
+      }
     }
   }
 
@@ -78,14 +82,15 @@ export class BirdComponent implements OnInit, OnDestroy {
       this.isDestroyed = true;
 
       this.birdDestroyed.emit({ id: this.id, byClick: false });
-      const bird = this.yellowbirdElement.nativeElement;
-      bird.remove();
-      console.log(`Bird destroyed by out of bounds! ID: ${this.id}`);
+      const container = this.yellowbirdElement.nativeElement
+        .parentElement as HTMLElement;
+      container.remove();
     }
   }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.spawnBird();
       this.moveRandomly(this.speed);
       this.startFrameCheck();
       this.startWingAnimation();
@@ -134,49 +139,40 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   private checkIfBirdIsOutOfBounds(): boolean {
-    const bird = this.yellowbirdElement.nativeElement;
-    const transform = window.getComputedStyle(bird).transform;
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
-    if (transform === 'none') {
-      return false;
-    }
+    const translateX = (gsap.getProperty(container, 'x') as number) || 0;
+    const translateY = (gsap.getProperty(container, 'y') as number) || 0;
 
-    const matrix = transform.match(/matrix\((.+)\)/);
-    if (!matrix || matrix.length < 2) {
-      return false;
-    }
-
-    const values = matrix[1].split(', ');
-    const translateX = parseFloat(values[4]);
-    const translateY = parseFloat(values[5]);
-
-    const birdRightEdge = translateX + bird.offsetWidth;
-    const birdBottomEdge = translateY + bird.offsetHeight;
+    const containerRightEdge = translateX + container.offsetWidth;
+    const containerBottomEdge = translateY + container.offsetHeight;
 
     const isOutOfBounds =
-      birdRightEdge > window.innerWidth ||
+      containerRightEdge > window.innerWidth ||
       translateX < 0 ||
-      birdBottomEdge > window.innerHeight ||
+      containerBottomEdge > window.innerHeight ||
       translateY < 0;
 
     return isOutOfBounds;
   }
 
+  private spawnBird(): void {
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
+    const initialY = Math.random() * (window.innerHeight / 1.5);
+    gsap.set(container, { x: 0, y: initialY });
+  }
+
   private moveRandomly(speed: number): void {
-    const bird = this.yellowbirdElement.nativeElement;
-    let currentTurn = 0;
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
     const animate = () => {
-      if (currentTurn === 0) {
-        const initialY = Math.random() * (window.innerHeight / 1.5);
-        //gsap.set(bird, { x: 0, y: initialY });
-        bird.style.transform = `translate(0px, ${initialY}px)`;
-      }
-
       const randomX = this.getNextMovementX();
       const randomY = this.getNextMovementY();
 
-      gsap.to(bird, {
+      gsap.to(container, {
         x: randomX,
         y: randomY,
         duration: speed,
@@ -187,8 +183,6 @@ export class BirdComponent implements OnInit, OnDestroy {
           }
         },
       });
-
-      currentTurn++;
     };
 
     if (!this.isDestroyed && !this.isPaused) {
@@ -197,40 +191,33 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   private getNextMovementX(): number {
-    const bird = this.yellowbirdElement.nativeElement;
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
-    const currentX = (gsap.getProperty(bird, 'x') as number) || 0;
+    const currentX = (gsap.getProperty(container, 'x') as number) || 0;
 
-    const randomValue = Math.random();
+    const increment = 50;
 
-    if (randomValue < this.probXAxis) {
-      return currentX + window.innerWidth / 10;
-    }
-
-    return currentX;
+    const newX = currentX + increment;
+    return newX;
   }
 
   private getNextMovementY(): number {
-    const bird = this.yellowbirdElement.nativeElement;
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
-    const currentY = (gsap.getProperty(bird, 'y') as number) || 0;
-
-    const centerY = window.innerHeight / 2;
+    const currentY = (gsap.getProperty(container, 'y') as number) || 0;
 
     const range = 100;
-
-    const distanceFromCenter = Math.abs(currentY - centerY);
-    const distanceFromEdge = Math.min(currentY, window.innerHeight - currentY);
-
-    const probYAxis =
-      (distanceFromEdge / (window.innerHeight / 2)) ** 2 *
-      (1 - distanceFromCenter / (window.innerHeight / 2));
-
     const direction = Math.random() < 0.5 ? -1 : 1;
-    const movement = direction * (Math.random() * range * probYAxis);
+    const movement = direction * Math.random() * range;
 
     const newY = currentY + movement;
-    return Math.max(0, Math.min(newY, window.innerHeight - bird.offsetHeight));
+
+    return Math.max(
+      0,
+      Math.min(newY, window.innerHeight - container.offsetHeight),
+    );
   }
 
   private animateWings(): void {
@@ -241,12 +228,12 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   public stopMovement(): void {
-    const bird = this.yellowbirdElement.nativeElement;
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
-    gsap.killTweensOf(bird);
+    gsap.killTweensOf(container);
     this.isPaused = true;
   }
-
   public resumeMovement(): void {
     this.isPaused = false;
 
@@ -276,5 +263,18 @@ export class BirdComponent implements OnInit, OnDestroy {
 
   public get getId(): number {
     return this.id;
+  }
+
+  public increaseHealth(amount: number): void {
+    this.health = Math.min(this.health + amount, this.maxHealth);
+  }
+
+  public takeDamage(amount: number): void {
+    this.health = Math.max(this.health - amount, 0);
+  }
+
+  public setMaxHealth(newMaxHealth: number): void {
+    this.maxHealth = newMaxHealth;
+    this.health = this.maxHealth;
   }
 }

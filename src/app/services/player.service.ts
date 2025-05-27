@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 export class PlayerService {
   private playerName: string = 'JuanDi';
   private birdsDestroyed: number = 0;
+  private coinsEarned: number = 0;
+  private difficulty: number = 1;
 
   private timeElapsed = 0;
   private timeInterval: number | NodeJS.Timeout | null = null;
@@ -31,6 +33,9 @@ export class PlayerService {
   public startTimer(): void {
     this.timeInterval = setInterval(() => {
       this.timeElapsed++;
+      if (this.timeElapsed % 10 == 0) {
+        this.setDifficulty(this.getDifficulty() * 2);
+      }
     }, 1000);
   }
 
@@ -65,5 +70,19 @@ export class PlayerService {
 
   public resetTimeElapsed(): void {
     this.timeElapsed = 0;
+  }
+
+  public incrementCoinsEarned(amount: number): void {
+    this.coinsEarned += amount;
+  }
+  public getCoinsEarned(): number {
+    return this.coinsEarned;
+  }
+
+  public setDifficulty(difficulty: number): void {
+    this.difficulty = difficulty;
+  }
+  public getDifficulty(): number {
+    return this.difficulty;
   }
 }

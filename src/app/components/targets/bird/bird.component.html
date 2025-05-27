@@ -1,6 +1,14 @@
-<img
-  #yellowBirdElement
-  src="assets/birds/yellow_still_1.avif"
-  alt="yellow_bird"
-  draggable="false"
-/>
+<div class="bird-container">
+  <div class="boss-health-bar">
+    <div
+      class="boss-health-fill"
+      [style.width.%]="(health / maxHealth) * 100"
+    ></div>
+  </div>
+  <img
+    #yellowBirdElement
+    src="assets/birds/yellow_still_1.avif"
+    alt="yellow_bird"
+    draggable="false"
+  />
+</div>

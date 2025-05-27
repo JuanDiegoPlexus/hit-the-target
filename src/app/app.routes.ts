@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./pages/game/game.component').then((m) => m.GameComponent),
   },
   {
+    path: 'shop',
+    loadComponent: () =>
+      import('./pages/shop/shop.component').then((m) => m.ShopComponent),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./pages/page-not-found/page-not-found.component').then(
