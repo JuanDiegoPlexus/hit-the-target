@@ -12,17 +12,11 @@ import { Router } from '@angular/router';
 import { BannerComponent } from '../../components/background/banner/banner.component';
 import { RopeComponent } from '../../components/interactive/rope/rope.component';
 import { PlaybuttonComponent } from '../../components/interactive/playbutton/playbutton.component';
-import { RopeArrowDirectionComponent } from '../../components/interactive/rope-arrow-direction/rope-arrow-direction.component';
+
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [
-    FormsModule,
-    BannerComponent,
-    RopeComponent,
-    PlaybuttonComponent,
-    RopeArrowDirectionComponent,
-  ],
+  imports: [FormsModule, BannerComponent, RopeComponent, PlaybuttonComponent],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
   encapsulation: ViewEncapsulation.None,
