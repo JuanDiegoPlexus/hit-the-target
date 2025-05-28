@@ -2,8 +2,10 @@
   <app-bird
     *ngFor="let bird of birds"
     [id]="bird.id"
+    [health]="bird.health"
+    [isPaused]="showPauseTab"
     class="yellowBirdElement"
-    (birdDestroyed)="onBirdDestroyed($event)"
+    (birdDestroyed)="handleBirdDestroyed($event)"
     draggable="false"
   ></app-bird>
 

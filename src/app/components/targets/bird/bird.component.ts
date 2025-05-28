@@ -10,6 +10,8 @@ import {
   ViewChild,
   OnDestroy,
   HostListener,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
@@ -21,12 +23,12 @@ import { gsap } from 'gsap';
   templateUrl: './bird.component.html',
   styleUrls: ['./bird.component.scss'],
 })
-export class BirdComponent implements OnInit, OnDestroy {
+export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('yellowBirdElement', { static: true })
   private yellowbirdElement!: ElementRef<HTMLImageElement>;
   @Input() public id!: number;
   public maxHealth: number = 1;
-
+  @Input() public isPaused = false;
   @Input() public health: number = this.maxHealth;
 
   @Output() birdDestroyed = new EventEmitter<{
@@ -38,10 +40,7 @@ export class BirdComponent implements OnInit, OnDestroy {
   private wingSpeed = 100;
   private speed = 1;
 
-  private probXAxis = 0.9;
-
   private isDestroyed = false;
-  private isPaused = false;
   private images = [
     'assets/birds/yellow_flying_1.avif',
     'assets/birds/yellow_flying_2.avif',
@@ -56,38 +55,6 @@ export class BirdComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
-  @HostListener('touchstart', ['$event'])
-  onTouchStart(event: TouchEvent): void {
-    event.preventDefault();
-    this.handleBirdClick(event);
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
-    this.handleBirdClick(event);
-  }
-
-  private handleBirdClick(event: Event): void {
-    if (!this.isDestroyed && !this.isPaused) {
-      this.takeDamage(1);
-      if (this.health <= 0) {
-        this.isDestroyed = true;
-        this.birdDestroyed.emit({ id: this.id, byClick: true });
-      }
-    }
-  }
-
-  private destroyByOutOfBounds(): void {
-    if (!this.isDestroyed) {
-      this.isDestroyed = true;
-
-      this.birdDestroyed.emit({ id: this.id, byClick: false });
-      const container = this.yellowbirdElement.nativeElement
-        .parentElement as HTMLElement;
-      container.remove();
-    }
-  }
-
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.spawnBird();
@@ -101,26 +68,42 @@ export class BirdComponent implements OnInit, OnDestroy {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
     }
+
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
+    gsap.killTweensOf(container);
   }
 
-  private lastWingAnimationTime = 0;
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setMaxHealth(this.health);
+
+    if (changes['isPaused']) {
+      if (this.isPaused) {
+        this.pauseAnimations();
+      } else {
+        this.resumeAnimations();
+      }
+    }
+  }
 
   private startWingAnimation(): void {
-    const animate = (timestamp: number) => {
-      const elapsed = timestamp - this.lastWingAnimationTime;
+    const bird = this.yellowbirdElement.nativeElement;
 
-      if (elapsed >= this.wingSpeed) {
-        this.animateWings();
-        this.lastWingAnimationTime = timestamp;
-      }
+    // Detén cualquier animación activa en el pájaro
+    gsap.killTweensOf(bird);
 
-      if (!this.isDestroyed && !this.isPaused) {
-        requestAnimationFrame(animate);
-      }
-    };
-    requestAnimationFrame(animate);
+    // Inicia la animación de las alas
+    gsap.to(bird, {
+      repeat: -1, // Repite indefinidamente
+      yoyo: true, // Alterna entre los estados
+      duration: this.wingSpeed / 1000, // Convierte `wingSpeed` a segundos
+      onRepeat: () => {
+        this.currentImageIndex =
+          (this.currentImageIndex + 1) % this.images.length;
+        bird.src = this.images[this.currentImageIndex]; // Cambia la imagen del pájaro
+      },
+    });
   }
-
   private startFrameCheck(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -136,6 +119,13 @@ export class BirdComponent implements OnInit, OnDestroy {
     };
 
     this.animationFrameId = requestAnimationFrame(checkBounds);
+  }
+
+  private destroyByOutOfBounds(): void {
+    if (!this.isDestroyed) {
+      this.isDestroyed = true;
+      this.birdDestroyed.emit({ id: this.id, byClick: false });
+    }
   }
 
   private checkIfBirdIsOutOfBounds(): boolean {
@@ -158,10 +148,12 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   private spawnBird(): void {
-    const container = this.yellowbirdElement.nativeElement
-      .parentElement as HTMLElement;
-    const initialY = Math.random() * (window.innerHeight / 1.5);
-    gsap.set(container, { x: 0, y: initialY });
+    if (isPlatformBrowser(this.platformId)) {
+      const container = this.yellowbirdElement.nativeElement
+        .parentElement as HTMLElement;
+      const initialY = Math.random() * (window.innerHeight / 1.5);
+      gsap.set(container, { x: 0, y: initialY });
+    }
   }
 
   private moveRandomly(speed: number): void {
@@ -203,21 +195,24 @@ export class BirdComponent implements OnInit, OnDestroy {
   }
 
   private getNextMovementY(): number {
-    const container = this.yellowbirdElement.nativeElement
-      .parentElement as HTMLElement;
+    if (isPlatformBrowser(this.platformId)) {
+      const container = this.yellowbirdElement.nativeElement
+        .parentElement as HTMLElement;
 
-    const currentY = (gsap.getProperty(container, 'y') as number) || 0;
+      const currentY = (gsap.getProperty(container, 'y') as number) || 0;
 
-    const range = 100;
-    const direction = Math.random() < 0.5 ? -1 : 1;
-    const movement = direction * Math.random() * range;
+      const range = 100;
+      const direction = Math.random() < 0.5 ? -1 : 1;
+      const movement = direction * Math.random() * range;
 
-    const newY = currentY + movement;
+      const newY = currentY + movement;
 
-    return Math.max(
-      0,
-      Math.min(newY, window.innerHeight - container.offsetHeight),
-    );
+      return Math.max(
+        0,
+        Math.min(newY, window.innerHeight - container.offsetHeight),
+      );
+    }
+    return 0;
   }
 
   private animateWings(): void {
@@ -234,31 +229,22 @@ export class BirdComponent implements OnInit, OnDestroy {
     gsap.killTweensOf(container);
     this.isPaused = true;
   }
-  public resumeMovement(): void {
-    this.isPaused = false;
 
-    this.moveRandomly(this.speed);
-    this.startWingAnimation();
+  private pauseAnimations(): void {
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
+
+    gsap.killTweensOf(container);
+    gsap.killTweensOf(this.yellowbirdElement.nativeElement);
   }
 
-  private triggerExplosion(): void {
-    // Cancela cualquier animación en curso
-    /*if (this.animationFrameId !== null) {
-      cancelAnimationFrame(this.animationFrameId); // Cancela el frame de animación
-      this.animationFrameId = null;
-    }
+  private resumeAnimations(): void {
+    const container = this.yellowbirdElement.nativeElement
+      .parentElement as HTMLElement;
 
-    // Detiene el movimiento del pájaro
-    const bird = this.yellowbirdElement.nativeElement;
-    //bird.style.transition = 'none'; // Detiene cualquier transición o animación CSS
-
-    // Cambia la imagen a la de explosión
-    bird.src = this.images_explosion[0];
-    
-    console.log(`Bird ${this.id} exploded!`);
-    setTimeout(() => {
-    this.destroyComponent();
-    }, 500); // Espera 0.5 segundos antes de eliminar el componente*/
+    gsap.killTweensOf(container);
+    this.moveRandomly(this.speed);
+    this.startWingAnimation();
   }
 
   public get getId(): number {
@@ -276,5 +262,26 @@ export class BirdComponent implements OnInit, OnDestroy {
   public setMaxHealth(newMaxHealth: number): void {
     this.maxHealth = newMaxHealth;
     this.health = this.maxHealth;
+  }
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    event.preventDefault();
+    this.handleBirdClick(event);
+  }
+
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {
+    this.handleBirdClick(event);
+  }
+
+  private handleBirdClick(event: Event): void {
+    if (!this.isDestroyed && !this.isPaused) {
+      this.takeDamage(1);
+      if (this.health <= 0) {
+        this.isDestroyed = true;
+        this.birdDestroyed.emit({ id: this.id, byClick: true });
+      }
+    }
   }
 }
