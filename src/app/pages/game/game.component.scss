@@ -3,7 +3,7 @@
   grid-auto-flow: column;
   gap: 10px;
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   right: 10px;
   z-index: 2;
   user-select: none;
@@ -40,7 +40,7 @@
 
 .timer-container {
   position: absolute;
-  top: 4vh;
+  bottom: 4vh;
   left: 4vw;
   display: flex;
   flex-direction: row;
@@ -52,7 +52,7 @@
 
 @media (min-width: 1025px) {
   .timer-container {
-    top: 1vh;
+    bottom: 1vh;
     left: 3vw;
   }
 
@@ -69,7 +69,7 @@
 @media (max-width: 1024px) and (min-width: 601px) {
   .heart img {
     width: 10%;
-    top: 12px;
+    bottom: 12px;
     right: 12px;
     gap: 6px;
     pointer-events: none;
@@ -77,7 +77,7 @@
   .timer {
     font-size: 300%;
     left: 150px;
-    margin-top: -1vh;
+    margin-bottom: -1vh;
     color: #f3b94a;
     text-shadow:
       -1.5px -1.5px 0 #7a5a1a,
@@ -91,7 +91,7 @@
     pointer-events: none;
   }
   .timer-container {
-    top: 2.5vh;
+    bottom: 2.5vh;
     left: 2vw;
     width: 40vw;
     aspect-ratio: 4/1;
@@ -102,7 +102,7 @@
 @media (max-width: 600px) {
   .heart img {
     width: 18vw;
-    top: 8px;
+    bottom: 8px;
     right: 8px;
     gap: 4px;
     pointer-events: none;
@@ -123,7 +123,7 @@
     pointer-events: none;
   }
   .timer-container {
-    top: 2.5vh;
+    bottom: 2.5vh;
     left: 2vw;
     width: 40vw;
     aspect-ratio: 4/1;

@@ -1,4 +1,9 @@
-import { Routes } from '@angular/router';
+import {
+  Routes,
+  PreloadAllModules,
+  provideRouter,
+  withPreloading,
+} from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -38,4 +43,8 @@ export const routes: Routes = [
         (m) => m.PageNotFoundComponent,
       ),
   },
+];
+
+export const appRouterProviders = [
+  provideRouter(routes, withPreloading(PreloadAllModules)),
 ];

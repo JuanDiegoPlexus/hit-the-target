@@ -1,1 +1,8 @@
-<p>shop works!</p>
+<main class="shop-content" draggable="false">
+  <app-rope-arrow-direction
+    class="shop"
+    [srcFrontImage]="'assets/leaderboard/direction_cave_down.png'"
+    [srcBackImage]="'assets/leaderboard/direction_cave_down_2.png'"
+    (click)="animationAndRedirection('shop', '/')"
+  ></app-rope-arrow-direction>
+</main>

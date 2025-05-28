@@ -1,0 +1,16 @@
+.shop {
+  position: fixed;
+  top: 20%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 10%;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+.shop img {
+  display: block;
+  width: 100%;
+  z-index: 2;
+}

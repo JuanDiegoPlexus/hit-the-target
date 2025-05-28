@@ -13,6 +13,7 @@ import { BannerComponent } from '../../components/background/banner/banner.compo
 import { RopeComponent } from '../../components/interactive/rope/rope.component';
 import { PlaybuttonComponent } from '../../components/interactive/playbutton/playbutton.component';
 import { RopeArrowDirectionComponent } from '../../components/interactive/rope-arrow-direction/rope-arrow-direction.component';
+import { gsap } from 'gsap';
 @Component({
   selector: 'app-welcome',
   standalone: true,
@@ -54,6 +55,83 @@ export class WelcomeComponent implements AfterViewInit {
     }
   }
 
+  afterNextRender(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) {
+          return;
+        }
+
+        if (event.data === 'animateMainContent') {
+          this.animateMainContent();
+        }
+      });
+    }
+  }
+
+  private animateMainContent(): void {
+    setTimeout(() => {
+      const mainContent = document.querySelector(
+        '.main-content',
+      ) as HTMLElement;
+      if (mainContent) {
+        console.log(
+          'Antes de la animación:',
+          gsap.getProperty(mainContent, 'y'),
+        );
+        gsap.to(mainContent, {
+          y: '-100%',
+          duration: 1,
+          ease: 'power2.inOut',
+        });
+        console.log(
+          'Después de la animación:',
+          gsap.getProperty(mainContent, 'y'),
+        );
+      } else {
+        console.error('No se encontró el elemento .main-content');
+      }
+    }, 0); // Espera un ciclo de eventos para asegurarte de que el DOM esté listo
+  }
+
+  private changeSceneToShop(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const mainContent = document.querySelector(
+        '.main-content',
+      ) as HTMLElement;
+      const videoElement = document.querySelector('.banner') as HTMLElement;
+      const shopImage = document.querySelector('.shop-image') as HTMLElement;
+
+      if (mainContent && videoElement && shopImage) {
+        gsap
+          .timeline()
+          .to(mainContent, {
+            y: '-100%',
+            duration: 1,
+            ease: 'power2.inOut',
+          })
+          .to(
+            videoElement,
+            {
+              y: '-100%',
+              duration: 1,
+              ease: 'power2.inOut',
+            },
+            '<',
+          )
+          .to(
+            shopImage,
+            {
+              bottom: '100%',
+              duration: 1,
+              ease: 'power2.inOut',
+            },
+            '<',
+          );
+      }
+    }
+  }
+
   public animationAndRedirection(ropeClass: string, route: string): void {
     if (ropeClass === 'leaderboardRope' && this.ropeComponentLeaderboard) {
       this.ropeComponentLeaderboard.ropePull();
@@ -69,8 +147,13 @@ export class WelcomeComponent implements AfterViewInit {
       this.playbuttonComponent.dissapear();
     }
 
+    if (route === '/shop') {
+      this.changeSceneToShop();
+    }
+
     setTimeout(() => {
+      console.log(`Navigating to ${route}`);
       this.router.navigate([route]);
-    }, 400);
+    }, 1000);
   }
 }

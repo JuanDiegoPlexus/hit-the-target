@@ -1,4 +1,4 @@
-<main draggable="false">
+<main class="main-content" draggable="false">
   <app-banner></app-banner>
 
   <div class="ropes-wrapper">
@@ -6,6 +6,7 @@
       #leaderboardRope
       class="leaderboardRope"
       [rotation]="-90"
+      [srcFrontImage]="'assets/leaderboard/direction.avif'"
       [srcBackImage]="'assets/leaderboard/direction_leaderboard_up.avif'"
       (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
     ></app-rope>
@@ -13,6 +14,7 @@
       #statsRope
       class="statsRope"
       [rotation]="90"
+      [srcFrontImage]="'assets/leaderboard/direction.avif'"
       [srcBackImage]="'assets/leaderboard/direction_stats_up.avif'"
       (click)="animationAndRedirection('statsRope', '/stats')"
     ></app-rope>
@@ -23,9 +25,10 @@
     (click)="animationAndRedirection('playButton', '/game')"
   ></app-playbutton>
 
-  <!--<app-rope-arrow-direction
+  <app-rope-arrow-direction
     class="shop"
-    [rotation]="180"
+    [srcFrontImage]="'assets/leaderboard/direction_cave_down.png'"
+    [srcBackImage]="'assets/leaderboard/direction_cave_down_2.png'"
     (click)="animationAndRedirection('shop', '/shop')"
-  ></app-rope-arrow-direction>-->
+  ></app-rope-arrow-direction>
 </main>

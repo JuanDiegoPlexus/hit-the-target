@@ -14,6 +14,7 @@ export class RopeComponent {
   @ViewChild('ropeElement') private ropeElement!: ElementRef<HTMLImageElement>;
 
   @Input() public rotation: number = 0;
+  @Input() public srcFrontImage: string = '';
   @Input() public srcBackImage: string = '';
 
   public ropePull(): void {

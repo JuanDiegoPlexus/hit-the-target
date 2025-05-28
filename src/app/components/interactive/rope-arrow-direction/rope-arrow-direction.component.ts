@@ -21,12 +21,14 @@ export class RopeArrowDirectionComponent {
   private imageIsFlipping: boolean = false;
   private pendingFlip: boolean | null = null;
   @Input() public rotation: number = 0;
+  @Input() public srcFrontImage: string = '';
   @Input() public srcBackImage: string = '';
 
-  public images = ['assets/leaderboard/direction.avif', this.srcBackImage];
+  public images = [this.srcFrontImage, this.srcBackImage];
 
   ngOnChanges() {
     this.images[1] = this.srcBackImage;
+    this.images[0] = this.srcFrontImage;
   }
 
   ngAfterViewInit(): void {
