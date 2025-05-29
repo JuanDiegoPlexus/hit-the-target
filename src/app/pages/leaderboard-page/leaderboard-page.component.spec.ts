@@ -1,22 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { LeaderboardPageComponent } from './leaderboard-page.component';
+import { LeaderboardPageComponent } from './leaderboard-page.component'
 
 describe('LeaderboardComponent', () => {
-  let component: LeaderboardPageComponent;
-  let fixture: ComponentFixture<LeaderboardPageComponent>;
+  let component: LeaderboardPageComponent
+  let fixture: ComponentFixture<LeaderboardPageComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LeaderboardPageComponent],
-    }).compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(LeaderboardPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(LeaderboardPageComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

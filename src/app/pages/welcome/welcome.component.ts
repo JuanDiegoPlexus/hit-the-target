@@ -5,13 +5,13 @@ import {
   PLATFORM_ID,
   ViewChild,
   ViewEncapsulation,
-} from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
-import { BannerComponent } from '../../components/background/banner/banner.component';
-import { RopeComponent } from '../../components/interactive/rope/rope.component';
-import { PlaybuttonComponent } from '../../components/interactive/playbutton/playbutton.component';
+} from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { isPlatformBrowser } from '@angular/common'
+import { Router } from '@angular/router'
+import { BannerComponent } from '../../components/background/banner/banner.component'
+import { RopeComponent } from '../../components/interactive/rope/rope.component'
+import { PlaybuttonComponent } from '../../components/interactive/playbutton/playbutton.component'
 
 @Component({
   selector: 'app-welcome',
@@ -22,49 +22,49 @@ import { PlaybuttonComponent } from '../../components/interactive/playbutton/pla
   encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeComponent implements AfterViewInit {
-  private platformId = inject(PLATFORM_ID);
-  private router = inject(Router);
+  private platformId = inject(PLATFORM_ID)
+  private router = inject(Router)
 
-  @ViewChild(BannerComponent) private bannerComponent!: BannerComponent;
+  @ViewChild(BannerComponent) private bannerComponent!: BannerComponent
 
   @ViewChild('leaderboardRope', { static: true })
-  private ropeComponentLeaderboard!: RopeComponent;
+  private ropeComponentLeaderboard!: RopeComponent
 
   @ViewChild('statsRope', { static: true })
-  private ropeComponentStats!: RopeComponent;
+  private ropeComponentStats!: RopeComponent
   @ViewChild(PlaybuttonComponent)
-  private playbuttonComponent!: PlaybuttonComponent;
+  private playbuttonComponent!: PlaybuttonComponent
 
   ngAfterViewInit(): void {
     if (this.bannerComponent) {
-      this.bannerComponent.animateLogoDown();
+      this.bannerComponent.animateLogoDown()
     }
     if (isPlatformBrowser(this.platformId)) {
-      const video = document.querySelector('video');
+      const video = document.querySelector('video')
       if (video) {
-        video.muted = true;
-        video.play();
+        video.muted = true
+        video.play()
       }
     }
   }
 
   public animationAndRedirection(ropeClass: string, route: string): void {
     if (ropeClass === 'leaderboardRope' && this.ropeComponentLeaderboard) {
-      this.ropeComponentLeaderboard.ropePull();
+      this.ropeComponentLeaderboard.ropePull()
     } else if (ropeClass === 'statsRope' && this.ropeComponentStats) {
-      this.ropeComponentStats.ropePull();
+      this.ropeComponentStats.ropePull()
     }
 
     if (this.bannerComponent) {
-      this.bannerComponent.animateLogoUp();
+      this.bannerComponent.animateLogoUp()
     }
 
     if (this.playbuttonComponent) {
-      this.playbuttonComponent.dissapear();
+      this.playbuttonComponent.dissapear()
     }
 
     setTimeout(() => {
-      this.router.navigate([route]);
-    }, 400);
+      this.router.navigate([route])
+    }, 400)
   }
 }

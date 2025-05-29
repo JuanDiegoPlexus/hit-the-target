@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, inject, Output } from '@angular/core'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-pause-tab',
@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
   styleUrl: './pause-tab.component.scss',
 })
 export class PauseTabComponent {
-  private router = inject(Router);
+  @Output() public goHomeEvent = new EventEmitter<void>()
 
   public goHome(): void {
-    this.router.navigate(['/']);
+    this.goHomeEvent.emit()
   }
 }

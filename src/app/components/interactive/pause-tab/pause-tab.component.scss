@@ -1,9 +1,8 @@
-.pauseBoardTitle {
-  font-family: 'Stardew', sans-serif;
+.pauseboard-title {
+  font-family: Stardew, sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 16px;
-  margin: 0;
   width: auto;
   max-width: 90%;
   text-align: center;
@@ -19,11 +18,10 @@
     2px 2px 0 #f3b94a;
 }
 
-.pauseBoardBody {
-  font-family: 'Stardew', sans-serif;
+.pauseboard-body {
+  font-family: Stardew, sans-serif;
   font-size: 1.5rem;
   margin-top: 0;
-  margin: 0;
   width: auto;
   max-width: 90%;
   text-align: center;
@@ -39,11 +37,11 @@
     2px 2px 0 #f3b94a;
 }
 
-.pauseBoardDiv {
+.pauseboard-div {
   height: 150%;
   width: auto;
   max-height: 90vh;
-  margin: -5% auto 0 auto;
+  margin: -5% auto 0;
   position: fixed;
   z-index: 2;
   user-select: none;
@@ -53,7 +51,7 @@
   transform-origin: 50% -15%;
 }
 
-.pauseBoard {
+.pauseboard {
   position: absolute;
   top: 0;
   left: 0;
@@ -70,7 +68,7 @@
   box-sizing: border-box;
 }
 
-.pauseBoardImg {
+.pauseboard-img {
   display: block;
   position: absolute;
   top: 0;
@@ -82,7 +80,7 @@
   pointer-events: none;
 }
 
-.go_home_button {
+.go-home-button {
   width: 20%;
   height: 10%;
   bottom: 0;
@@ -92,29 +90,32 @@
   align-items: center;
 }
 
-.go_home_button img {
+.go-home-button img {
   width: 100%;
   height: auto;
   cursor: pointer;
 }
 
-@media (max-width: 1024px) and (min-width: 601px) {
-  .pauseBoardDiv {
+@media (width <= 1024px) and (width >= 601px) {
+  .pauseboard-div {
     left: 10%;
     max-height: 80vh;
     aspect-ratio: 2/3;
     width: 80vw;
     margin: 0 auto;
   }
-  .pauseBoardTitle {
+
+  .pauseboard-title {
     font-size: 2rem;
     max-width: 95%;
   }
-  .pauseBoardBody {
+
+  .pauseboard-body {
     font-size: 1.2rem;
     max-width: 95%;
   }
-  .go_home_button {
+
+  .go-home-button {
     width: 10%;
     height: 10%;
     bottom: 0;
@@ -124,15 +125,15 @@
     align-items: center;
   }
 
-  .go_home_button img {
+  .go-home-button img {
     width: 100%;
     height: auto;
     cursor: pointer;
   }
 }
 
-@media (max-width: 600px) {
-  .pauseBoardDiv {
+@media (width <= 600px) {
+  .pauseboard-div {
     left: 0;
     top: -10%;
     width: 98vw;
@@ -140,16 +141,18 @@
     aspect-ratio: 2/3;
     margin: 0 auto;
   }
-  .pauseBoardTitle {
+
+  .pauseboard-title {
     font-size: 1.2rem;
     max-width: 98%;
   }
-  .pauseBoardBody {
+
+  .pauseboard-body {
     font-size: 1rem;
     max-width: 98%;
   }
 
-  .go_home_button {
+  .go-home-button {
     width: 20%;
     height: 10%;
     bottom: 0;
@@ -159,7 +162,7 @@
     align-items: center;
   }
 
-  .go_home_button img {
+  .go-home-button img {
     width: 100%;
     height: auto;
     cursor: pointer;
