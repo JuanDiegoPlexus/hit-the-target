@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Stardew';
+  font-family: Stardew;
   src: url('/assets/fonts/StardewValley.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Stardew', sans-serif;
+  font-family: Stardew, sans-serif;
   cursor:
     url('/assets/mouse/mouse_cursor.cur') 0 0,
     auto;

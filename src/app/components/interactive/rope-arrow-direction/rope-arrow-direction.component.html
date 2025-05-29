@@ -1,20 +1,4 @@
-<div
-  class="flip-container"
-  (mouseenter)="flip(true)"
-  (mouseleave)="flip(false)"
->
-  <img
-    #frontImg
-    [src]="images[0]"
-    class="arrow front"
-    alt="front"
-    draggable="false"
-  />
-  <img
-    #backImg
-    [src]="images[1]"
-    class="arrow back"
-    alt="back"
-    draggable="false"
-  />
+<div class="flip-container" (mouseenter)="flip(true)" (mouseleave)="flip(false)">
+  <img #frontImg [src]="images[0]" class="arrow front" alt="front" draggable="false" />
+  <img #backImg [src]="images[1]" class="arrow back" alt="back" draggable="false" />
 </div>

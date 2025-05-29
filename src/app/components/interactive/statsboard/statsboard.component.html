@@ -1,14 +1,14 @@
-<div class="statsboardDiv" #statsboardElement>
+<div class="statsboard-div" #statsboardElement>
   <img
     src="assets/leaderboard/leaderboard.avif"
     alt="statsboard_table"
-    class="statsboardImg"
+    class="statsboard-img"
     draggable="false"
   />
   <div class="statsboard">
-    <span class="statsboardTitle">Stats</span>
-    <span class="statsboardBody">Best Score - {{ bestScore }}</span>
-    <span *ngFor="let game of gameHistory" class="statsboardBody">
+    <span class="statsboard-title">Stats</span>
+    <span class="statsboard-body">Best Score - {{ bestScore }}</span>
+    <span *ngFor="let game of gameHistory" class="statsboard-body">
       {{ game.timeElapsed }}s, {{ game.birdsDestroyed }} birds
     </span>
   </div>

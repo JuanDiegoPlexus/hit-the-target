@@ -4,19 +4,13 @@
     [id]="bird.id"
     [health]="bird.health"
     [isPaused]="showPauseTab"
-    class="yellowBirdElement"
     (birdDestroyed)="handleBirdDestroyed($event)"
     draggable="false"
   ></app-bird>
 
   <div class="timer-container" draggable="false">
     <div draggable="false">
-      <img
-        #timerElement
-        src="assets/letters/time.avif"
-        class="timerLetters"
-        draggable="false"
-      />
+      <img #timerElement src="assets/letters/time.avif" class="timer-letters" draggable="false" />
     </div>
     <div class="timer" draggable="false">
       <span>{{ playerService.getTimeElapsed() }}</span>
@@ -37,7 +31,7 @@
 
   @if (showPauseTab) {
     <div>
-      <app-pause-tab></app-pause-tab>
+      <app-pause-tab (goHomeEvent)="leaveGame()"></app-pause-tab>
     </div>
   }
 </div>

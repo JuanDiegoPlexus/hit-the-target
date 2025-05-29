@@ -1,41 +1,49 @@
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import prettierConfig from 'eslint-config-prettier';
-import pluginPrettier from 'eslint-plugin-prettier';
-import { defineConfig } from 'eslint/config';
+const htmlPlugin = require('@html-eslint/eslint-plugin');
+const eslintPluginTs = require('@typescript-eslint/eslint-plugin');
+const eslintParserTs = require('@typescript-eslint/parser');
+const angularEslintPlugin = require('@angular-eslint/eslint-plugin');
+const angularTemplatePlugin = require('@angular-eslint/eslint-plugin-template');
+const angularTemplateParser = require('@angular-eslint/template-parser');
+const unusedImports = require('eslint-plugin-unused-imports');
 
-export default defineConfig([
+module.exports = [
   {
-    files: ['**/*.{ts,tsx}'], // Configuración para archivos TypeScript
+    files: ['**/*.ts'],
+    ignores: ['dist/**/*', 'projects/**/*'],
     languageOptions: {
-      parser: tsParser, // Usa el parser de TypeScript
-      ecmaVersion: 'latest',
-      sourceType: 'module',
+      parser: eslintParserTs,
+      parserOptions: {
+        project: './tsconfig.json',
+        sourceType: 'module',
+      },
     },
     plugins: {
-      '@typescript-eslint': tsPlugin, // Plugin para TypeScript
-      prettier: pluginPrettier, // Plugin para Prettier
+      '@typescript-eslint': eslintPluginTs,
+      '@angular-eslint': angularEslintPlugin,
+      'unused-imports': unusedImports,
     },
     rules: {
-      ...tsPlugin.configs.recommended.rules, // Reglas recomendadas para TypeScript
-      ...prettierConfig.rules, // Reglas de Prettier
-      'prettier/prettier': 'error', // Muestra errores si el código no sigue las reglas de Prettier
-      '@typescript-eslint/no-unused-vars': 'warn', // Ejemplo de regla adicional
+      'no-console': ['error', { allow: ['error'] }],
+      'no-debugger': 'error',
+      'no-warning-comments': ['error'],
+      'no-inline-comments': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-empty-function': 'error',
     },
   },
   {
-    files: ['**/*.{js,mjs,cjs}'], // Configuración para archivos JavaScript
+    files: ['**/*.html'],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
+      parser: angularTemplateParser,
     },
     plugins: {
-      prettier: pluginPrettier, // Plugin para Prettier
+      '@angular-eslint/template': angularTemplatePlugin,
+      '@html-eslint': htmlPlugin,
     },
     rules: {
-      ...prettierConfig.rules, // Reglas de Prettier
-      'prettier/prettier': 'error',
-      'no-unused-vars': 'warn',
+      '@angular-eslint/template/no-any': 'error',
     },
   },
-]);
+];

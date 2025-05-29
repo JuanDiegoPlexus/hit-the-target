@@ -4,14 +4,14 @@
   <div class="ropes-wrapper">
     <app-rope
       #leaderboardRope
-      class="leaderboardRope"
+      class="leaderboard-rope"
       [rotation]="-90"
       [srcBackImage]="'assets/leaderboard/direction_leaderboard_up.avif'"
       (click)="animationAndRedirection('leaderboardRope', '/leaderboard')"
     ></app-rope>
     <app-rope
       #statsRope
-      class="statsRope"
+      class="stats-rope"
       [rotation]="90"
       [srcBackImage]="'assets/leaderboard/direction_stats_up.avif'"
       (click)="animationAndRedirection('statsRope', '/stats')"
@@ -19,13 +19,7 @@
   </div>
 
   <app-playbutton
-    class="playButton"
+    class="play-button"
     (click)="animationAndRedirection('playButton', '/game')"
   ></app-playbutton>
-
-  <!--<app-rope-arrow-direction
-    class="shop"
-    [rotation]="180"
-    (click)="animationAndRedirection('shop', '/shop')"
-  ></app-rope-arrow-direction>-->
 </main>

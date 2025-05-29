@@ -1,0 +1,8 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "no-empty-source": null,
+    "block-no-empty": null
+  }
+}

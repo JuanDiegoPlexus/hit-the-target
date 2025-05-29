@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RopeArrowDirectionComponent } from '../rope-arrow-direction/rope-arrow-direction.component';
-import { gsap } from 'gsap';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RopeArrowDirectionComponent } from '../rope-arrow-direction/rope-arrow-direction.component'
+import { gsap } from 'gsap'
 
 @Component({
   selector: 'app-rope',
@@ -11,14 +11,14 @@ import { gsap } from 'gsap';
   styleUrls: ['./rope.component.scss'],
 })
 export class RopeComponent {
-  @ViewChild('ropeElement') private ropeElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('ropeElement') private ropeElement!: ElementRef<HTMLImageElement>
 
-  @Input() public rotation: number = 0;
-  @Input() public srcBackImage: string = '';
+  @Input() public rotation: number = 0
+  @Input() public srcBackImage: string = ''
 
   public ropePull(): void {
     if (this.ropeElement) {
-      const rope = this.ropeElement.nativeElement;
+      const rope = this.ropeElement.nativeElement
       gsap.fromTo(
         rope,
         { y: 0 },
@@ -29,10 +29,10 @@ export class RopeComponent {
           yoyo: true,
           repeat: 1,
           onComplete: () => {
-            gsap.set(rope, { y: 0 });
+            gsap.set(rope, { y: 0 })
           },
         },
-      );
+      )
     }
   }
 }

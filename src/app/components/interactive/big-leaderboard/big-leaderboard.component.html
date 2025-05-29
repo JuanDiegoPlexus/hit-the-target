@@ -1,24 +1,18 @@
-<div class="bigleaderboardDiv" #bigleaderboardElement>
+<div class="bigleaderboard-div" #bigleaderboardElement>
   <img
     src="assets/leaderboard/big_leaderboard.avif"
     alt="leaderboard_table"
-    class="bigleaderboardImg"
+    class="bigleaderboard-img"
     draggable="false"
   />
   <div class="bigleaderboard">
-    <span class="bigleaderboardTitle">¡You lost!</span>
-    <span class="bigleaderboardBody">Player: {{ playerName }}</span>
-    <span class="bigleaderboardBody"
-      >Time survived: {{ timeSurvived }} seconds</span
-    >
-    <span class="bigleaderboardBody">Birds killed: {{ birdsDestroyed }}</span>
+    <span class="bigleaderboard-title">¡You lost!</span>
+    <span class="bigleaderboard-body">Player: {{ playerName }}</span>
+    <span class="bigleaderboard-body">Time survived: {{ timeSurvived }} seconds</span>
+    <span class="bigleaderboard-body">Birds killed: {{ birdsDestroyed }}</span>
 
-    <div class="go_home_button">
-      <img
-        src="assets/leaderboard/go_home.avif"
-        (click)="goHome()"
-        draggable="false"
-      />
+    <div class="go-home-button">
+      <img src="assets/leaderboard/go_home.avif" (click)="goHome()" draggable="false" />
     </div>
   </div>
 </div>

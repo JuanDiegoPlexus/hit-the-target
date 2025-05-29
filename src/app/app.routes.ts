@@ -1,13 +1,11 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
 export const routes: Routes = [
   {
     path: '',
     title: 'Hit the Target',
     loadComponent: () =>
-      import('./pages/welcome/welcome.component').then(
-        (m) => m.WelcomeComponent,
-      ),
+      import('./pages/welcome/welcome.component').then((m) => m.WelcomeComponent),
   },
   {
     path: 'leaderboard',
@@ -18,18 +16,15 @@ export const routes: Routes = [
   },
   {
     path: 'stats',
-    loadComponent: () =>
-      import('./pages/stats/stats.component').then((m) => m.StatsComponent),
+    loadComponent: () => import('./pages/stats/stats.component').then((m) => m.StatsComponent),
   },
   {
     path: 'game',
-    loadComponent: () =>
-      import('./pages/game/game.component').then((m) => m.GameComponent),
+    loadComponent: () => import('./pages/game/game.component').then((m) => m.GameComponent),
   },
   {
     path: 'shop',
-    loadComponent: () =>
-      import('./pages/shop/shop.component').then((m) => m.ShopComponent),
+    loadComponent: () => import('./pages/shop/shop.component').then((m) => m.ShopComponent),
   },
   {
     path: '**',
@@ -38,4 +33,4 @@ export const routes: Routes = [
         (m) => m.PageNotFoundComponent,
       ),
   },
-];
+]
