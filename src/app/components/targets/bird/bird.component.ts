@@ -15,6 +15,7 @@ import {
 } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { gsap } from 'gsap'
+import { BoundaryDetectionService } from '../../../services/boundary-detection.service'
 
 @Component({
   selector: 'app-bird',
@@ -22,6 +23,7 @@ import { gsap } from 'gsap'
   imports: [],
   templateUrl: './bird.component.html',
   styleUrls: ['./bird.component.scss'],
+  providers: [BoundaryDetectionService],
 })
 export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('yellowBirdElement', { static: true })
@@ -49,15 +51,28 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   ]
 
   private currentImageIndex = 0
+  private isBrowser: boolean = false
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private boundaryDetectionService: BoundaryDetectionService,
+  ) {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    this.isBrowser = isPlatformBrowser(this.platformId)
+    if (this.isBrowser) {
       this.spawnBird()
       this.moveRandomly(this.speed)
-      this.startFrameCheck()
       this.startWingAnimation()
+
+      const birdElement = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+      this.boundaryDetectionService.registerBird(this.id, birdElement)
+
+      this.boundaryDetectionService.getBirdOutOfBoundsObservable().subscribe((birdId: number) => {
+        if (birdId === this.id) {
+          this.destroyByOutOfBounds()
+        }
+      })
     }
   }
 
@@ -68,6 +83,8 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
 
     const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
     gsap.killTweensOf(container)
+
+    this.boundaryDetectionService.unregisterBird(this.id)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,46 +114,12 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
       },
     })
   }
-  private startFrameCheck(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return
-    }
-
-    const checkBounds: () => void = () => {
-      if (this.checkIfBirdIsOutOfBounds()) {
-        this.destroyByOutOfBounds()
-        return
-      }
-
-      this.animationFrameId = requestAnimationFrame(checkBounds)
-    }
-
-    this.animationFrameId = requestAnimationFrame(checkBounds)
-  }
 
   private destroyByOutOfBounds(): void {
     if (!this.isDestroyed) {
       this.isDestroyed = true
       this.birdDestroyed.emit({ id: this.id, byClick: false })
     }
-  }
-
-  private checkIfBirdIsOutOfBounds(): boolean {
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-
-    const translateX = (gsap.getProperty(container, 'x') as number) || 0
-    const translateY = (gsap.getProperty(container, 'y') as number) || 0
-
-    const containerRightEdge = translateX + container.offsetWidth
-    const containerBottomEdge = translateY + container.offsetHeight
-
-    const isOutOfBounds =
-      containerRightEdge > window.innerWidth ||
-      translateX < 0 ||
-      containerBottomEdge > window.innerHeight ||
-      translateY < 0
-
-    return isOutOfBounds
   }
 
   private spawnBird(): void {
@@ -201,13 +184,6 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
       return Math.max(0, Math.min(newY, window.innerHeight - container.offsetHeight))
     }
     return 0
-  }
-
-  private animateWings(): void {
-    const bird = this.yellowbirdElement.nativeElement
-
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length
-    bird.src = this.images[this.currentImageIndex]
   }
 
   public stopMovement(): void {
