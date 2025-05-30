@@ -19,6 +19,7 @@ import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-
 import { Subscription } from 'rxjs'
 import { BirdService } from '../../services/bird.service'
 import { Router } from '@angular/router'
+import { DamageAnimationService } from '../../services/damage-animation.service'
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -36,7 +37,7 @@ import { Router } from '@angular/router'
 export class GameComponent implements OnInit, OnDestroy {
   @ViewChild(HealthComponent) private healthComponent!: HealthComponent
 
-  public birds: { id: number; health: number }[] = []
+  public birds: { id: number; health: number; element: HTMLElement | null }[] = []
   private birdSubscription: Subscription | null = null
 
   public showLeaderboard = false
@@ -50,6 +51,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
+    private damageAnimationService: DamageAnimationService,
     private birdService: BirdService,
     public playerService: PlayerService,
     public statsService: GameStatsService,

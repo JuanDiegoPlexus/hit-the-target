@@ -6,7 +6,9 @@ import { map, takeWhile } from 'rxjs/operators'
   providedIn: 'root',
 })
 export class BirdService {
-  private birdsSubject = new BehaviorSubject<{ id: number; health: number }[]>([])
+  private birdsSubject = new BehaviorSubject<
+    { id: number; health: number; element: HTMLElement | null }[]
+  >([])
   private birdGenerationSubscription: Subscription | null = null
   private nextId = 0
   private isPaused = false
@@ -22,7 +24,7 @@ export class BirdService {
         map(() => {
           const speedUp = Math.max(minDelay, maxDelay - getElapsedTime() * 10)
           const difficulty = getDifficulty()
-          return { id: this.generateId(), health: difficulty, delay: speedUp }
+          return { id: this.generateId(), health: difficulty, delay: speedUp, element: null }
         }),
         takeWhile(() => !this.isPaused),
       )

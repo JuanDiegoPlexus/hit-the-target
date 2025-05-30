@@ -16,6 +16,7 @@ import {
 import { isPlatformBrowser } from '@angular/common'
 import { gsap } from 'gsap'
 import { BoundaryDetectionService } from '../../../services/boundary-detection.service'
+import { DamageAnimationService } from '../../../services/damage-animation.service'
 
 @Component({
   selector: 'app-bird',
@@ -56,6 +57,7 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     private boundaryDetectionService: BoundaryDetectionService,
+    private damageAnimationService: DamageAnimationService,
   ) {}
 
   ngOnInit(): void {
@@ -218,6 +220,9 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
 
   public takeDamage(amount: number): void {
     this.health = Math.max(this.health - amount, 0)
+
+    const birdElement = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    this.damageAnimationService.showDamageAnimation(birdElement, 1)
   }
 
   public setMaxHealth(newMaxHealth: number): void {
