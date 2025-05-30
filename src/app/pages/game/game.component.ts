@@ -20,6 +20,7 @@ import { Subscription } from 'rxjs'
 import { BirdService } from '../../services/bird.service'
 import { Router } from '@angular/router'
 import { DamageAnimationService } from '../../services/damage-animation.service'
+import { VisibilityService } from '../../services/visibility.service'
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -55,12 +56,14 @@ export class GameComponent implements OnInit, OnDestroy {
     private birdService: BirdService,
     public playerService: PlayerService,
     public statsService: GameStatsService,
+    private visibilityService: VisibilityService,
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.startTimer()
     }
+
     this.playerService.resetStats()
 
     this.birdSubscription = this.birdService.birds$.subscribe((birds) => {
@@ -71,6 +74,13 @@ export class GameComponent implements OnInit, OnDestroy {
       () => this.playerService.getTimeElapsed(),
       () => this.playerService.getDifficulty(),
     )
+
+    this.visibilityService.visibility$.subscribe((isVisible) => {
+      if (!isVisible) {
+        this.showPauseTab = true
+        this.pauseGame()
+      }
+    })
   }
 
   ngOnDestroy(): void {
