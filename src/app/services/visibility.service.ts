@@ -13,11 +13,17 @@ export class VisibilityService {
   }
 
   private initVisibilityListener(): void {
-    document.addEventListener('visibilitychange', () => {
-      this.ngZone.run(() => {
-        const isVisible = document.visibilityState === 'visible'
-        this.visibilitySubject.next(isVisible)
+    if (this.isBrowser()) {
+      document.addEventListener('visibilitychange', () => {
+        this.ngZone.run(() => {
+          const isVisible = document.visibilityState === 'visible'
+          this.visibilitySubject.next(isVisible)
+        })
       })
-    })
+    }
+  }
+
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof document !== 'undefined'
   }
 }

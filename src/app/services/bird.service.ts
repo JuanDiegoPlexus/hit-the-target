@@ -44,6 +44,7 @@ export class BirdService {
   stopBirdGeneration(): void {
     this.clearBirdGeneration()
     this.birdsSubject.next([])
+    this.nextId = 0
   }
 
   pause(): void {

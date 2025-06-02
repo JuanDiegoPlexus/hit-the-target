@@ -1,3 +1,19 @@
+.pauseboard {
+  position: absolute;
+  top: 40%; /* Fija el margen superior para el contenido */
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* El contenido se expande hacia abajo */
+  background: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .pauseboard-title {
   font-family: Stardew, sans-serif;
   font-size: 2.5rem;
@@ -6,10 +22,6 @@
   width: auto;
   max-width: 90%;
   text-align: center;
-  position: static;
-  left: auto;
-  right: auto;
-  transform: none;
   color: #1a1200;
   text-shadow:
     -2px -2px 0 #f3b94a,
@@ -25,10 +37,6 @@
   width: auto;
   max-width: 90%;
   text-align: center;
-  position: static;
-  left: auto;
-  right: auto;
-  transform: none;
   color: #1a1200;
   text-shadow:
     -2px -2px 0 #f3b94a,
@@ -51,23 +59,6 @@
   transform-origin: 50% -15%;
 }
 
-.pauseboard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 .pauseboard-img {
   display: block;
   position: absolute;
@@ -80,19 +71,44 @@
   pointer-events: none;
 }
 
-.go-home-button {
-  width: 20%;
-  height: 10%;
-  bottom: 0;
-  text-align: center;
+.item {
   display: flex;
-  justify-content: center;
   align-items: center;
+  margin-bottom: 16px;
 }
 
-.go-home-button img {
-  width: 100%;
+.item-img {
+  width: 50px;
   height: auto;
+  margin-right: 10px;
+}
+
+.item-text {
+  font-family: Stardew, sans-serif;
+  font-size: 1.5rem;
+  color: #1a1200;
+  text-shadow:
+    -1px -1px 0 #f3b94a,
+    1px -1px 0 #f3b94a,
+    -1px 1px 0 #f3b94a,
+    1px 1px 0 #f3b94a;
+}
+
+.item-buy {
+  font-family: Stardew, sans-serif;
+  font-size: 1.9rem;
+  background-color: #473616;
+  color: #1a1200;
+  text-shadow:
+    -1px -1px 0 #f3b94a,
+    1px -1px 0 #f3b94a,
+    -1px 1px 0 #f3b94a,
+    1px 1px 0 #f3b94a;
+  padding: 10px 20px; /* Espaciado interno para el texto */
+  border-radius: 12px; /* Esquinas redondeadas */
+  text-align: center; /* Centra el texto dentro del botón */
+  box-shadow: 0 4px 6px rgb(0 0 0 / 20%); /* Sombra para resaltar */
+  margin-left: 20px; /* Espacio entre item-buy y lo que tenga a su izquierda */
 }
 
 @media (width <= 1024px) and (width >= 601px) {
@@ -112,21 +128,6 @@
   .pauseboard-body {
     font-size: 1.2rem;
     max-width: 95%;
-  }
-
-  .go-home-button {
-    width: 10%;
-    height: 10%;
-    bottom: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .go-home-button img {
-    width: 100%;
-    height: auto;
   }
 }
 
@@ -148,20 +149,5 @@
   .pauseboard-body {
     font-size: 1rem;
     max-width: 98%;
-  }
-
-  .go-home-button {
-    width: 20%;
-    height: 10%;
-    bottom: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .go-home-button img {
-    width: 100%;
-    height: auto;
   }
 }

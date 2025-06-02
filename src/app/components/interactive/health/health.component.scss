@@ -1,5 +1,5 @@
 .hearts {
-  position: static;
+  position: relative;
   width: 150px;
   height: 70px;
 }
@@ -43,5 +43,25 @@
 
   .hearts img {
     width: 90px;
+  }
+}
+
+@media (width <= 1024px) and (width >= 601px) {
+  .heart img {
+    width: 10%;
+    top: 12px;
+    right: 12px;
+    gap: 6px;
+    pointer-events: none;
+  }
+}
+
+@media (width <= 600px) {
+  .heart img {
+    width: 18vw;
+    top: 8px;
+    right: 8px;
+    gap: 4px;
+    pointer-events: none;
   }
 }
