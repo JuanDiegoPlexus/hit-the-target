@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core'
-import { CanActivate, NavigationStart, Router } from '@angular/router'
+import { CanActivate, Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  private internalNavigation = false
-
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.internalNavigation = true
-      }
-    })
-  }
+  constructor(private router: Router) {}
 
   canActivate(): boolean {
-    if (!this.internalNavigation) {
+    if (!window.history.state || !window.history.state.navigationId) {
       this.router.navigate(['/'])
       return false
     }
-
     return true
   }
 }
