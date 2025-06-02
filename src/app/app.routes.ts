@@ -23,7 +23,6 @@ export const routes: Routes = [
   },
   {
     path: 'game',
-    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/game/game.component').then((m) => m.GameComponent),
   },
   {
