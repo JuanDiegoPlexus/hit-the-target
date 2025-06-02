@@ -28,6 +28,7 @@ export class PlayerService {
 
   public resetStats(): void {
     this.birdsDestroyed = 0
+    this.setDifficulty(1)
   }
 
   public startTimer(): void {
@@ -82,7 +83,9 @@ export class PlayerService {
   public setDifficulty(difficulty: number): void {
     this.difficulty = difficulty
   }
+
   public getDifficulty(): number {
-    return this.difficulty
+    const elapsedTime = this.getTimeElapsed()
+    return Math.floor(elapsedTime / 10) + 1
   }
 }

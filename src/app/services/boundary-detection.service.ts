@@ -26,28 +26,30 @@ export class BoundaryDetectionService {
   }
 
   private startBoundaryCheck(): void {
-    const checkBounds: () => void = () => {
-      this.registeredBirds.forEach((element, id) => {
-        const translateX = (gsap.getProperty(element, 'x') as number) || 0
-        const translateY = (gsap.getProperty(element, 'y') as number) || 0
+    if (typeof window !== 'undefined' && typeof requestAnimationFrame !== 'undefined') {
+      const checkBounds: () => void = () => {
+        this.registeredBirds.forEach((element, id) => {
+          const translateX = (gsap.getProperty(element, 'x') as number) || 0
+          const translateY = (gsap.getProperty(element, 'y') as number) || 0
 
-        const elementRightEdge = translateX + element.offsetWidth
-        const elementBottomEdge = translateY + element.offsetHeight
+          const elementRightEdge = translateX + element.offsetWidth
+          const elementBottomEdge = translateY + element.offsetHeight
 
-        const isOutOfBounds =
-          elementRightEdge > window.innerWidth ||
-          translateX < 0 ||
-          elementBottomEdge > window.innerHeight ||
-          translateY < 0
+          const isOutOfBounds =
+            elementRightEdge > window.innerWidth ||
+            translateX < 0 ||
+            elementBottomEdge > window.innerHeight ||
+            translateY < 0
 
-        if (isOutOfBounds) {
-          this.birdOutOfBounds$.next(id)
-        }
-      })
+          if (isOutOfBounds) {
+            this.birdOutOfBounds$.next(id)
+          }
+        })
+
+        requestAnimationFrame(checkBounds)
+      }
 
       requestAnimationFrame(checkBounds)
     }
-
-    requestAnimationFrame(checkBounds)
   }
 }

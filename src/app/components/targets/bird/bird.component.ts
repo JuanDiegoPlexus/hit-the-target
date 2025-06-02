@@ -17,6 +17,8 @@ import { isPlatformBrowser } from '@angular/common'
 import { gsap } from 'gsap'
 import { BoundaryDetectionService } from '../../../services/boundary-detection.service'
 import { DamageAnimationService } from '../../../services/damage-animation.service'
+import { GameStatsService } from '../../../services/game-stats.service'
+import { PlayerService } from '../../../services/player.service'
 
 @Component({
   selector: 'app-bird',
@@ -31,8 +33,9 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   private yellowbirdElement!: ElementRef<HTMLImageElement>
   @Input() public id!: number
   public maxHealth: number = 1
+  public health: number = 1
   @Input() public isPaused = false
-  @Input() public health: number = this.maxHealth
+  @Input() public inShop = false
 
   @Output() birdDestroyed = new EventEmitter<{
     id: number
@@ -58,6 +61,8 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
     @Inject(PLATFORM_ID) private platformId: object,
     private boundaryDetectionService: BoundaryDetectionService,
     private damageAnimationService: DamageAnimationService,
+    private gameStatsService: GameStatsService,
+    private playerService: PlayerService,
   ) {}
 
   ngOnInit(): void {
@@ -90,10 +95,18 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.setMaxHealth(this.health)
+    this.setMaxHealth()
 
     if (changes['isPaused']) {
       if (this.isPaused) {
+        this.pauseAnimations()
+      } else {
+        this.resumeAnimations()
+      }
+    }
+
+    if (changes['inShop']) {
+      if (this.inShop) {
         this.pauseAnimations()
       } else {
         this.resumeAnimations()
@@ -214,19 +227,15 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
     return this.id
   }
 
-  public increaseHealth(amount: number): void {
-    this.health = Math.min(this.health + amount, this.maxHealth)
-  }
-
   public takeDamage(amount: number): void {
     this.health = Math.max(this.health - amount, 0)
 
     const birdElement = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-    this.damageAnimationService.showDamageAnimation(birdElement, 1)
+    this.damageAnimationService.showDamageAnimation(birdElement, this.gameStatsService.damageLevel)
   }
 
-  public setMaxHealth(newMaxHealth: number): void {
-    this.maxHealth = newMaxHealth
+  public setMaxHealth(): void {
+    this.maxHealth = this.playerService.getDifficulty() * 2
     this.health = this.maxHealth
   }
 
@@ -243,7 +252,7 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
 
   private handleBirdClick(): void {
     if (!this.isDestroyed && !this.isPaused) {
-      this.takeDamage(1)
+      this.takeDamage(this.gameStatsService.damageLevel)
       if (this.health <= 0) {
         this.isDestroyed = true
         this.birdDestroyed.emit({ id: this.id, byClick: true })

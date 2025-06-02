@@ -21,6 +21,7 @@ import { BirdService } from '../../services/bird.service'
 import { Router } from '@angular/router'
 import { DamageAnimationService } from '../../services/damage-animation.service'
 import { VisibilityService } from '../../services/visibility.service'
+import { ShopTabComponent } from '../../components/interactive/shop-tab/shop-tab.component'
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -30,6 +31,7 @@ import { VisibilityService } from '../../services/visibility.service'
     HealthComponent,
     BigLeaderboardComponent,
     PauseTabComponent,
+    ShopTabComponent,
   ],
   providers: [PlayerService],
   templateUrl: './game.component.html',
@@ -43,6 +45,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   public showLeaderboard = false
   public showPauseTab = false
+  public showShopTab = false
   public stopClicks = false
 
   private birdTimeout: ReturnType<typeof setTimeout> | null = null
@@ -98,18 +101,6 @@ export class GameComponent implements OnInit, OnDestroy {
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       this.togglePauseTab()
-    }
-  }
-
-  private togglePauseTab(): void {
-    if (!this.showLeaderboard) {
-      this.showPauseTab = !this.showPauseTab
-
-      if (this.showPauseTab) {
-        this.pauseGame()
-      } else {
-        this.resumeGame()
-      }
     }
   }
 
@@ -178,5 +169,29 @@ export class GameComponent implements OnInit, OnDestroy {
     )
 
     this.router.navigate(['/'])
+  }
+
+  public toggleShopTab(): void {
+    if (!this.showLeaderboard && !this.showPauseTab) {
+      this.showShopTab = !this.showShopTab
+
+      if (this.showShopTab) {
+        this.pauseGame()
+      } else {
+        this.resumeGame()
+      }
+    }
+  }
+
+  public togglePauseTab(): void {
+    if (!this.showLeaderboard && !this.showShopTab) {
+      this.showPauseTab = !this.showPauseTab
+
+      if (this.showPauseTab) {
+        this.pauseGame()
+      } else {
+        this.resumeGame()
+      }
+    }
   }
 }

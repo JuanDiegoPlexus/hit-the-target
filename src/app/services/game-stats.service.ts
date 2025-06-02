@@ -20,6 +20,7 @@ export class GameStatsService {
     this.gamesPlayed++
     this.totalTimePLayed += timeElapsed
     this.totalBirdsDestroyed += birdsDestroyed
+    this._totalCoins += birdsDestroyed
 
     this._gameHistory.push({
       birdsDestroyed,
@@ -42,5 +43,31 @@ export class GameStatsService {
   }
   public get gameHistory(): { birdsDestroyed: number; timeElapsed: number }[] {
     return this._gameHistory
+  }
+
+  public get damageLevel(): number {
+    return this._damageLevel
+  }
+
+  public get coins(): number {
+    return this._totalCoins
+  }
+
+  public set damageLevel(level: number) {
+    this._damageLevel = level
+    this._damage = level * 2
+  }
+
+  public canBuy(type: string): boolean {
+    let response: boolean = false
+    if (type === 'damage') {
+      if (this._totalCoins >= 10 * this._damageLevel) {
+        this._totalCoins -= 10 * this._damageLevel
+        this.damageLevel++
+        response = true
+      }
+    }
+
+    return response
   }
 }
