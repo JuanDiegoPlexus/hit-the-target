@@ -1,22 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { StatsboardComponent } from './statsboard.component';
+import { StatsboardComponent } from './statsboard.component'
 
 describe('LeaderboardComponent', () => {
-  let component: StatsboardComponent;
-  let fixture: ComponentFixture<StatsboardComponent>;
+  let component: StatsboardComponent
+  let fixture: ComponentFixture<StatsboardComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StatsboardComponent],
-    }).compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(StatsboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(StatsboardComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

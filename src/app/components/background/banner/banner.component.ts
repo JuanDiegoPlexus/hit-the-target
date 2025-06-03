@@ -1,13 +1,6 @@
-import {
-  Component,
-  AfterViewInit,
-  Inject,
-  PLATFORM_ID,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { gsap } from 'gsap';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, ElementRef, ViewChild } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { gsap } from 'gsap'
 
 @Component({
   selector: 'app-banner',
@@ -20,15 +13,15 @@ export class BannerComponent implements AfterViewInit {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   @ViewChild('logoElement', { static: true })
-  logoElement!: ElementRef<HTMLElement>;
+  logoElement!: ElementRef<HTMLElement>
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId) && this.logoElement) {
       gsap.set(this.logoElement.nativeElement, {
         y: -100,
         opacity: 0,
-      });
-      this.animateLogoDown();
+      })
+      this.animateLogoDown()
     }
   }
 
@@ -39,7 +32,7 @@ export class BannerComponent implements AfterViewInit {
         opacity: 0,
         duration: 0.4,
         ease: 'power1.in',
-      });
+      })
     }
   }
 
@@ -50,7 +43,7 @@ export class BannerComponent implements AfterViewInit {
         opacity: 1,
         duration: 0.4,
         ease: 'power1.out',
-      });
+      })
     }
   }
 }

@@ -1,22 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { PlaybuttonComponent } from './playbutton.component';
+import { PlaybuttonComponent } from './playbutton.component'
 
 describe('PlaybuttonComponent', () => {
-  let component: PlaybuttonComponent;
-  let fixture: ComponentFixture<PlaybuttonComponent>;
+  let component: PlaybuttonComponent
+  let fixture: ComponentFixture<PlaybuttonComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlaybuttonComponent],
-    }).compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(PlaybuttonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(PlaybuttonComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

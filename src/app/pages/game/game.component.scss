@@ -1,20 +1,19 @@
-.heart img {
-  display: grid;
-  grid-auto-flow: column;
-  gap: 10px;
+.heart {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
   z-index: 2;
   user-select: none;
-  width: 5%;
+  width: auto;
   pointer-events: none;
 }
 
 .timer {
-  font-family: 'Stardew', sans-serif;
+  font-family: Stardew, sans-serif;
   font-size: 480%;
-
   z-index: 2;
   user-select: none;
   color: #f3b94a;
@@ -25,13 +24,11 @@
     0.3vh 0.3vh 0 #7a5a1a;
   pointer-events: none;
   text-align: left;
-
   margin-left: 10px;
 }
 
-.timerLetters {
+.timer-letters {
   width: 150px;
-
   height: max-content;
   user-select: none;
   z-index: 2;
@@ -40,7 +37,7 @@
 
 .timer-container {
   position: absolute;
-  top: 4vh;
+  top: 10%;
   left: 4vw;
   display: flex;
   flex-direction: row;
@@ -50,13 +47,72 @@
   pointer-events: none;
 }
 
-@media (min-width: 1025px) {
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  flex: 1;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.shop-icon img {
+  width: 50px;
+  height: 50px;
+  pointer-events: all;
+}
+
+.settings-icon img {
+  width: 80px;
+  height: 80px;
+  pointer-events: all;
+}
+
+@media (width >= 1025px) {
+  .shop-icon img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .settings-icon img {
+    width: 80px;
+    height: 80px;
+    pointer-events: all;
+  }
+
   .timer-container {
-    top: 1vh;
+    top: 10%;
     left: 3vw;
   }
 
-  .timerLetters {
+  .timer-letters {
     width: 145px;
   }
 
@@ -66,67 +122,45 @@
   }
 }
 
-@media (max-width: 1024px) and (min-width: 601px) {
-  .heart img {
-    width: 10%;
-    top: 12px;
-    right: 12px;
-    gap: 6px;
-    pointer-events: none;
+@media (width <= 1024px) and (width >= 601px) {
+  .shop-icon img {
+    width: 90px;
+    height: 90px;
   }
+
+  .timer-container {
+    top: 12%;
+    left: 2vw;
+  }
+
+  .timer-letters {
+    width: 100px;
+  }
+
   .timer {
     font-size: 300%;
-    left: 150px;
-    margin-top: -1vh;
-    color: #f3b94a;
-    text-shadow:
-      -1.5px -1.5px 0 #7a5a1a,
-      1.5px -1.5px 0 #7a5a1a,
-      -1.5px 1.5px 0 #7a5a1a,
-      1.5px 1.5px 0 #7a5a1a;
-    pointer-events: none;
-  }
-  .timerLetters {
-    width: 100px;
-    pointer-events: none;
-  }
-  .timer-container {
-    top: 2.5vh;
-    left: 2vw;
-    width: 40vw;
-    aspect-ratio: 4/1;
-    pointer-events: none;
+    margin-left: 20px;
   }
 }
 
-@media (max-width: 600px) {
-  .heart img {
-    width: 18vw;
-    top: 8px;
-    right: 8px;
-    gap: 4px;
-    pointer-events: none;
+@media (width <= 600px) {
+  .settings-icon img {
+    width: 50px;
+    height: 50px;
+    pointer-events: all;
   }
-  .timer {
-    font-size: 300%;
-    left: 119px;
-    color: #f3b94a;
-    text-shadow:
-      -1.5px -1.5px 0 #7a5a1a,
-      1.5px -1.5px 0 #7a5a1a,
-      -1.5px 1.5px 0 #7a5a1a,
-      1.5px 1.5px 0 #7a5a1a;
-    pointer-events: none;
-  }
-  .timerLetters {
-    width: 100px;
-    pointer-events: none;
-  }
+
   .timer-container {
-    top: 2.5vh;
+    top: 15%;
     left: 2vw;
-    width: 40vw;
-    aspect-ratio: 4/1;
-    pointer-events: none;
+  }
+
+  .timer-letters {
+    width: 80px;
+  }
+
+  .timer {
+    font-size: 250%;
+    margin-left: 10px;
   }
 }

@@ -1,7 +1,7 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { RopeComponent } from '../../components/interactive/rope/rope.component';
-import { LeaderboardComponent } from '../../components/interactive/leaderboard/leaderboard.component';
+import { Component, inject, ViewChild } from '@angular/core'
+import { Router } from '@angular/router'
+import { RopeComponent } from '../../components/interactive/rope/rope.component'
+import { LeaderboardComponent } from '../../components/interactive/leaderboard/leaderboard.component'
 
 @Component({
   selector: 'app-leaderboard-page',
@@ -11,22 +11,22 @@ import { LeaderboardComponent } from '../../components/interactive/leaderboard/l
   imports: [RopeComponent, LeaderboardComponent],
 })
 export class LeaderboardPageComponent {
-  private router = inject(Router);
-  @ViewChild(RopeComponent) private ropeComponent!: RopeComponent;
+  private router = inject(Router)
+  @ViewChild(RopeComponent) private ropeComponent!: RopeComponent
   @ViewChild(LeaderboardComponent)
-  private leaderboardComponent!: LeaderboardComponent;
+  private leaderboardComponent!: LeaderboardComponent
 
   public animationAndRedirection(route: string): void {
     if (this.leaderboardComponent) {
-      this.leaderboardComponent.leaderboardFall();
+      this.leaderboardComponent.leaderboardFall()
     }
 
     if (this.ropeComponent) {
-      this.ropeComponent.ropePull();
+      this.ropeComponent.ropePull()
     }
 
     setTimeout(() => {
-      this.router.navigate([route]);
-    }, 400);
+      this.router.navigate([route])
+    }, 400)
   }
 }

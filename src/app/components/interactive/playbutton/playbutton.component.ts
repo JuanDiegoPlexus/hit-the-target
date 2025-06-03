@@ -1,13 +1,6 @@
-import { isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  AfterViewInit,
-  Inject,
-  PLATFORM_ID,
-} from '@angular/core';
-import gsap from 'gsap';
+import { isPlatformBrowser } from '@angular/common'
+import { Component, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core'
+import gsap from 'gsap'
 
 @Component({
   selector: 'app-playbutton',
@@ -18,13 +11,13 @@ import gsap from 'gsap';
 })
 export class PlaybuttonComponent implements AfterViewInit {
   @ViewChild('playButtonElement')
-  private playButtonElement!: ElementRef<HTMLDivElement>;
+  private playButtonElement!: ElementRef<HTMLDivElement>
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId) && this.playButtonElement) {
-      this.hoverPlayButton(false);
+      this.hoverPlayButton(false)
     }
   }
 
@@ -34,12 +27,12 @@ export class PlaybuttonComponent implements AfterViewInit {
         scale: 0,
         duration: 0.4,
         ease: 'power1.in',
-      });
+      })
     }
   }
 
   public hoverPlayButton(isHover: boolean): void {
-    if (!this.playButtonElement) return;
+    if (!this.playButtonElement) return
 
     if (isHover) {
       gsap.to(this.playButtonElement.nativeElement, {
@@ -48,11 +41,11 @@ export class PlaybuttonComponent implements AfterViewInit {
         ease: 'power1.in',
         repeat: -1,
         yoyo: true,
-      });
+      })
     } else {
-      gsap.killTweensOf(this.playButtonElement.nativeElement);
+      gsap.killTweensOf(this.playButtonElement.nativeElement)
 
-      const tl = gsap.timeline();
+      const tl = gsap.timeline()
       tl.to(this.playButtonElement.nativeElement, {
         scale: 1,
         duration: 0.4,
@@ -63,7 +56,7 @@ export class PlaybuttonComponent implements AfterViewInit {
         repeat: -1,
         yoyo: true,
         ease: 'power1.out',
-      });
+      })
     }
   }
 }

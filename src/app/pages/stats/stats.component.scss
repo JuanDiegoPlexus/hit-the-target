@@ -1,4 +1,4 @@
-.welcomeRopeLeft {
+.welcome-rope-left {
   position: fixed;
   top: -5%;
   left: 0;
@@ -9,14 +9,14 @@
   align-items: center;
 }
 
-@media (max-width: 1024px) and (min-width: 601px) {
-  .welcomeRopeLeft {
+@media (width <= 1024px) and (width >= 601px) {
+  .welcome-rope-left {
     width: 20%;
   }
 }
 
-@media (max-width: 600px) {
-  .welcomeRopeLeft {
+@media (width <= 600px) {
+  .welcome-rope-left {
     width: 35%;
     top: -40px;
   }

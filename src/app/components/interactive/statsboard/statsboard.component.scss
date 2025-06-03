@@ -1,9 +1,8 @@
-.statsboardTitle {
-  font-family: 'Stardew', sans-serif;
+.statsboard-title {
+  font-family: Stardew, sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 16px;
-  margin: 0;
   width: auto;
   max-width: 90%;
   text-align: center;
@@ -19,11 +18,10 @@
     2px 2px 0 #f3b94a;
 }
 
-.statsboardBody {
-  font-family: 'Stardew', sans-serif;
+.statsboard-body {
+  font-family: Stardew, sans-serif;
   font-size: 1.5rem;
   margin-top: 0;
-  margin: 0;
   width: auto;
   max-width: 90%;
   text-align: center;
@@ -39,11 +37,11 @@
     2px 2px 0 #f3b94a;
 }
 
-.statsboardDiv {
+.statsboard-div {
   height: 100%;
   width: auto;
   max-height: 90vh;
-  margin: -5% auto 0 auto;
+  margin: -5% auto 0;
   position: fixed;
   z-index: 2;
   user-select: none;
@@ -69,7 +67,7 @@
   box-sizing: border-box;
 }
 
-.statsboardImg {
+.statsboard-img {
   display: block;
   position: absolute;
   top: 0;
@@ -81,8 +79,8 @@
   pointer-events: none;
 }
 
-@media (max-width: 1024px) and (min-width: 601px) {
-  .statsboardDiv {
+@media (width <= 1024px) and (width >= 601px) {
+  .statsboard-div {
     left: 10%;
     top: -2%;
     max-height: 80vh;
@@ -90,18 +88,20 @@
     width: 80vw;
     margin: 0 auto;
   }
-  .statsboardTitle {
+
+  .statsboard-title {
     font-size: 2rem;
     max-width: 95%;
   }
-  .statsboardBody {
+
+  .statsboard-body {
     font-size: 1.2rem;
     max-width: 95%;
   }
 }
 
-@media (max-width: 600px) {
-  .statsboardDiv {
+@media (width <= 600px) {
+  .statsboard-div {
     left: 0;
     top: 0;
     width: 98vw;
@@ -110,11 +110,13 @@
     margin: 0 auto;
     z-index: 1;
   }
-  .statsboardTitle {
+
+  .statsboard-title {
     font-size: 1.2rem;
     max-width: 98%;
   }
-  .statsboardBody {
+
+  .statsboard-body {
     font-size: 1rem;
     max-width: 98%;
   }
