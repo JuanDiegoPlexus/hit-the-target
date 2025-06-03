@@ -20,7 +20,6 @@ export class GameStatsService {
     this.gamesPlayed++
     this.totalTimePLayed += timeElapsed
     this.totalBirdsDestroyed += birdsDestroyed
-    this._totalCoins += birdsDestroyed
 
     this._gameHistory.push({
       birdsDestroyed,
@@ -29,6 +28,10 @@ export class GameStatsService {
 
     this._bestScore = Math.max(this._bestScore, birdsDestroyed)
     this._bestTime = Math.max(this._bestTime, timeElapsed)
+  }
+
+  public addCoins(coins: number): void {
+    this._totalCoins += coins
   }
 
   public get playerName(): string {
