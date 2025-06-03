@@ -16,7 +16,7 @@ import { PlayerService } from '../../services/player.service'
 import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component'
 import { GameStatsService } from '../../services/game-stats.service'
 import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-tab.component'
-import { Subscription } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
 import { BirdService } from '../../services/bird.service'
 import { Router } from '@angular/router'
 import { DamageAnimationService } from '../../services/damage-animation.service'
@@ -50,7 +50,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private birdTimeout: ReturnType<typeof setTimeout> | null = null
   private birdsLost = 0
-
+  private destroy$ = new Subject<void>()
   private router = inject(Router)
 
   constructor(
@@ -69,9 +69,11 @@ export class GameComponent implements OnInit, OnDestroy {
 
     this.playerService.resetStats()
 
-    this.birdSubscription = this.birdService.birds$.subscribe((birds) => {
-      this.birds = birds
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdSubscription = this.birdService.birds$.subscribe((birds) => {
+        this.birds = birds
+      })
+    }
 
     this.birdService.startBirdGeneration(
       () => this.playerService.getTimeElapsed(),
@@ -91,6 +93,8 @@ export class GameComponent implements OnInit, OnDestroy {
       this.birdSubscription.unsubscribe()
     }
     this.birdService.stopBirdGeneration()
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
   private startTimer(): void {

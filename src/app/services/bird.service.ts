@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core'
 import { BehaviorSubject, interval, Subscription } from 'rxjs'
 import { map, takeWhile } from 'rxjs/operators'
 
@@ -14,24 +15,27 @@ export class BirdService {
   private isPaused = false
 
   public birds$ = this.birdsSubject.asObservable()
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   startBirdGeneration(getElapsedTime: () => number, getDifficulty: () => number): void {
-    const minDelay = 600
-    const maxDelay = 1000
+    if (isPlatformBrowser(this.platformId)) {
+      const minDelay = 600
+      const maxDelay = 1000
 
-    this.birdGenerationSubscription = interval(minDelay)
-      .pipe(
-        map(() => {
-          const speedUp = Math.max(minDelay, maxDelay - getElapsedTime() * 10)
-          const difficulty = getDifficulty()
-          return { id: this.generateId(), health: difficulty, delay: speedUp, element: null }
-        }),
-        takeWhile(() => !this.isPaused),
-      )
-      .subscribe((newBird) => {
-        const currentBirds = this.birdsSubject.value
-        this.birdsSubject.next([...currentBirds, newBird])
-      })
+      this.birdGenerationSubscription = interval(minDelay)
+        .pipe(
+          map(() => {
+            const speedUp = Math.max(minDelay, maxDelay - getElapsedTime() * 10)
+            const difficulty = getDifficulty()
+            return { id: this.generateId(), health: difficulty, delay: speedUp, element: null }
+          }),
+          takeWhile(() => !this.isPaused),
+        )
+        .subscribe((newBird) => {
+          const currentBirds = this.birdsSubject.value
+          this.birdsSubject.next([...currentBirds, newBird])
+        })
+    }
   }
 
   private clearBirdGeneration(): void {
@@ -48,12 +52,14 @@ export class BirdService {
   }
 
   pause(): void {
-    this.isPaused = true
-    this.clearBirdGeneration()
+    if (isPlatformBrowser(this.platformId)) {
+      this.isPaused = true
+      this.clearBirdGeneration()
+    }
   }
 
   resume(getElapsedTime: () => number, getDifficulty: () => number): void {
-    if (this.isPaused) {
+    if (isPlatformBrowser(this.platformId) && this.isPaused) {
       this.isPaused = false
       this.startBirdGeneration(getElapsedTime, getDifficulty)
     }

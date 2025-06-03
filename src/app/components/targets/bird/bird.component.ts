@@ -146,27 +146,29 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private moveRandomly(speed: number): void {
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    if (isPlatformBrowser(this.platformId)) {
+      const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
 
-    const animate: () => void = () => {
-      const randomX = this.getNextMovementX()
-      const randomY = this.getNextMovementY()
+      const animate: () => void = () => {
+        const randomX = this.getNextMovementX()
+        const randomY = this.getNextMovementY()
 
-      gsap.to(container, {
-        x: randomX + randomY / 2,
-        y: randomY,
-        duration: speed,
-        ease: 'linear',
-        onComplete: () => {
-          if (!this.isDestroyed && !this.isPaused) {
-            animate()
-          }
-        },
-      })
-    }
+        gsap.to(container, {
+          x: randomX + randomY / 2,
+          y: randomY,
+          duration: speed,
+          ease: 'linear',
+          onComplete: () => {
+            if (!this.isDestroyed && !this.isPaused) {
+              animate()
+            }
+          },
+        })
+      }
 
-    if (!this.isDestroyed && !this.isPaused) {
-      animate()
+      if (!this.isDestroyed && !this.isPaused) {
+        animate()
+      }
     }
   }
 
