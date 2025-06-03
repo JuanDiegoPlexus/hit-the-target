@@ -92,7 +92,6 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.updateVh)
     }
@@ -117,7 +116,6 @@ export class GameComponent implements OnInit, OnDestroy {
       this.togglePauseTab()
     }
   }
-
 
   private updateVh(): void {
     const vh = window.innerHeight * 0.01
