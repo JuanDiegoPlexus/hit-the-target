@@ -45,12 +45,6 @@ export class WelcomeComponent implements AfterViewInit {
         video.muted = true
         video.play()
       }
-
-      document.addEventListener('click', () => {
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen()
-        }
-      })
     }
   }
 
