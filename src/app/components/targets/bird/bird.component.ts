@@ -154,7 +154,9 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
         const randomY = this.getNextMovementY()
 
         gsap.to(container, {
-          x: randomX + randomY / 2,
+
+          x: randomX + randomY / 4,
+
           y: randomY,
           duration: speed,
           ease: 'linear',

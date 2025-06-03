@@ -1,17 +1,17 @@
 <div class="game-container" draggable="false" style="user-select: none">
-  <app-bird
-    *ngFor="let bird of birds"
-    [id]="bird.id"
-    [isPaused]="showPauseTab"
-    [inShop]="showShopTab"
-    (birdDestroyed)="handleBirdDestroyed($event)"
-    draggable="false"
-  ></app-bird>
-
-  <div class="heart">
-    <app-health></app-health>
+  <div class="content-container">
+    <app-bird
+      *ngFor="let bird of birds"
+      [id]="bird.id"
+      [isPaused]="showPauseTab"
+      [inShop]="showShopTab"
+      (birdDestroyed)="handleBirdDestroyed($event)"
+      draggable="false"
+    ></app-bird>
+    <div class="heart">
+      <app-health></app-health>
+    </div>
   </div>
-
   <div class="footer" draggable="false">
     <div class="footer-left">
       <div class="timer-container" draggable="false">
