@@ -65,6 +65,9 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.startTimer()
+      this.updateVh()
+      window.addEventListener('resize', this.updateVh)
+
     }
 
     this.playerService.resetStats()
@@ -89,6 +92,11 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.updateVh)
+    }
+
     if (this.birdSubscription) {
       this.birdSubscription.unsubscribe()
     }
@@ -108,6 +116,12 @@ export class GameComponent implements OnInit, OnDestroy {
     if (event.key === 'Escape') {
       this.togglePauseTab()
     }
+  }
+
+
+  private updateVh(): void {
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
   }
 
   private pauseGame(): void {
