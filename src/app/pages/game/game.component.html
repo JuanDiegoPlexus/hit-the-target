@@ -2,26 +2,45 @@
   <app-bird
     *ngFor="let bird of birds"
     [id]="bird.id"
-    class="yellowBirdElement"
-    (birdDestroyed)="onBirdDestroyed($event)"
+    [isPaused]="showPauseTab"
+    [inShop]="showShopTab"
+    (birdDestroyed)="handleBirdDestroyed($event)"
     draggable="false"
   ></app-bird>
 
-  <div class="timer-container" draggable="false">
-    <div draggable="false">
-      <img
-        #timerElement
-        src="assets/letters/time.avif"
-        class="timerLetters"
-        draggable="false"
-      />
-    </div>
-    <div class="timer" draggable="false">
-      <span>{{ playerService.getTimeElapsed() }}</span>
-    </div>
+  <div class="heart">
+    <app-health></app-health>
   </div>
 
-  <app-health class="heart"></app-health>
+  <div class="footer" draggable="false">
+    <div class="footer-left">
+      <div class="timer-container" draggable="false">
+        <div draggable="false">
+          <img
+            #timerElement
+            src="assets/letters/time.avif"
+            class="timer-letters"
+            draggable="false"
+          />
+        </div>
+        <div class="timer" draggable="false">
+          <span>{{ playerService.getTimeElapsed() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-center">
+      <div class="settings-icon">
+        <img src="assets/icons/settings.avif" (mousedown)="togglePauseTab()" alt="Settings Icon" />
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <div class="shop-icon">
+        <img src="assets/icons/shop.avif" (mousedown)="toggleShopTab()" alt="Shop Icon" />
+      </div>
+    </div>
+  </div>
 
   @if (showLeaderboard) {
     <div>
@@ -33,9 +52,15 @@
     </div>
   }
 
+  @if (showShopTab) {
+    <div>
+      <app-shop-tab></app-shop-tab>
+    </div>
+  }
+
   @if (showPauseTab) {
     <div>
-      <app-pause-tab></app-pause-tab>
+      <app-pause-tab (goHomeEvent)="leaveGame()"></app-pause-tab>
     </div>
   }
 </div>

@@ -4,19 +4,24 @@ import {
   Inject,
   PLATFORM_ID,
   ViewChild,
-  ViewChildren,
-  QueryList,
   HostListener,
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { CommonModule } from '@angular/common';
-import { BirdComponent } from '../../components/targets/bird/bird.component';
-import { HealthComponent } from '../../components/interactive/health/health.component';
-import { PlayerService } from '../../services/player.service';
-import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component';
-import { GameStatsService } from '../../services/game-stats.service';
-import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-tab.component';
-
+  OnInit,
+  inject,
+} from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { CommonModule } from '@angular/common'
+import { BirdComponent } from '../../components/targets/bird/bird.component'
+import { HealthComponent } from '../../components/interactive/health/health.component'
+import { PlayerService } from '../../services/player.service'
+import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component'
+import { GameStatsService } from '../../services/game-stats.service'
+import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-tab.component'
+import { Subject, Subscription } from 'rxjs'
+import { BirdService } from '../../services/bird.service'
+import { Router } from '@angular/router'
+import { DamageAnimationService } from '../../services/damage-animation.service'
+import { VisibilityService } from '../../services/visibility.service'
+import { ShopTabComponent } from '../../components/interactive/shop-tab/shop-tab.component'
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -26,158 +31,177 @@ import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-
     HealthComponent,
     BigLeaderboardComponent,
     PauseTabComponent,
+    ShopTabComponent,
   ],
   providers: [PlayerService],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnDestroy {
-  @ViewChild(HealthComponent) private healthComponent!: HealthComponent;
-  @ViewChildren(BirdComponent)
-  private birdComponents!: QueryList<BirdComponent>;
+export class GameComponent implements OnInit, OnDestroy {
+  @ViewChild(HealthComponent) private healthComponent!: HealthComponent
 
-  public birds: { id: number }[] = [];
-  public showLeaderboard = false;
-  public showPauseTab = false;
-  public stopClicks = false;
+  public birds: { id: number; health: number; element: HTMLElement | null }[] = []
+  private birdSubscription: Subscription | null = null
 
-  private birdTimeout: ReturnType<typeof setTimeout> | null = null;
-  private nextId = 0;
-  private birdsLost = 0;
-  private difficulty = 1;
+  public showLeaderboard = false
+  public showPauseTab = false
+  public showShopTab = false
+  public stopClicks = false
+
+  private birdTimeout: ReturnType<typeof setTimeout> | null = null
+  private birdsLost = 0
+  private destroy$ = new Subject<void>()
+  private router = inject(Router)
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
+    private damageAnimationService: DamageAnimationService,
+    private birdService: BirdService,
     public playerService: PlayerService,
     public statsService: GameStatsService,
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.startBirdGeneration();
-      this.startTimer();
-    }
-  }
+    private visibilityService: VisibilityService,
+  ) {}
 
   ngOnInit(): void {
-    this.playerService.resetStats();
-    this.birdsLost = 0;
-    this.showLeaderboard = false;
-    this.showPauseTab = false;
-    this.nextId = 1;
-    this.difficulty = this.playerService.getDifficulty();
+    if (isPlatformBrowser(this.platformId)) {
+      this.startTimer()
+    }
+
+    this.playerService.resetStats()
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdSubscription = this.birdService.birds$.subscribe((birds) => {
+        this.birds = birds
+      })
+    }
+
+    this.birdService.startBirdGeneration(
+      () => this.playerService.getTimeElapsed(),
+      () => this.playerService.getDifficulty(),
+    )
+
+    this.visibilityService.visibility$.subscribe((isVisible) => {
+      if (!isVisible) {
+        this.showPauseTab = true
+        this.pauseGame()
+      }
+    })
   }
 
   ngOnDestroy(): void {
-    if (this.birdTimeout) {
-      clearTimeout(this.birdTimeout);
+    if (this.birdSubscription) {
+      this.birdSubscription.unsubscribe()
     }
-    if (this.playerService.getTimer()) {
-      this.playerService.stopTimer();
-    }
-  }
-
-  private startBirdGeneration(): void {
-    this.spawnBird();
-  }
-
-  private spawnBird(): void {
-    const minDelay = 600;
-    const maxDelay = 1000;
-    const speedUp = Math.max(
-      minDelay,
-      maxDelay - this.playerService.getTimeElapsed() * 10,
-    );
-
-    if (!this.showPauseTab) {
-      const newBird = { id: this.nextId++ };
-      this.birds.push(newBird);
-
-      // Llama a setDifficulty en el nuevo pájaro
-      setTimeout(() => {
-        const birdComponent = this.birdComponents.find(
-          (bird) => bird.getId === newBird.id,
-        );
-        if (birdComponent) {
-          this.difficulty = this.playerService.getDifficulty();
-          birdComponent.setMaxHealth(this.difficulty);
-        }
-      });
-    }
-
-    this.birdTimeout = setTimeout(() => this.spawnBird(), speedUp);
+    this.birdService.stopBirdGeneration()
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
   private startTimer(): void {
-    this.playerService.startTimer();
-  }
-
-  private stopGame(): void {
-    if (this.birdTimeout) {
-      clearTimeout(this.birdTimeout);
-      this.birdTimeout = null;
-    }
-    this.birds = [];
-    this.playerService.stopTimer();
-
-    this.statsService.setNewGameStats(
-      this.playerService.getBirdsDestroyed(),
-      this.playerService.getTimeElapsed(),
-    );
-  }
-
-  public onBirdDestroyed(event: { id: number; byClick: boolean }): void {
-    const { id, byClick } = event;
-
-    if (byClick) {
-      this.playerService.incrementBirdsDestroyed();
-    } else {
-      this.birdsLost++;
-      this.healthComponent.damage();
-    }
-
-    this.birds = this.birds.filter((bird) => bird.id !== id);
-
-    if (this.birdsLost >= 6) {
-      this.stopGame();
-      this.showLeaderboard = true;
-    }
-  }
-
-  public onBirdDestroyedByClick(id: number): void {
-    const birdComponent = this.birdComponents.find((bird) => bird.getId === id);
-    if (birdComponent) {
-      //birdComponent.triggerExplosion();
-      this.playerService.incrementBirdsDestroyed();
-      this.birds = this.birds.filter((bird) => bird.id !== id);
+    if (isPlatformBrowser(this.platformId)) {
+      this.playerService.startTimer()
     }
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
-      this.togglePauseTab();
+      this.togglePauseTab()
     }
   }
 
-  private togglePauseTab(): void {
-    this.showPauseTab = !this.showPauseTab;
+  private pauseGame(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdService.pause()
+      this.playerService.pauseTimer()
+    }
+  }
 
-    this.birdComponents.forEach((birdComponent) => {
-      if (this.showPauseTab) {
-        birdComponent.stopMovement();
-        this.playerService.pauseTimer();
-        this.preventClicks();
+  private resumeGame(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdService.resume(
+        () => this.playerService.getTimeElapsed(),
+        () => this.playerService.getDifficulty(),
+      )
+      this.playerService.resumeTimer()
+    }
+  }
+
+  public stopGame(): void {
+    if (this.birdTimeout) {
+      clearTimeout(this.birdTimeout)
+      this.birdTimeout = null
+    }
+
+    this.birdService.stopBirdGeneration()
+    this.playerService.stopTimer()
+
+    this.statsService.setNewGameStats(
+      this.playerService.getBirdsDestroyed(),
+      this.playerService.getTimeElapsed(),
+    )
+  }
+
+  public handleBirdDestroyed(event: { id: number; byClick: boolean }): void {
+    const { id, byClick } = event
+
+    if (byClick) {
+      this.playerService.incrementBirdsDestroyed()
+    } else {
+      this.birdsLost++
+      this.healthComponent.damage()
+    }
+
+    this.birdService.removeBird(id)
+
+    if (this.birdsLost >= 6) {
+      this.stopGame()
+      this.showLeaderboard = true
+    }
+  }
+
+  public leaveGame(): void {
+    if (this.birdTimeout) {
+      clearTimeout(this.birdTimeout)
+      this.birdTimeout = null
+    }
+
+    this.birdService.resume(
+      () => this.playerService.getTimeElapsed(),
+      () => this.playerService.getDifficulty(),
+    )
+    this.birdService.stopBirdGeneration()
+    this.playerService.stopTimer()
+
+    this.statsService.setNewGameStats(
+      this.playerService.getBirdsDestroyed(),
+      this.playerService.getTimeElapsed(),
+    )
+
+    this.router.navigate(['/'])
+  }
+
+  public toggleShopTab(): void {
+    if (!this.showLeaderboard && !this.showPauseTab) {
+      this.showShopTab = !this.showShopTab
+
+      if (this.showShopTab) {
+        this.pauseGame()
       } else {
-        birdComponent.resumeMovement();
-        this.playerService.resumeTimer();
-        this.resumeClicks();
+        this.resumeGame()
       }
-    });
+    }
   }
 
-  private preventClicks(): void {
-    this.stopClicks = true;
-  }
-  private resumeClicks(): void {
-    this.stopClicks = false;
+  public togglePauseTab(): void {
+    if (!this.showLeaderboard && !this.showShopTab) {
+      this.showPauseTab = !this.showPauseTab
+
+      if (this.showPauseTab) {
+        this.pauseGame()
+      } else {
+        this.resumeGame()
+      }
+    }
   }
 }

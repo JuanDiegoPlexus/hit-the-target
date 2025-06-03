@@ -1,7 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GameStatsService } from '../../../services/game-stats.service';
-import { gsap } from 'gsap';
+import { Component, ElementRef, ViewChild } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { GameStatsService } from '../../../services/game-stats.service'
+import { gsap } from 'gsap'
 
 @Component({
   selector: 'app-statsboard',
@@ -12,26 +12,26 @@ import { gsap } from 'gsap';
 })
 export class StatsboardComponent {
   @ViewChild('statsboardElement')
-  private statsboardElement!: ElementRef<HTMLDivElement>;
+  private statsboardElement!: ElementRef<HTMLDivElement>
 
   constructor(public statsService: GameStatsService) {}
 
   public get gameHistory(): { birdsDestroyed: number; timeElapsed: number }[] {
-    return this.statsService.gameHistory;
+    return this.statsService.gameHistory
   }
 
   public get bestScore(): number {
-    return this.statsService.bestScore;
+    return this.statsService.bestScore
   }
 
   public statsboardFall(): void {
-    const statsboard = this.statsboardElement.nativeElement;
+    const statsboard = this.statsboardElement.nativeElement
     gsap.to(statsboard, {
       y: window.innerHeight,
       opacity: 0,
       duration: 0.8,
       ease: 'ease.in',
       clearProps: 'all',
-    });
+    })
   }
 }

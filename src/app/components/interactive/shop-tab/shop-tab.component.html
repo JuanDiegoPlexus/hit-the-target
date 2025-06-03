@@ -1,0 +1,26 @@
+<div class="pauseboard-div" #pauseBoardElement>
+  <img
+    src="assets/leaderboard/big_leaderboard.avif"
+    alt="pause_board_table"
+    class="pauseboard-img"
+    draggable="false"
+  />
+  <div class="pauseboard">
+    <div class="pauseboard-title">Shop</div>
+    <div class="item">
+      <img src="assets/icons/coin-icon.avif" alt="coin" class="item-img" />
+      <p class="item-text">Coins: {{ gameStatsService.coins }}</p>
+    </div>
+    <div class="pauseboard-body">
+      <div class="item">
+        <img src="assets/icons/damage-icon.avif" alt="Item 1" class="item-img" />
+        <p class="item-text">Level: {{ gameStatsService.damageLevel }}</p>
+        <p class="item-buy" (click)="gameStatsService.canBuy('damage')">UPGRADE</p>
+      </div>
+      <div class="item">
+        <img src="assets/icons/health-icon.avif" alt="Item 2" class="item-img" />
+        <p class="item-text">Level:</p>
+      </div>
+    </div>
+  </div>
+</div>
