@@ -31,6 +31,10 @@ export class GameStatsService {
     this._bestTime = Math.max(this._bestTime, timeElapsed)
   }
 
+  public addCoins(coins: number): void {
+    this._totalCoins += coins
+  }
+
   public get playerName(): string {
     return this._playerName
   }

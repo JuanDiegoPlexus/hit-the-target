@@ -153,7 +153,7 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
       const randomY = this.getNextMovementY()
 
       gsap.to(container, {
-        x: randomX,
+        x: randomX + randomY / 2,
         y: randomY,
         duration: speed,
         ease: 'linear',
@@ -255,6 +255,7 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
       this.takeDamage(this.gameStatsService.damageLevel)
       if (this.health <= 0) {
         this.isDestroyed = true
+        this.gameStatsService.addCoins(1)
         this.birdDestroyed.emit({ id: this.id, byClick: true })
       }
     }
