@@ -94,7 +94,9 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private startTimer(): void {
-    this.playerService.startTimer()
+    if (isPlatformBrowser(this.platformId)) {
+      this.playerService.startTimer()
+    }
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -105,16 +107,20 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private pauseGame(): void {
-    this.birdService.pause()
-    this.playerService.pauseTimer()
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdService.pause()
+      this.playerService.pauseTimer()
+    }
   }
 
   private resumeGame(): void {
-    this.birdService.resume(
-      () => this.playerService.getTimeElapsed(),
-      () => this.playerService.getDifficulty(),
-    )
-    this.playerService.resumeTimer()
+    if (isPlatformBrowser(this.platformId)) {
+      this.birdService.resume(
+        () => this.playerService.getTimeElapsed(),
+        () => this.playerService.getDifficulty(),
+      )
+      this.playerService.resumeTimer()
+    }
   }
 
   public stopGame(): void {
