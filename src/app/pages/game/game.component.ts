@@ -64,6 +64,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.startTimer()
       this.updateVh()
       window.addEventListener('resize', this.updateVh)
     }
