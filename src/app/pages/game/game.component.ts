@@ -68,31 +68,26 @@ export class GameComponent implements OnInit, OnDestroy {
       this.updateVh()
       window.addEventListener('resize', this.updateVh)
 
-    }
-
-    this.playerService.resetStats()
-
-    if (isPlatformBrowser(this.platformId)) {
       this.birdSubscription = this.birdService.birds$.subscribe((birds) => {
         this.birds = birds
       })
+
+      this.playerService.resetStats()
+      this.birdService.startBirdGeneration(
+        () => this.playerService.getTimeElapsed(),
+        () => this.playerService.getDifficulty(),
+      )
+
+      this.visibilityService.visibility$.subscribe((isVisible) => {
+        if (!isVisible) {
+          this.showPauseTab = true
+          this.pauseGame()
+        }
+      })
     }
-
-    this.birdService.startBirdGeneration(
-      () => this.playerService.getTimeElapsed(),
-      () => this.playerService.getDifficulty(),
-    )
-
-    this.visibilityService.visibility$.subscribe((isVisible) => {
-      if (!isVisible) {
-        this.showPauseTab = true
-        this.pauseGame()
-      }
-    })
   }
 
   ngOnDestroy(): void {
-
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.updateVh)
     }
@@ -100,6 +95,8 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.birdSubscription) {
       this.birdSubscription.unsubscribe()
     }
+    this.resumeGame()
+    this.togglePauseTab
     this.birdService.stopBirdGeneration()
     this.destroy$.next()
     this.destroy$.complete()
@@ -117,7 +114,6 @@ export class GameComponent implements OnInit, OnDestroy {
       this.togglePauseTab()
     }
   }
-
 
   private updateVh(): void {
     const vh = window.innerHeight * 0.01

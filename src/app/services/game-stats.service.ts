@@ -20,7 +20,6 @@ export class GameStatsService {
     this.gamesPlayed++
     this.totalTimePLayed += timeElapsed
     this.totalBirdsDestroyed += birdsDestroyed
-    this._totalCoins += birdsDestroyed
 
     this._gameHistory.push({
       birdsDestroyed,

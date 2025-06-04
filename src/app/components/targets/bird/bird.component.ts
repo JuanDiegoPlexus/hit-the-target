@@ -31,11 +31,14 @@ import { PlayerService } from '../../../services/player.service'
 export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('yellowBirdElement', { static: true })
   private yellowbirdElement!: ElementRef<HTMLImageElement>
-  @Input() public id!: number
+
   public maxHealth: number = 1
   public health: number = 1
+  @Input() public id!: number
   @Input() public isPaused = false
   @Input() public inShop = false
+  private isDestroyed = false
+  private isBrowser: boolean = false
 
   @Output() birdDestroyed = new EventEmitter<{
     id: number
@@ -46,7 +49,6 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   private wingSpeed = 100
   private speed = 1
 
-  private isDestroyed = false
   private images = ['assets/birds/yellow_flying_1.avif', 'assets/birds/yellow_flying_2.avif']
 
   private images_explosion = [
@@ -55,7 +57,6 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   ]
 
   private currentImageIndex = 0
-  private isBrowser: boolean = false
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -63,17 +64,18 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
     private damageAnimationService: DamageAnimationService,
     private gameStatsService: GameStatsService,
     private playerService: PlayerService,
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId)
+  }
 
   ngOnInit(): void {
-    this.isBrowser = isPlatformBrowser(this.platformId)
     if (this.isBrowser) {
       this.spawnBird()
       this.moveRandomly(this.speed)
       this.startWingAnimation()
 
-      const birdElement = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-      this.boundaryDetectionService.registerBird(this.id, birdElement)
+      const container = this.getContainer()
+      this.boundaryDetectionService.registerBird(this.id, container)
 
       this.boundaryDetectionService.getBirdOutOfBoundsObservable().subscribe((birdId: number) => {
         if (birdId === this.id) {
@@ -88,15 +90,13 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
       cancelAnimationFrame(this.animationFrameId)
     }
 
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    const container = this.getContainer()
     gsap.killTweensOf(container)
 
     this.boundaryDetectionService.unregisterBird(this.id)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.setMaxHealth()
-
     if (changes['isPaused']) {
       if (this.isPaused) {
         this.pauseAnimations()
@@ -130,24 +130,35 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
     })
   }
 
-  private destroyByOutOfBounds(): void {
+  private executeIfNotDestroyed(action: () => void): void {
     if (!this.isDestroyed) {
-      this.isDestroyed = true
-      this.birdDestroyed.emit({ id: this.id, byClick: false })
+      action()
     }
   }
 
+  private destroyByOutOfBounds(): void {
+    this.executeIfNotDestroyed(() => {
+      this.isDestroyed = true
+      this.birdDestroyed.emit({ id: this.id, byClick: false })
+    })
+  }
+
+  private getContainer(): HTMLElement {
+    return this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+  }
+
   private spawnBird(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    if (this.isBrowser) {
+      const container = this.getContainer()
       const initialY = Math.random() * (window.innerHeight / 1.5)
       gsap.set(container, { x: 0, y: initialY })
+      this.setMaxHealth()
     }
   }
 
   private moveRandomly(speed: number): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    if (this.isBrowser) {
+      const container = this.getContainer()
 
       const animate: () => void = () => {
         const randomX = this.getNextMovementX()
@@ -173,56 +184,54 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getNextMovementX(): number {
-    if (isPlatformBrowser(this.platformId)) {
-      const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    const container = this.getContainer()
 
-      const currentX = (gsap.getProperty(container, 'x') as number) || 0
+    const currentX = (gsap.getProperty(container, 'x') as number) || 0
 
-      const increment = 50
+    const increment = 50
 
-      const newX = currentX + increment
-      return newX
-    }
-    return 0
+    const newX = currentX + increment
+    return newX
   }
 
   private getNextMovementY(): number {
-    if (isPlatformBrowser(this.platformId)) {
-      const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    const container = this.getContainer()
 
-      const currentY = (gsap.getProperty(container, 'y') as number) || 0
+    const currentY = (gsap.getProperty(container, 'y') as number) || 0
 
-      const range = 100
-      const direction = Math.random() < 0.5 ? -1 : 1
-      const movement = direction * Math.random() * range
+    const range = 100
+    const direction = Math.random() < 0.5 ? -1 : 1
+    const movement = direction * Math.random() * range
 
-      const newY = currentY + movement
+    const newY = currentY + movement
 
-      return Math.max(0, Math.min(newY, window.innerHeight - container.offsetHeight))
-    }
-    return 0
+    return Math.max(0, Math.min(newY, window.innerHeight - container.offsetHeight))
   }
 
   public stopMovement(): void {
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
+    const container = this.getContainer()
 
     gsap.killTweensOf(container)
     this.isPaused = true
   }
 
-  private pauseAnimations(): void {
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-
+  private toggleAnimations(pause: boolean): void {
+    const container = this.getContainer()
     gsap.killTweensOf(container)
     gsap.killTweensOf(this.yellowbirdElement.nativeElement)
+
+    if (!pause) {
+      this.moveRandomly(this.speed)
+      this.startWingAnimation()
+    }
+  }
+
+  private pauseAnimations(): void {
+    this.toggleAnimations(true)
   }
 
   private resumeAnimations(): void {
-    const container = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-
-    gsap.killTweensOf(container)
-    this.moveRandomly(this.speed)
-    this.startWingAnimation()
+    this.toggleAnimations(false)
   }
 
   public get getId(): number {
@@ -232,34 +241,34 @@ export class BirdComponent implements OnInit, OnDestroy, OnChanges {
   public takeDamage(amount: number): void {
     this.health = Math.max(this.health - amount, 0)
 
-    const birdElement = this.yellowbirdElement.nativeElement.parentElement as HTMLElement
-    this.damageAnimationService.showDamageAnimation(birdElement, this.gameStatsService.damageLevel)
+    const container = this.getContainer()
+    this.damageAnimationService.showDamageAnimation(container, this.gameStatsService.damageLevel)
   }
 
   public setMaxHealth(): void {
     this.maxHealth = this.playerService.getDifficulty() * 2
-    this.health = this.maxHealth
+    if (!this.isPaused && !this.inShop) {
+      this.health = this.maxHealth
+    }
   }
 
+  @HostListener('mousedown')
   @HostListener('touchstart', ['$event'])
-  onTouchStart(event: TouchEvent): void {
-    event.preventDefault()
-    this.handleBirdClick()
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(): void {
+  onInteraction(event?: Event): void {
+    event?.preventDefault()
     this.handleBirdClick()
   }
 
   private handleBirdClick(): void {
-    if (!this.isDestroyed && !this.isPaused) {
-      this.takeDamage(this.gameStatsService.damageLevel)
-      if (this.health <= 0) {
-        this.isDestroyed = true
-        this.gameStatsService.addCoins(1)
-        this.birdDestroyed.emit({ id: this.id, byClick: true })
+    this.executeIfNotDestroyed(() => {
+      if (!this.isPaused && !this.inShop) {
+        this.takeDamage(this.gameStatsService.damageLevel)
+        if (this.health <= 0) {
+          this.isDestroyed = true
+          this.gameStatsService.addCoins(1)
+          this.birdDestroyed.emit({ id: this.id, byClick: true })
+        }
       }
-    }
+    })
   }
 }

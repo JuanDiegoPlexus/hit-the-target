@@ -17,6 +17,17 @@ export class BirdService {
   public birds$ = this.birdsSubject.asObservable()
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
+  private generateId(): number {
+    return this.nextId++
+  }
+
+  private clearBirdGeneration(): void {
+    if (this.birdGenerationSubscription) {
+      this.birdGenerationSubscription.unsubscribe()
+      this.birdGenerationSubscription = null
+    }
+  }
+
   startBirdGeneration(getElapsedTime: () => number, getDifficulty: () => number): void {
     if (isPlatformBrowser(this.platformId)) {
       const minDelay = 600
@@ -38,40 +49,29 @@ export class BirdService {
     }
   }
 
-  private clearBirdGeneration(): void {
-    if (this.birdGenerationSubscription) {
-      this.birdGenerationSubscription.unsubscribe()
-      this.birdGenerationSubscription = null
-    }
-  }
-
-  stopBirdGeneration(): void {
+  public stopBirdGeneration(): void {
     this.clearBirdGeneration()
     this.birdsSubject.next([])
     this.nextId = 0
   }
 
-  pause(): void {
+  public pause(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.isPaused = true
       this.clearBirdGeneration()
     }
   }
 
-  resume(getElapsedTime: () => number, getDifficulty: () => number): void {
+  public resume(getElapsedTime: () => number, getDifficulty: () => number): void {
     if (isPlatformBrowser(this.platformId) && this.isPaused) {
       this.isPaused = false
       this.startBirdGeneration(getElapsedTime, getDifficulty)
     }
   }
 
-  removeBird(id: number): void {
+  public removeBird(id: number): void {
     const currentBirds = this.birdsSubject.value
     const updatedBirds = currentBirds.filter((bird) => bird.id !== id)
     this.birdsSubject.next(updatedBirds)
-  }
-
-  private generateId(): number {
-    return this.nextId++
   }
 }
