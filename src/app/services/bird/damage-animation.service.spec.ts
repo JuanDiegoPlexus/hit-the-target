@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing'
 
-import { DamageAnimationService } from './damage-animation.service'
+import { DamageAnimationService } from './bird/damage-animation.service'
 
 describe('DamageAnimationService', () => {
   let service: DamageAnimationService

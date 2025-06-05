@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { GameStatsService } from '../../../services/game-stats.service'
+import { GameStatsService } from '../../../services/game/game-stats.service'
 
 @Component({
   selector: 'app-shop-tab',

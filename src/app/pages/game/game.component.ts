@@ -12,16 +12,17 @@ import { isPlatformBrowser } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import { BirdComponent } from '../../components/targets/bird/bird.component'
 import { HealthComponent } from '../../components/interactive/health/health.component'
-import { PlayerService } from '../../services/player.service'
+import { PlayerService } from '../../services/player/player.service'
 import { BigLeaderboardComponent } from '../../components/interactive/big-leaderboard/big-leaderboard.component'
-import { GameStatsService } from '../../services/game-stats.service'
+import { GameStatsService } from '../../services/game/game-stats.service'
 import { PauseTabComponent } from '../../components/interactive/pause-tab/pause-tab.component'
 import { Subject, Subscription } from 'rxjs'
-import { BirdService } from '../../services/bird.service'
+import { BirdService } from '../../services/bird/bird.service'
 import { Router } from '@angular/router'
-import { DamageAnimationService } from '../../services/damage-animation.service'
-import { VisibilityService } from '../../services/visibility.service'
+import { DamageAnimationService } from '../../services/bird/damage-animation.service'
+import { VisibilityService } from '../../services/game/visibility.service'
 import { ShopTabComponent } from '../../components/interactive/shop-tab/shop-tab.component'
+import { TimerService } from '../../services/game/timer.service'
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -57,9 +58,10 @@ export class GameComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: object,
     private damageAnimationService: DamageAnimationService,
     private birdService: BirdService,
-    public playerService: PlayerService,
-    public statsService: GameStatsService,
+    private statsService: GameStatsService,
     private visibilityService: VisibilityService,
+    public timerService: TimerService,
+    public playerService: PlayerService,
   ) {}
 
   ngOnInit(): void {
@@ -73,8 +75,9 @@ export class GameComponent implements OnInit, OnDestroy {
       })
 
       this.playerService.resetStats()
+      this.timerService.resetTimer()
       this.birdService.startBirdGeneration(
-        () => this.playerService.getTimeElapsed(),
+        () => this.timerService.getTimeElapsed(),
         () => this.playerService.getDifficulty(),
       )
 
@@ -95,16 +98,16 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.birdSubscription) {
       this.birdSubscription.unsubscribe()
     }
-    this.resumeGame()
-    this.togglePauseTab
-    this.birdService.stopBirdGeneration()
+
     this.destroy$.next()
     this.destroy$.complete()
+
+    this.leaveGame()
   }
 
   private startTimer(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.playerService.startTimer()
+      this.timerService.startTimer()
     }
   }
 
@@ -123,17 +126,17 @@ export class GameComponent implements OnInit, OnDestroy {
   private pauseGame(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.birdService.pause()
-      this.playerService.pauseTimer()
+      this.timerService.pauseTimer()
     }
   }
 
   private resumeGame(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.birdService.resume(
-        () => this.playerService.getTimeElapsed(),
+        () => this.timerService.getTimeElapsed(),
         () => this.playerService.getDifficulty(),
       )
-      this.playerService.resumeTimer()
+      this.timerService.resumeTimer()
     }
   }
 
@@ -144,12 +147,33 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     this.birdService.stopBirdGeneration()
-    this.playerService.stopTimer()
+    this.timerService.stopTimer()
 
     this.statsService.setNewGameStats(
       this.playerService.getBirdsDestroyed(),
-      this.playerService.getTimeElapsed(),
+      this.timerService.getTimeElapsed(),
     )
+  }
+
+  public leaveGame(): void {
+    if (this.birdTimeout) {
+      clearTimeout(this.birdTimeout)
+      this.birdTimeout = null
+    }
+
+    this.birdService.resume(
+      () => this.timerService.getTimeElapsed(),
+      () => this.playerService.getDifficulty(),
+    )
+    this.birdService.stopBirdGeneration()
+    this.timerService.stopTimer()
+
+    this.statsService.setNewGameStats(
+      this.playerService.getBirdsDestroyed(),
+      this.timerService.getTimeElapsed(),
+    )
+
+    this.router.navigate(['/'])
   }
 
   public handleBirdDestroyed(event: { id: number; byClick: boolean }): void {
@@ -168,27 +192,6 @@ export class GameComponent implements OnInit, OnDestroy {
       this.stopGame()
       this.showLeaderboard = true
     }
-  }
-
-  public leaveGame(): void {
-    if (this.birdTimeout) {
-      clearTimeout(this.birdTimeout)
-      this.birdTimeout = null
-    }
-
-    this.birdService.resume(
-      () => this.playerService.getTimeElapsed(),
-      () => this.playerService.getDifficulty(),
-    )
-    this.birdService.stopBirdGeneration()
-    this.playerService.stopTimer()
-
-    this.statsService.setNewGameStats(
-      this.playerService.getBirdsDestroyed(),
-      this.playerService.getTimeElapsed(),
-    )
-
-    this.router.navigate(['/'])
   }
 
   public toggleShopTab(): void {

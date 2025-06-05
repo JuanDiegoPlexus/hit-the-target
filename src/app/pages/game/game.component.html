@@ -24,7 +24,7 @@
           />
         </div>
         <div class="timer" draggable="false">
-          <span>{{ playerService.getTimeElapsed() }}</span>
+          <span>{{ timerService.getTimeElapsed() }}</span>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
       <app-big-leaderboard
         [playerName]="playerService.getPlayerName()"
         [birdsDestroyed]="playerService.getBirdsDestroyed()"
-        [timeSurvived]="playerService.getTimeElapsed()"
+        [timeSurvived]="timerService.getTimeElapsed()"
       ></app-big-leaderboard>
     </div>
   }

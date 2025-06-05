@@ -104,11 +104,11 @@
     1px -1px 0 #f3b94a,
     -1px 1px 0 #f3b94a,
     1px 1px 0 #f3b94a;
-  padding: 10px 20px; /* Espaciado interno para el texto */
-  border-radius: 12px; /* Esquinas redondeadas */
-  text-align: center; /* Centra el texto dentro del botón */
-  box-shadow: 0 4px 6px rgb(0 0 0 / 20%); /* Sombra para resaltar */
-  margin-left: 20px; /* Espacio entre item-buy y lo que tenga a su izquierda */
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
+  margin-left: 20px;
 }
 
 @media (width <= 1024px) and (width >= 601px) {

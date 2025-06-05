@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core'
-import { GameStatsService } from '../../../services/game-stats.service'
+import { GameStatsService } from '../../../services/game/game-stats.service'
 import { gsap } from 'gsap'
 
 @Component({

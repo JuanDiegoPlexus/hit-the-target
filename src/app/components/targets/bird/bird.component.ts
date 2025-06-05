@@ -15,10 +15,10 @@ import {
 } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { gsap } from 'gsap'
-import { BoundaryDetectionService } from '../../../services/boundary-detection.service'
-import { DamageAnimationService } from '../../../services/damage-animation.service'
-import { GameStatsService } from '../../../services/game-stats.service'
-import { PlayerService } from '../../../services/player.service'
+import { BoundaryDetectionService } from '../../../services/bird/boundary-detection.service'
+import { DamageAnimationService } from '../../../services/bird/damage-animation.service'
+import { GameStatsService } from '../../../services/game/game-stats.service'
+import { PlayerService } from '../../../services/player/player.service'
 
 @Component({
   selector: 'app-bird',

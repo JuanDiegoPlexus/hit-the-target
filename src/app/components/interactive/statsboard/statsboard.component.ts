@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { GameStatsService } from '../../../services/game-stats.service'
+import { GameStatsService } from '../../../services/game/game-stats.service'
 import { gsap } from 'gsap'
 
 @Component({

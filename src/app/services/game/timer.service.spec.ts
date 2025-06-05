@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing'
 
-import { VisibilityService } from './visibility.service'
+import { TimerService } from './game/timer.service'
 
-describe('VisibilityService', () => {
-  let service: VisibilityService
+describe('TimerService', () => {
+  let service: TimerService
 
   beforeEach(() => {
     TestBed.configureTestingModule({})
-    service = TestBed.inject(VisibilityService)
+    service = TestBed.inject(TimerService)
   })
 
   it('should be created', () => {

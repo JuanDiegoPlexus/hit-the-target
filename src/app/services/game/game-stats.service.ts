@@ -14,7 +14,6 @@ export class GameStatsService {
   private _totalCoins = 0
 
   private _damageLevel = 1
-  private _damage = 1
 
   public setNewGameStats(birdsDestroyed: number, timeElapsed: number): void {
     this.gamesPlayed++
@@ -58,7 +57,6 @@ export class GameStatsService {
 
   public set damageLevel(level: number) {
     this._damageLevel = level
-    this._damage = level * 2
   }
 
   public canBuy(type: string): boolean {
